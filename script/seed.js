@@ -14,14 +14,19 @@ async function seed() {
   ])
 
   const orders = await Promise.all([
-    Orders.create({quantity:1, price:500, timestamp:Date.now(), status:'Created'})
+    Orders.create({quantity:1, price:500, timestamp:Date.now(), status:'Created', userId: 1})
   ])
   const reviews = await Promise.all([
-    Reviews.create({content:'this is ok!', rating:3, timestamp:Date.now()})
+    Reviews.create({content:'this is ok!', rating:3, timestamp:Date.now(), userId: 1})
   ])
   const sunglasses = await Promise.all([
-    Sunglasses.create({ name:'block',price:500,inventory:10, brand:"Rayban", color:"black", shape:"round" })
+    Sunglasses.create({ name:'block',price:500,inventory:10, brand:"Rayban", color:"black", shape:"round"})
   ])
+
+  //const [order, glasses] = await Promise.all(orders, sunglasses) 
+  await orders[0].addSunglasses('1')
+  await reviews[0].setSunglass('1')
+  
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${orders.length} orders`)
   console.log(`seeded ${reviews.length} reviews`)

@@ -7,7 +7,7 @@ const Reviews = db.define('reviews', {
     type: Sequelize.TEXT,
   },
   rating: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.INTEGER,
     validate: {
       min:0,
       max:5

@@ -19,6 +19,12 @@ const Orders = db.define('orders', {
   },
   shippingAddress: {
     type: Sequelize.TEXT
+  },
+  paymentMethod: {
+    type: Sequelize.INTEGER,
+    validate: {
+      isCreditCard: true
+    }
   }
 })
 
