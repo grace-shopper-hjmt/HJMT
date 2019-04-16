@@ -1,5 +1,5 @@
 const router = require('express').Router()
-// const { Sunglasses } = require('../db')
+const { Sunglasses } = require('../db/models')
 
 router.get('/', async (req, res, next) => {
    try {

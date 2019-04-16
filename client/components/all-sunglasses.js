@@ -10,16 +10,17 @@ import { Link } from 'react-router-dom'
 //     }
 // }
 
-export const AllSunglasses = (props) => {
+const DisconnectedAllSunglasses = (props) => {
+    console.log(props)
     return (
         <h1>HELLO INSIDE ALLSUNGLASSES!</h1>
     )
 }
 
 
-// const mapState = state => ({
-//     sunglasses: state.sunglasses.allSunglasses
-// })
+const mapState = state => ({
+    sunglasses: state.sunglasses.allSunglasses
+})
 
-// const AllSunglasses = connect(mapState)(DisconnectedAllSunglasses)
+export const AllSunglasses = connect(mapState)(DisconnectedAllSunglasses)
 

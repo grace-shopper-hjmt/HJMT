@@ -17,7 +17,7 @@ const handlers = {
 export const fetchSunglasses = () => {
  return async dispatch => {
      try { 
-         const { data } = axios.get('/api/sunglasses')
+         const { data } = await axios.get('/api/sunglasses')
          dispatch(getAllSunglasses(data))
      } catch (error) {
         console.log('ERROR FETCHING SUNGLASSES', error)
