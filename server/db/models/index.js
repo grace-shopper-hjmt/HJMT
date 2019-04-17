@@ -30,5 +30,10 @@ CartItems.belongsTo(Sunglasses)
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User, Sunglasses, OrderItem, Reviews, CartItems, Categories
+  User,
+  Sunglasses,
+  OrderItem,
+  Reviews,
+  CartItems,
+  Categories
 }

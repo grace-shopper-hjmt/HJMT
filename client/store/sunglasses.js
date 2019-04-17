@@ -1,17 +1,15 @@
 import axios from 'axios'
 
-
 const initialState = {
   allSunglasses: [],
   selectedSunglasses: {}
 }
 
-
 //ACTION TYPES
 const GET_ALL_SUNGLASSES = 'GET_ALL_SUNGLASSES'
+const SELECT_SUNGLASSES = 'SELECT_SUNGLASSES'
 const EDIT_SUNGLASSES = 'EDIT_SUNGLASSES'
 const DELETE_SUNGLASSES = 'DELETE_SUNGLASSES'
-const SELECT_SUNGLASSES = 'SELECT_SUNGLASSES'
 const ADD_SUNGLASSES = 'ADD_SUNGLASSES'
 
 //ACTION CREATORS
@@ -19,16 +17,17 @@ export const getAllSunglasses = sunglasses => ({
   type: GET_ALL_SUNGLASSES,
   sunglasses
 })
+export const selectSunglasses = sunglassesId => ({
+  type: SELECT_SUNGLASSES,
+  sunglassesId
+})
 export const editSunglasses = (id, sunglasses) => ({
   type: EDIT_SUNGLASSES,
   id,
   sunglasses
 })
-export const deleteSunglasses = id => ({ type: DELETE_SUNGLASSES, id })
-export const addSunglasses = (sunglasses) => ({type: ADD_SUNGLASSES, sunglasses})
-
-
-export const selectSunglasses = sunglasses => ({type: SELECT_SUNGLASSES, sunglasses})
+export const deleteSunglasses = id => ({type: DELETE_SUNGLASSES, id})
+export const addSunglasses = sunglasses => ({type: ADD_SUNGLASSES, sunglasses})
 
 //THUNKS
 export const fetchSunglasses = () => {
@@ -38,6 +37,17 @@ export const fetchSunglasses = () => {
       dispatch(getAllSunglasses(data))
     } catch (error) {
       console.log('ERROR FETCHING SUNGLASSES', error)
+    }
+  }
+}
+
+export const fetchOneSunglasses = sunglassesId => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get(`/api/sunglasses/${sunglassesId}`)
+      dispatch(selectSunglasses(data))
+    } catch (error) {
+      console.log('Cannot get this pair of sunglasses!')
     }
   }
 }
@@ -55,15 +65,15 @@ export const updateSunglasses = (id, sunglasses) => {
 
 export const thunkAddSunglasses = (sunglasses, ownProps) => {
   return async dispatch => {
-      try {
-          const { data } = await axios.post('/api/sunglasses', sunglasses)
-        dispatch(addSunglasses(data))
-        ownProps.history.push(`/sunglasses/${sunglasses.id}`)
-      } catch (error) {
-         console.log('ERROR ADDING SUNGLASSES', error)
-      }
+    try {
+      const {data} = await axios.post('/api/sunglasses', sunglasses)
+      dispatch(addSunglasses(data))
+      ownProps.history.push(`/sunglasses/${sunglasses.id}`)
+    } catch (error) {
+      console.log('ERROR ADDING SUNGLASSES', error)
+    }
   }
- }
+}
 
 export const thunkDeleteSunglasses = (id, ownProps) => {
   return async dispatch => {
@@ -77,24 +87,16 @@ export const thunkDeleteSunglasses = (id, ownProps) => {
   }
 }
 
-export const fetchOneSunglasses = (sunglasses) => {
-  return async dispatch => {
-    try {
-      const { data } = await axios.get(`/api/sunglasses/${sunglasses.id}`)
-      dispatch(selectSunglasses(data))
-    } catch (error) {
-      console.log('Cannot get this pair of sunglasses!')
-    }
-  }
-}
-
 //HANDLERS FOR SUNGLASSES REDUCER
 const handlers = {
   [GET_ALL_SUNGLASSES]: (state, action) => ({
     ...state,
     allSunglasses: action.sunglasses
   }),
-  [ADD_SUNGLASSES]:(state, action) => ({...state, allSunglasses:[...state.allSunglasses, action.sunglasses]}),
+  [ADD_SUNGLASSES]: (state, action) => ({
+    ...state,
+    allSunglasses: [...state.allSunglasses, action.sunglasses]
+  }),
   [DELETE_SUNGLASSES]: (state, action) => ({
     ...state,
     selectedSunglasses: {},
@@ -120,7 +122,8 @@ const handlers = {
     }
   },
   [SELECT_SUNGLASSES]: (state, action) => ({
-    ...state, selectSunglasses: action.sunglasses
+    ...state,
+    selectedSunglasses: action.sunglassesId
   })
 }
 

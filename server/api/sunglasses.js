@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Sunglasses, Reviews } = require('../db/models')
+const {Sunglasses, Reviews} = require('../db/models')
 
 router.get('/', async (req, res, next) => {
   try {
@@ -11,31 +11,29 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/:id', async (req, res, next) => {
-    try {
-        const sunglasses = await Sunglasses.findByPk(req.params.id, {
-            include: [{model: Reviews}]
-        })
+  try {
+    const sunglasses = await Sunglasses.findByPk(req.params.id, {
+      include: [{model: Reviews}]
+    })
 
-        if (!sunglasses) {
-            const error = new Error('This pair of sunglasses does not exist!')
-            error.status = 404
-            next(error)
-        }
-        else {
-            res.json(sunglasses) 
-        }
+    if (!sunglasses) {
+      const error = new Error('This pair of sunglasses does not exist!')
+      error.status = 404
+      next(error)
+    } else {
+      res.json(sunglasses)
     }
-    catch (error) {
-        next(error)
-    }
+  } catch (error) {
+    next(error)
+  }
 })
 
 router.post('/', async (req, res, next) => {
   try {
-      const sunglasses = await Sunglasses.create(req.body)
-      res.json(sunglasses)
+    const sunglasses = await Sunglasses.create(req.body)
+    res.json(sunglasses)
   } catch (error) {
-      next(error)
+    next(error)
   }
 })
 
