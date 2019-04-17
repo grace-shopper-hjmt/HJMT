@@ -1,29 +1,26 @@
 import axios from 'axios'
+import Axios from 'axios';
 
 
 const initialState = {
   allSunglasses: [],
-  selectedSunglasses: {}
+  selectedSunglasses: {},
+  categories: []
 }
 
 
 //ACTION TYPES
 const GET_ALL_SUNGLASSES = 'GET_ALL_SUNGLASSES'
-const FILTER_SUNGLASSES = 'FILTER_SUNGLASSES'
 const EDIT_SUNGLASSES = 'EDIT_SUNGLASSES'
 const DELETE_SUNGLASSES = 'DELETE_SUNGLASSES'
 const SELECT_SUNGLASSES = 'SELECT_SUNGLASSES'
 const ADD_SUNGLASSES = 'ADD_SUNGLASSES'
+const GET_CATEGORIES = 'GET_CATEGORIES'
 
 //ACTION CREATORS
 export const getAllSunglasses = sunglasses => ({
   type: GET_ALL_SUNGLASSES,
   sunglasses
-})
-export const filterSunglassses = (filter, filterType) => ({
-  type: FILTER_SUNGLASSES,
-  filter,
-  filterType
 })
 export const editSunglasses = (id, sunglasses) => ({
   type: EDIT_SUNGLASSES,
@@ -32,9 +29,8 @@ export const editSunglasses = (id, sunglasses) => ({
 })
 export const deleteSunglasses = id => ({ type: DELETE_SUNGLASSES, id })
 export const addSunglasses = (sunglasses) => ({type: ADD_SUNGLASSES, sunglasses})
-
-
 export const selectSunglasses = sunglasses => ({type: SELECT_SUNGLASSES, sunglasses})
+export const getCategories = categories => ({ type: GET_CATEGORIES, categories})
 
 //THUNKS
 export const fetchSunglasses = () => {
@@ -93,6 +89,17 @@ export const fetchOneSunglasses = (sunglasses) => {
     }
   }
 }
+ 
+export const fetchCategories = () => {
+    return async dispatch => {
+        try {
+            const { data } = await Axios.get('/api/sunglasses/categories')
+            dispatch(getCategories(data))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
 
 //HANDLERS FOR SUNGLASSES REDUCER
 const handlers = {
@@ -125,15 +132,10 @@ const handlers = {
       }
     }
   },
-  [FILTER_SUNGLASSES]: (state, action) => {
-    const sunglasses = state.allSunglasses.filter(
-      glasses => glasses[action.filterType] === action.filter
-    )
-    return { ...state, allSunglasses: sunglasses }
-  },
   [SELECT_SUNGLASSES]: (state, action) => ({
     ...state, selectSunglasses: action.sunglasses
-  })
+  }),
+  [GET_CATEGORIES]: (state, action) => ({ ...state, categories: action.categories })
 }
 
 export const sunglassesReducer = (state = initialState, action) => {

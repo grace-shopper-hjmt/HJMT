@@ -1,11 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {filterSunglasses} from '../store/sunglasses'
+import { fetchCategories } from '../store/sunglasses'
 import Category from './category'
 
 class Sidebar extends React.Component {
   getFilters = () => {
-    let sunglasses = this.props.sunglasses
+    let categories = this.props.categories
     const nonCategories = [
       'id',
       'name',
@@ -16,11 +16,15 @@ class Sidebar extends React.Component {
       'updatedAt',
       'price'
     ]
-    if (this.props.sunglasses[0]) {
-      let categories = Object.keys(sunglasses[0]).filter(
-        cat => !nonCategories.includes(cat)
-      )
-      return categories.map(category => <Category category={category} key={category}/>)
+    if (categories[0]) {
+        let cats = []
+        for (let i = 0; i < categories.length; i++) {
+            if (!cats.includes(categories[i].type)) {
+                cats.push(categories[i].type)
+            }
+            console.log(cats)
+        }
+      return cats.map(category => <Category category={category} key={category}/>)
     }
     return []
   }
@@ -41,14 +45,13 @@ class Sidebar extends React.Component {
 
 const mapState = state => {
   return {
-    sunglasses: state.sunglasses.allSunglasses
+    categories: state.sunglasses.categories
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    filter: (filter, filterType) =>
-      dispatch(filterSunglasses(filter, filterType))
+    getCategories: () => dispatch(fetchCategories())
   }
 }
 
