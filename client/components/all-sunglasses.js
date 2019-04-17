@@ -5,7 +5,6 @@ import {Link} from 'react-router-dom'
 const DisconnectedAllSunglasses = props => {
   return (
     <div>
-      <h1>HELLO INSIDE ALLSUNGLASSES!</h1>
       {props.sunglasses.length > 0 ? (
         <div>
           {props.sunglasses.map(sunglasses => (
