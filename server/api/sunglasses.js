@@ -45,4 +45,13 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const sunglasses = await Sunglasses.findByPk(req.params.id)
+    await sunglasses.destroy()
+    res.sendStatus(204)
+  } catch (error) {
+    next(error)
+  }
+})
 module.exports = router

@@ -1,5 +1,4 @@
 import axios from 'axios'
-import history from '../history'
 
 const initialState = {
   allSunglasses: [],
@@ -9,6 +8,7 @@ const initialState = {
 //ACTION TYPES
 const GET_ALL_SUNGLASSES = 'GET_ALL_SUNGLASSES'
 const EDIT_SUNGLASSES = 'EDIT_SUNGLASSES'
+const DELETE_SUNGLASSES = 'DELETE_SUNGLASSES'
 
 //ACTION CREATORS
 export const getAllSunglasses = sunglasses => ({
@@ -20,6 +20,7 @@ export const editSunglasses = (id, sunglasses) => ({
   id,
   sunglasses
 })
+export const deleteSunglasses = id => ({type: DELETE_SUNGLASSES, id})
 
 //THUNKS
 export const fetchSunglasses = () => {
@@ -44,11 +45,30 @@ export const updateSunglasses = (id, sunglasses) => {
   }
 }
 
+export const thunkDeleteSunglasses = (id, ownProps) => {
+  return async dispatch => {
+    try {
+      await axios.delete(`/api/sunglasses/${id}`)
+      dispatch(deleteSunglasses(id))
+      ownProps.history.push(`/sunglasses`)
+    } catch (error) {
+      console.log('Cannot remove sunglasses', error)
+    }
+  }
+}
+
 //HANDLERS FOR SUNGLASSES REDUCER
 const handlers = {
   [GET_ALL_SUNGLASSES]: (state, action) => ({
     ...state,
     allSunglasses: action.sunglasses
+  }),
+  [DELETE_SUNGLASSES]: (state, action) => ({
+    ...state,
+    selectedSunglasses: {},
+    allSunglasses: state.allSunglasses.filter(
+      sunglasses => sunglasses.id !== action.id
+    )
   }),
   [EDIT_SUNGLASSES]: (state, action) => {
     if (state.selectedSunglasses.id === action.id) {
@@ -73,6 +93,5 @@ export const sunglassesReducer = (state = initialState, action) => {
   if (handlers.hasOwnProperty(action.type)) {
     return handlers[action.type](state, action)
   }
-
   return state
 }
