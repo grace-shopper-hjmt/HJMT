@@ -10,6 +10,15 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.post('/', async (req, res, next) => {
+  try {
+      const sunglasses = await Sunglasses.create(req.body)
+      res.json(sunglasses)
+  } catch (error) {
+      next(error)
+  }
+})
+
 router.put('/:id', async (req, res, next) => {
   try {
     const sunglasses = await Sunglasses.findByPk(req.params.id)
