@@ -11,17 +11,17 @@ const CartItems = require('./cart-items')
  *
  *    BlogPost.belongsTo(User)
  */
-User.hasMany(OrderItem)
+User.belongsToMany(OrderItem)
 OrderItem.belongsTo(User)
-User.hasMany(Reviews)
+User.belongsToMany(Reviews)
 Reviews.belongsTo(User)
-Sunglasses.hasMany(Reviews)
+Sunglasses.belongsToMany(Reviews)
 Reviews.belongsTo(Sunglasses)
 Categories.belongsToMany(Sunglasses, {through: 'SunglassesCategories'})
 Sunglasses.belongsToMany(Categories, {through: 'SunglassesCategories'})
 User.hasMany(CartItems)
 CartItems.belongsTo(User)
-Sunglasses.hasMany(CartItems)
+Sunglasses.belongsToMany(CartItems)
 CartItems.belongsTo(Sunglasses)
 /**
  * We'll export all of our models here, so that any time a module needs a model,
