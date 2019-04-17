@@ -26,29 +26,6 @@ const Sunglasses = db.define('sunglasses', {
     inventory: {
         type: Sequelize.INTEGER
     },
-    brand: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    },
-    color: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-            isIn: [['black', 'brown']]
-        }
-    },
-    shape: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-            isIn : [['round', 'square']]
-        }
-    },
 })
 
 module.exports = Sunglasses
