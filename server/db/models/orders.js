@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Orders = db.define('orders', {
+const OrderItem = db.define('orders', {
   quantity: {
     type:Sequelize.INTEGER
   },
@@ -14,12 +14,6 @@ const Orders = db.define('orders', {
   status: {
     type: Sequelize.ENUM('Created', 'Processing', 'Cancelled', 'Completed')
   },
-  billingAddress: {
-    type: Sequelize.TEXT,
-  },
-  shippingAddress: {
-    type: Sequelize.TEXT
-  },
   paymentMethod: {
     type: Sequelize.INTEGER,
     validate: {
@@ -28,4 +22,4 @@ const Orders = db.define('orders', {
   }
 })
 
-module.exports = Orders
+module.exports = OrderItem
