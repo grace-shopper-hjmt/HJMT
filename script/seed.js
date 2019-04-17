@@ -3,6 +3,7 @@
 const db = require('../server/db')
 const { User, OrderItem, Reviews, Sunglasses, CartItems, Categories } = require('../server/db/models')
 
+
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
@@ -39,6 +40,7 @@ async function seed() {
    CartItems.create({ quantity:7,userId: 2}),
   ])
 
+
   const categories = await Promise.all([
     Categories.create({ name: 'Ray-Ban', type: 'brand' }),
     Categories.create({ name: 'Persol', type: 'brand' }),
@@ -56,6 +58,7 @@ async function seed() {
   await sunglasses[1].addCategories('2')
   await sunglasses[2].addCategories('3')
   await sunglasses[3].addCategories('4')
+
 
   await reviews[0].setSunglass('1')
   await reviews[1].setSunglass('2')
