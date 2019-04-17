@@ -6,7 +6,6 @@ import Sidebar from './filter-sidebar'
 const DisconnectedAllSunglasses = props => {
   return (
     <div>
-      <h1>HELLO INSIDE ALLSUNGLASSES!</h1>
       <Sidebar />
       {props.sunglasses.length > 0 ? (
         <div>
