@@ -31,3 +31,13 @@ router.get('/:id', async (req, res, next) => {
 })
 
 module.exports = router
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const sunglasses = await Sunglasses.findById(req.params.id)
+    await sunglasses.destroy()
+    res.sendStatus(204)
+  } catch (error) {
+    next(error)
+  }
+})
+module.exports = router
