@@ -14,6 +14,7 @@ async function seed() {
   ])
 
   const orders = await Promise.all([
+
     Orders.create({quantity:1, price:500, timestamp:Date.now(), status:'Created', userId: 1}),
     Orders.create({quantity:3, price:3000, timestamp:Date.now(), status:'Processing', userId: 2}),
     Orders.create({quantity:2, price:2000, timestamp:Date.now(), status:'Completed', userId: 2}),
@@ -48,6 +49,7 @@ async function seed() {
   await reviews[1].setSunglass('2')
   await reviews[2].setSunglass('3')
   await reviews[3].setSunglass('4')
+
   
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${orders.length} orders`)
