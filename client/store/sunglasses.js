@@ -11,6 +11,7 @@ const initialState = {
 const GET_ALL_SUNGLASSES = 'GET_ALL_SUNGLASSES'
 const EDIT_SUNGLASSES = 'EDIT_SUNGLASSES'
 const DELETE_SUNGLASSES = 'DELETE_SUNGLASSES'
+const SELECT_SUNGLASSES = 'SELECT_SUNGLASSES'
 const ADD_SUNGLASSES = 'ADD_SUNGLASSES'
 
 //ACTION CREATORS
@@ -26,6 +27,8 @@ export const editSunglasses = (id, sunglasses) => ({
 export const deleteSunglasses = id => ({ type: DELETE_SUNGLASSES, id })
 export const addSunglasses = (sunglasses) => ({type: ADD_SUNGLASSES, sunglasses})
 
+
+export const selectSunglasses = sunglasses => ({type: SELECT_SUNGLASSES, sunglasses})
 
 //THUNKS
 export const fetchSunglasses = () => {
@@ -74,6 +77,17 @@ export const thunkDeleteSunglasses = (id, ownProps) => {
   }
 }
 
+export const fetchOneSunglasses = (sunglasses) => {
+  return async dispatch => {
+    try {
+      const { data } = await axios.get(`/api/sunglasses/${sunglasses.id}`)
+      dispatch(selectSunglasses(data))
+    } catch (error) {
+      console.log('Cannot get this pair of sunglasses!')
+    }
+  }
+}
+
 //HANDLERS FOR SUNGLASSES REDUCER
 const handlers = {
   [GET_ALL_SUNGLASSES]: (state, action) => ({
@@ -104,7 +118,10 @@ const handlers = {
           .push(action.sunglasses)
       }
     }
-  }
+  },
+  [SELECT_SUNGLASSES]: (state, action) => ({
+    ...state, selectSunglasses: action.sunglasses
+  })
 }
 
 export const sunglassesReducer = (state = initialState, action) => {
