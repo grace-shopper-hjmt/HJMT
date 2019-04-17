@@ -4,18 +4,9 @@ import { fetchCategories } from '../store/sunglasses'
 import Category from './category'
 
 class Sidebar extends React.Component {
+    
   getFilters = () => {
     let categories = this.props.categories
-    const nonCategories = [
-      'id',
-      'name',
-      'imageUrl',
-      'description',
-      'inventory',
-      'createdAt',
-      'updatedAt',
-      'price'
-    ]
     if (categories[0]) {
         let cats = []
         for (let i = 0; i < categories.length; i++) {

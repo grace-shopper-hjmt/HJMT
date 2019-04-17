@@ -31,7 +31,7 @@ export const editSunglasses = (id, sunglasses) => ({
 })
 export const deleteSunglasses = id => ({type: DELETE_SUNGLASSES, id})
 export const addSunglasses = sunglasses => ({type: ADD_SUNGLASSES, sunglasses})
-
+export const getCategories = categories => ({ type: GET_CATEGORIES, categories })
 //THUNKS
 export const fetchSunglasses = () => {
   return async dispatch => {

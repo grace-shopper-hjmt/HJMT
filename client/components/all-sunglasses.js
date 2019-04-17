@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import Sidebar from './filter-sidebar'
+import { fetchCategories } from '../store/sunglasses';
 
 const DisconnectedAllSunglasses = props => {
   return (
@@ -31,4 +32,8 @@ const mapState = state => ({
   sunglasses: state.sunglasses.allSunglasses
 })
 
-export const AllSunglasses = connect(mapState)(DisconnectedAllSunglasses)
+const mapDispatch = dispatch => ({
+    getCategories: () => dispatch(fetchCategories())
+})
+
+export const AllSunglasses = connect(mapState, mapDispatch)(DisconnectedAllSunglasses)
