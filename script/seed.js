@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const { User, Orders, Reviews, Sunglasses } = require('../server/db/models')
+const { User, OrderItem, Reviews, Sunglasses } = require('../server/db/models')
 
 
 async function seed() {
@@ -13,12 +13,12 @@ async function seed() {
     User.create({name:"murphy", email: 'murphy@email.com', password: '123'})
   ])
 
-  const orders = await Promise.all([
-    Orders.create({quantity:1, price:500, timestamp:Date.now(), status:'Created', userId: 1}),
-    Orders.create({quantity:3, price:3000, timestamp:Date.now(), status:'Processing', userId: 2}),
-    Orders.create({quantity:2, price:2000, timestamp:Date.now(), status:'Completed', userId: 2}),
-    Orders.create({quantity:3, price:1500, timestamp:Date.now(), status:'Cancelled', userId: 1}),
-    Orders.create({quantity:1, price:1000, timestamp:Date.now(), status:'Created', userId: 2}),
+  const orderItem = await Promise.all([
+    OrderItem.create({quantity:1, price:500, timestamp:Date.now(), status:'Created', userId: 1}),
+    OrderItem.create({quantity:3, price:3000, timestamp:Date.now(), status:'Processing', userId: 2}),
+    OrderItem.create({quantity:2, price:2000, timestamp:Date.now(), status:'Completed', userId: 2}),
+    OrderItem.create({quantity:3, price:1500, timestamp:Date.now(), status:'Cancelled', userId: 1}),
+    OrderItem.create({quantity:1, price:1000, timestamp:Date.now(), status:'Created', userId: 2}),
   ])
   const reviews = await Promise.all([
     Reviews.create({content:'this is meh!', rating:2, timestamp:Date.now(), userId: 1}),
@@ -33,16 +33,16 @@ async function seed() {
     Sunglasses.create({ name:'clubmaster',price:500,inventory:3, brand:"Ray-Ban", color:"brown", shape:"square"}),
   ])
 
-  await orders[0].addSunglasses('1')
-  await orders[1].addSunglasses('2')
-  await orders[1].addSunglasses('3')
-  await orders[1].addSunglasses('4')
-  await orders[2].addSunglasses('1')
-  await orders[2].addSunglasses('3')
-  await orders[3].addSunglasses('3')
-  await orders[3].addSunglasses('2')
-  await orders[3].addSunglasses('1')
-  await orders[4].addSunglasses('2')
+  await orderItem[0].addSunglasses('1')
+  await orderItem[1].addSunglasses('2')
+  await orderItem[1].addSunglasses('3')
+  await orderItem[1].addSunglasses('4')
+  await orderItem[2].addSunglasses('1')
+  await orderItem[2].addSunglasses('3')
+  await orderItem[3].addSunglasses('3')
+  await orderItem[3].addSunglasses('2')
+  await orderItem[3].addSunglasses('1')
+  await orderItem[4].addSunglasses('2')
 
   await reviews[0].setSunglass('1')
   await reviews[1].setSunglass('2')
@@ -51,7 +51,7 @@ async function seed() {
 
   
   console.log(`seeded ${users.length} users`)
-  console.log(`seeded ${orders.length} orders`)
+  console.log(`seeded ${orderItem.length} orderItem`)
   console.log(`seeded ${reviews.length} reviews`)
   console.log(`seeded ${sunglasses.length} sunglasses`)
 
