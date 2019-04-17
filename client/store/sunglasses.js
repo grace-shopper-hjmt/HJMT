@@ -1,22 +1,25 @@
 import axios from 'axios'
-import history from '../history'
+
 
 const initialState = {
     allSunglasses: [],
     selectedSunglasses: {}
 }
 
-const GET_ALL_SUNGLASSES ='GET_ALL_SUNGLASSES'
+const GET_ALL_SUNGLASSES = 'GET_ALL_SUNGLASSES'
+const ADD_SUNGLASSES = 'ADD_SUNGLASSES'
 
 export const getAllSunglasses = (sunglasses) => ({type: GET_ALL_SUNGLASSES, sunglasses})
+export const addSunglasses = (sunglasses) => ({type: ADD_SUNGLASSES, sunglasses})
 
 const handlers = {
-    [GET_ALL_SUNGLASSES]: (state, action) => ({...state, allSunglasses: action.sunglasses})
+  [GET_ALL_SUNGLASSES]: (state, action) => ({ ...state, allSunglasses: action.sunglasses }),
+  [ADD_SUNGLASSES]:(state, action) => ({...state, allSunglasses:[...state.allSunglasses, action.sunglasses]})
 }
 
 export const fetchSunglasses = () => {
  return async dispatch => {
-     try { 
+     try {
          const { data } = await axios.get('/api/sunglasses')
          dispatch(getAllSunglasses(data))
      } catch (error) {
@@ -24,6 +27,18 @@ export const fetchSunglasses = () => {
      }
  }
 }
+
+export const thunkAddSunglasses = (sunglasses, ownProps) => {
+  return async dispatch => {
+      try {
+          const { data } = await axios.post('/api/sunglasses', sunglasses)
+        dispatch(addSunglasses(data))
+        ownProps.history.push(`/sunglasses/${sunglasses.id}`)
+      } catch (error) {
+         console.log('ERROR ADDING SUNGLASSES', error)
+      }
+  }
+ }
 
 export const sunglassesReducer = (state = initialState, action) => {
     if (handlers.hasOwnProperty(action.type)) {
