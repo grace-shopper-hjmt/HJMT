@@ -14,8 +14,8 @@ const DisconnectedAllSunglasses = props => {
               <Link to={`/sunglasses/${sunglasses.id}`} className="navlink">
                 <span>{sunglasses.name}</span>
               </Link>
-              <h2>{sunglasses.price}</h2>
-              <h2>{sunglasses.brand}</h2>
+              <h2>Price: ${sunglasses.price}</h2>
+              <h2>Brand: {sunglasses.brand}</h2>
             </div>
           ))}
         </div>
