@@ -26,8 +26,17 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    return <div>{this.getFilters()}</div>
-  }
+    return( 
+    <div>
+        {this.getFilters()}
+        <div className="filter-category">
+            <label>
+                <input type="checkbox" />
+                Price
+            </label>
+        </div>
+    </div>
+  )}
 }
 
 const mapState = state => {
