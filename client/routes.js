@@ -2,8 +2,10 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome} from './components'
+import {Login, Signup, UserHome, AllSunglasses, SingleSunglasses} from './components'
 import {me} from './store'
+import { fetchSunglasses } from '../client/store/sunglasses'
+
 
 /**
  * COMPONENT
@@ -11,6 +13,7 @@ import {me} from './store'
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
+    this.props.fetchInitialSunglasses()
   }
 
   render() {
@@ -19,12 +22,15 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route path="/sunglasses/:id" component={SingleSunglasses}/>
+        <Route exact path="/sunglasses" component={AllSunglasses}/>
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+           
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -49,7 +55,8 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
-    }
+    },
+    fetchInitialSunglasses: () => dispatch(fetchSunglasses())
   }
 }
 
