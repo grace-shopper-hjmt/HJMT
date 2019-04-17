@@ -1,15 +1,18 @@
 import axios from 'axios'
 
+
 const initialState = {
   allSunglasses: [],
   selectedSunglasses: {}
 }
+
 
 //ACTION TYPES
 const GET_ALL_SUNGLASSES = 'GET_ALL_SUNGLASSES'
 const EDIT_SUNGLASSES = 'EDIT_SUNGLASSES'
 const DELETE_SUNGLASSES = 'DELETE_SUNGLASSES'
 const SELECT_SUNGLASSES = 'SELECT_SUNGLASSES'
+const ADD_SUNGLASSES = 'ADD_SUNGLASSES'
 
 //ACTION CREATORS
 export const getAllSunglasses = sunglasses => ({
@@ -21,7 +24,9 @@ export const editSunglasses = (id, sunglasses) => ({
   id,
   sunglasses
 })
-export const deleteSunglasses = id => ({type: DELETE_SUNGLASSES, id})
+export const deleteSunglasses = id => ({ type: DELETE_SUNGLASSES, id })
+export const addSunglasses = (sunglasses) => ({type: ADD_SUNGLASSES, sunglasses})
+
 
 export const selectSunglasses = sunglasses => ({type: SELECT_SUNGLASSES, sunglasses})
 
@@ -47,6 +52,18 @@ export const updateSunglasses = (id, sunglasses) => {
     }
   }
 }
+
+export const thunkAddSunglasses = (sunglasses, ownProps) => {
+  return async dispatch => {
+      try {
+          const { data } = await axios.post('/api/sunglasses', sunglasses)
+        dispatch(addSunglasses(data))
+        ownProps.history.push(`/sunglasses/${sunglasses.id}`)
+      } catch (error) {
+         console.log('ERROR ADDING SUNGLASSES', error)
+      }
+  }
+ }
 
 export const thunkDeleteSunglasses = (id, ownProps) => {
   return async dispatch => {
@@ -77,6 +94,7 @@ const handlers = {
     ...state,
     allSunglasses: action.sunglasses
   }),
+  [ADD_SUNGLASSES]:(state, action) => ({...state, allSunglasses:[...state.allSunglasses, action.sunglasses]}),
   [DELETE_SUNGLASSES]: (state, action) => ({
     ...state,
     selectedSunglasses: {},
