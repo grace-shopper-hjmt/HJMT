@@ -2,6 +2,8 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {fetchOneSunglasses} from '../store/sunglasses'
+import {Review} from './reviews'
+import { EditSunglasses } from './EditSunglasses';
 
 class DisconnectedSingleSunglasses extends React.Component {
   componentDidMount() {
@@ -9,7 +11,7 @@ class DisconnectedSingleSunglasses extends React.Component {
     this.props.fetchInitialSunglasses(sunglassesId)
   }
   render() {
-    console.log('PROPS', this.props)
+    const reviews = this.props.sunglasses.reviews
     return (
       <div>
         <h1>{this.props.sunglasses.name}</h1>
@@ -19,7 +21,16 @@ class DisconnectedSingleSunglasses extends React.Component {
         <h4>Inventory: {this.props.sunglasses.inventory}</h4>
         <button type="button">ADD TO CART</button>
         <h2>REVIEWS:</h2>
+        {
+          this.props.sunglasses.id ? reviews.map(review => {
+            return <Review key={review.id} reviewContent={review} />
+          }) : <div />
+        }
         <Link to="/home">BACK TO SEARCH RESULTS</Link>
+        <h4>
+          <Link to={`/sunglasses/${this.props.sunglasses.id}/edit`}>Edit</Link>
+          {/* <EditSunglasses/> */}
+        </h4>
       </div>
     )
   }
