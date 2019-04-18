@@ -10,3 +10,5 @@ export {AllSunglasses} from './all-sunglasses'
 export { SingleSunglasses } from './single-sunglasses'
 export { NewSunglasses } from './NewSunglasses'
 export {EditSunglasses} from './EditSunglasses'
+export {Review} from './reviews'
+
