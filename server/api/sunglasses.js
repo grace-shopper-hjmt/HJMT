@@ -13,17 +13,6 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/categories', async (req, res, next) => {
-  try {
-    const categories = await Categories.findAll({
-      attributes: ['name', 'type']
-    })
-    res.json(categories)
-  } catch (error) {
-    next(error)
-  }
-})
-
 router.get('/:id', async (req, res, next) => {
   try {
     const sunglasses = await Sunglasses.findByPk(req.params.id, {

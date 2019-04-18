@@ -5,7 +5,8 @@ const initialState = {
   allSunglasses: [],
   selectedSunglasses: {},
   categories: [],
-  filteredSunglasses: []
+  filteredSunglasses: [],
+  categoryProducts: []
 }
 
 //ACTION TYPES
@@ -15,6 +16,7 @@ const EDIT_SUNGLASSES = 'EDIT_SUNGLASSES'
 const DELETE_SUNGLASSES = 'DELETE_SUNGLASSES'
 const ADD_SUNGLASSES = 'ADD_SUNGLASSES'
 const GET_CATEGORIES = 'GET_CATEGORIES'
+const GET_CATEGORY_PRODUCTS = 'GET_CATEGORY_PRODUCTS'
 const PRICE_FILTER = 'PRICE_FILTER'
 const REMOVE_PRICE_FILTER = 'REMOVE_PRICE_FILTER'
 const REMOVE_ALL_FILTERS = 'REMOVE_ALL_FILTERS'
@@ -25,6 +27,7 @@ const sortByPrice = (a, b) => {
 }
 
 //ACTION CREATORS
+export const setCategoryProducts = (categories) => ({ type: GET_CATEGORY_PRODUCTS, categories })
 export const removePriceFilter = (min, max) => ({
   type: REMOVE_PRICE_FILTER,
   min,
@@ -113,12 +116,23 @@ export const thunkDeleteSunglasses = (id, ownProps) => {
 export const fetchCategories = () => {
   return async dispatch => {
     try {
-      const {data} = await axios.get('/api/sunglasses/categories')
+      const {data} = await axios.get('/api/categories')
       dispatch(getCategories(data))
     } catch (error) {
       console.log(error)
     }
   }
+}
+
+export const fetchCategoryProducts = () => {
+    return async dispatch => {
+        try {
+            const { data } = await axios.get('/api/categories/categories_and_products')
+            dispatch(setCategoryProducts(data))
+        } catch (error) {
+            console.log(error)
+        }
+    }
 }
 
 //HANDLERS FOR SUNGLASSES REDUCER
@@ -194,7 +208,8 @@ const handlers = {
       filteredSunglasses: sunglasses.sort(sortByPrice)
     }
   },
-  [REMOVE_ALL_FILTERS]: (state, action) => ({...state, filteredSunglasses: []})
+  [REMOVE_ALL_FILTERS]: (state, action) => ({...state, filteredSunglasses: []}),
+  [GET_CATEGORY_PRODUCTS]: (state, action) => ({ ...state, categoryProducts: action.categories })
 }
 
 export const sunglassesReducer = (state = initialState, action) => {
