@@ -47,7 +47,7 @@ export const logout = () => async dispatch => {
   }
 }
 
-// // HANDLERS FOR USERS REDUCER
+// // HANDLERS FOR USERS REDUCER CAN'T GET THIS TO WORK, SO WENT BACK TO SWITCH
 // const handlers = {
 //   [LOGIN_USER]: (state, action) => ({defaultUser: action.user}),
 //   [LOGOUT_USER]: (state, action) => ({defaultUser})
