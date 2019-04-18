@@ -1,4 +1,5 @@
 import axios from 'axios'
+import history from '../history'
 
 const initialState = {
   allSunglasses: [],
@@ -63,24 +64,24 @@ export const updateSunglasses = (id, sunglasses) => {
   }
 }
 
-export const thunkAddSunglasses = (sunglasses, ownProps) => {
+export const thunkAddSunglasses = sunglasses => {
   return async dispatch => {
     try {
       const {data} = await axios.post('/api/sunglasses', sunglasses)
       dispatch(addSunglasses(data))
-      ownProps.history.push(`/sunglasses/${sunglasses.id}`)
+      history.push(`/sunglasses/${sunglasses.id}`)
     } catch (error) {
       console.log('ERROR ADDING SUNGLASSES', error)
     }
   }
 }
 
-export const thunkDeleteSunglasses = (id, ownProps) => {
+export const thunkDeleteSunglasses = id => {
   return async dispatch => {
     try {
       await axios.delete(`/api/sunglasses/${id}`)
       dispatch(deleteSunglasses(id))
-      ownProps.history.push(`/sunglasses`)
+      history.push(`/sunglasses`)
     } catch (error) {
       console.log('Cannot remove sunglasses', error)
     }
