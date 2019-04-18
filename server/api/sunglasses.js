@@ -52,9 +52,7 @@ router.put('/:id', async (req, res, next) => {
       imageUrl,
       description,
       inventory,
-      brand,
-      color,
-      shape
+
     } = await Sunglasses.update({...req.body})
     res.json({
       id,
@@ -63,9 +61,7 @@ router.put('/:id', async (req, res, next) => {
       imageUrl,
       description,
       inventory,
-      brand,
-      color,
-      shape
+
     })
   } catch (err) {
     next(err)

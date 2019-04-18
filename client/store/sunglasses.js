@@ -59,7 +59,7 @@ export const updateSunglasses = (sunglasses, ownProps) => {
     try {
      const {data}= await axios.put(`/api/sunglasses/${sunglasses.id}`, sunglasses)
       dispatch(editSunglasses(data))
-      ownProps.history.push(`/sunglasses/${sunglasses.id}`)
+      // ownProps.history.push(`/sunglasses/${sunglasses.id}`)
     } catch (err) {
       console.log('ERROR updating those sunglasses', err)
     }
