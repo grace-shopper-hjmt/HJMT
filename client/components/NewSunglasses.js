@@ -70,7 +70,7 @@ export class NewSunglasses extends Component{
               <input
                 onChange={this.handleChange}
                 name='imageUrl'
-                type='img'
+                type='text'
                 value={imageUrl}
               />
             </label>
@@ -91,7 +91,7 @@ export class NewSunglasses extends Component{
               <input
                 onChange={this.handleChange}
                 name='inventory'
-                type='text'
+                type='number'
                 value={inventory}
               />
             </label>
