@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { thunkAddSunglasses } from '../store/sunglasses'
@@ -13,12 +14,12 @@ export class NewSunglasses extends Component{
       imageUrl: '',
       description: '',
       inventory: '',
-      errorMessage: '',
       warning:'Field is required'
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
+
   handleChange(event) {
     this.setState({
       [event.target.name]:event.target.value
@@ -29,14 +30,12 @@ export class NewSunglasses extends Component{
     try {
       this.props.thunkAddSunglasses({...this.state})
     } catch (error) {
-      this.setState({
-        errorMessage:"There was a problem creating sunglasses: " + error.message
-      })
+      console.error('Cannot submit the form')
     }
    }
 
   render() {
-    const { name, price, imageUrl, description, inventory, errorMessage, warning} = this.state
+    const { name, price, imageUrl, description, inventory, warning} = this.state
     return (
       <div>
         <main>
@@ -59,16 +58,46 @@ export class NewSunglasses extends Component{
                 {!price && warning && <span className='warning'>{warning}</span>}
               <input
                 onChange={this.handleChange}
-                price='price'
+                name='price'
                 type='number'
                 step='.01'
                 value={price}
               />
             </label>
 
+            <label>
+            imageUrl:
+                {!imageUrl && warning && <span className='warning'>{warning}</span>}
+              <input
+                onChange={this.handleChange}
+                name='imageUrl'
+                type='img'
+                value={imageUrl}
+              />
+            </label>
+
+            <label>
+            description:
+                {!description && warning && <span className='warning'>{warning}</span>}
+              <input
+                onChange={this.handleChange}
+                name='description'
+                type='text'
+                value={description}
+              />
+            </label>
 
 
-
+            <label>
+            inventory:
+                {!inventory && warning && <span className='warning'>{warning}</span>}
+              <input
+                onChange={this.handleChange}
+                name='inventory'
+                type='text'
+                value={inventory}
+              />
+            </label>
 
 
 <button type='submit'>Submit</button>
@@ -80,8 +109,6 @@ export class NewSunglasses extends Component{
         </div>
     )
 }
-
-
 }
 
 
