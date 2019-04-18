@@ -59,14 +59,3 @@ export default function(state = defaultUser, action) {
   }
   return state
 }
-
-// export default function(state = defaultUser, action) {
-//   switch (action.type) {
-//     case LOGIN_USER:
-//       return action.user
-//     case LOGOUT_USER:
-//       return defaultUser
-//     default:
-//       return state
-//   }
-// }
