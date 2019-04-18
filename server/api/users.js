@@ -29,3 +29,37 @@ router.get('/:id', async (req, res, next) => {
     next(error)
   }
 })
+
+router.post('/', async (req, res, next) => {
+  try {
+    const user = await User.create(req.body)
+    res.json(user)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/:id', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.id)
+    if (!user) {
+      const err = new Error('That user does not exist!')
+      err.status = 404
+      return next(err)
+    }
+    const newUser = await User.update({...req.body})
+    res.json(newUser)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.id)
+    await user.destroy()
+    res.sendStatus(204)
+  } catch (error) {
+    next(error)
+  }
+})
