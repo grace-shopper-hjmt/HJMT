@@ -1,4 +1,6 @@
 import axios from 'axios'
+import history from '../history'
+
 
 const initialState = {
   allSunglasses: [],
@@ -41,10 +43,10 @@ export const fetchSunglasses = () => {
   }
 }
 
-export const fetchOneSunglasses = sunglassesId => {
+export const fetchOneSunglasses = sunglasses => {
   return async dispatch => {
     try {
-      const {data} = await axios.get(`/api/sunglasses/${sunglassesId}`)
+      const {data} = await axios.get(`/api/sunglasses/${sunglasses}`)
       dispatch(selectSunglasses(data))
     } catch (error) {
       console.log('Cannot get this pair of sunglasses!')

@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {updateSunglasses} from '../store/sunglasses'
+import {updateSunglasses, fetchOneSunglasses} from '../store/sunglasses'
 import {Link, withRouter} from 'react-router-dom'
 
-export class EditSunglasses extends Component {
+ class DisconnectedEditSunglasses extends Component {
   constructor() {
     super()
     this.state = {
@@ -18,6 +18,10 @@ export class EditSunglasses extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   componentDidMount() {
+    const sunglassesId = this.props.match.params.id
+    console.log('props', this.props)
+    // if (this.props.fetchCurrentSunglasses) {
+    this.props.fetchCurrentSunglasses(sunglassesId)
     this.setState({
       name: this.props.sunglasses.name,
       price: this.props.sunglasses.price,
@@ -25,6 +29,7 @@ export class EditSunglasses extends Component {
       description: this.props.sunglasses.description,
       inventory: this.props.sunglasses.inventory
     })
+    // }
   }
   handleChange(event) {
     this.setState({
@@ -46,6 +51,7 @@ export class EditSunglasses extends Component {
       <div>
         <main>
           <h1>Edit sunglasses here!</h1>
+
           <form onSubmit={this.handleSubmit}>
             <label>
               Name:
@@ -115,6 +121,7 @@ export class EditSunglasses extends Component {
 }
 
 const mapState = state => {
+  console.log('state', state.sunglasses)
   return {
     sunglasses: state.sunglasses.selectedSunglasses
   }
@@ -123,9 +130,12 @@ const mapState = state => {
 const mapDispatch = (dispatch, ownProps) => {
   return {
     updateSunglasses: updatedSunglasses => {
-      dispatch(updateSunglasses(updatedSunglasses,ownProps))
+      dispatch(updateSunglasses(updatedSunglasses, ownProps.match.params.id))
+    },
+    fetchCurrentSunglasses: sunglasses => {
+      dispatch(fetchOneSunglasses(sunglasses))
     }
   }
 }
 
-export default withRouter(connect(mapState, mapDispatch)(EditSunglasses))
+export const EditSunglasses =  withRouter(connect(mapState, mapDispatch)(DisconnectedEditSunglasses))
