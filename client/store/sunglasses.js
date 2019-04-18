@@ -1,4 +1,6 @@
 import axios from 'axios'
+import history from '../history'
+
 
 const initialState = {
   allSunglasses: [],
@@ -41,10 +43,10 @@ export const fetchSunglasses = () => {
   }
 }
 
-export const fetchOneSunglasses = sunglassesId => {
+export const fetchOneSunglasses = sunglasses => {
   return async dispatch => {
     try {
-      const {data} = await axios.get(`/api/sunglasses/${sunglassesId}`)
+      const {data} = await axios.get(`/api/sunglasses/${sunglasses}`)
       dispatch(selectSunglasses(data))
     } catch (error) {
       console.log('Cannot get this pair of sunglasses!')
@@ -52,11 +54,12 @@ export const fetchOneSunglasses = sunglassesId => {
   }
 }
 
-export const updateSunglasses = (id, sunglasses) => {
+export const updateSunglasses = (sunglasses, ownProps) => {
   return async dispatch => {
     try {
-      await axios.put(`/api/sunglasses/${id}`, sunglasses)
-      dispatch(editSunglasses(id, sunglasses))
+     const {data}= await axios.put(`/api/sunglasses/${sunglasses.id}`, sunglasses)
+      dispatch(editSunglasses(data))
+      ownProps.history.push(`/sunglasses/${sunglasses.id}`)
     } catch (err) {
       console.log('ERROR updating those sunglasses', err)
     }

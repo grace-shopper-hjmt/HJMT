@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {fetchOneSunglasses} from '../store/sunglasses'
 import {Review} from './reviews'
+import { EditSunglasses } from './EditSunglasses';
 
 class DisconnectedSingleSunglasses extends React.Component {
   componentDidMount() {
@@ -26,6 +27,10 @@ class DisconnectedSingleSunglasses extends React.Component {
           }) : <div />
         }
         <Link to="/home">BACK TO SEARCH RESULTS</Link>
+        <h4>
+          <Link to={`/sunglasses/${this.props.sunglasses.id}/edit`}>Edit</Link>
+          {/* <EditSunglasses/> */}
+        </h4>
       </div>
     )
   }
