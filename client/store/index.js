@@ -2,12 +2,12 @@ import {createStore, combineReducers, applyMiddleware} from 'redux'
 import {createLogger} from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
-import user from './user'
+import userReducer from './user'
 import {sunglassesReducer} from '../store/sunglasses'
 // import {adminReducer} from './admin'
 
 const reducer = combineReducers({
-  user,
+  user: userReducer,
   sunglasses: sunglassesReducer
   // admin: adminReducer
 })
