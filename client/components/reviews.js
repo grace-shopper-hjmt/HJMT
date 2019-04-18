@@ -1,7 +1,6 @@
 import React from 'react'
 
 export const Review = props => {
-    console.log('review component props: ', props)
     const review = props.reviewContent
     return (
         <div>

@@ -10,9 +10,7 @@ class DisconnectedSingleSunglasses extends React.Component {
     this.props.fetchInitialSunglasses(sunglassesId)
   }
   render() {
-    console.log('PROPS', this.props)
     const reviews = this.props.sunglasses.reviews
-    console.log('reviews should be here: ', this.props.sunglasses.reviews)
     return (
       <div>
         <h1>{this.props.sunglasses.name}</h1>
