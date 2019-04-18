@@ -130,7 +130,7 @@ const mapState = state => {
 const mapDispatch = (dispatch, ownProps) => {
   return {
     updateSunglasses: updatedSunglasses => {
-      dispatch(updateSunglasses(updatedSunglasses, ownProps.match.params.id))
+      dispatch(updateSunglasses(updatedSunglasses, ownProps.match.params.id, ownProps))
     },
     fetchCurrentSunglasses: sunglasses => {
       dispatch(fetchOneSunglasses(sunglasses))
