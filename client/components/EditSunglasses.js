@@ -38,8 +38,8 @@ import {Link, withRouter} from 'react-router-dom'
   }
   handleSubmit(event) {
     event.preventDefault()
-    try {
-      this.props.updateSunglasses({...this.state} )
+
+      this.props.updateSunglasses({...this.state})
     } catch (error) {
       console.error('Cannot submit the form')
     }
