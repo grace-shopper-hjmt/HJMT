@@ -1,5 +1,4 @@
 import axios from 'axios'
-import history from '../history'
 
 const initialState = {
   allSunglasses: [],
@@ -74,15 +73,13 @@ export const fetchOneSunglasses = sunglasses => {
   }
 }
 
-export const updateSunglasses = (sunglasses, ownProps) => {
+export const updateSunglasses = (sunglasses, id, ownProps) => {
   return async dispatch => {
     try {
-      const {data} = await axios.put(
-        `/api/sunglasses/${sunglasses.id}`,
-        sunglasses
-      )
+     const {data}= await axios.put(`/api/sunglasses/${id}`, sunglasses)
       dispatch(editSunglasses(data))
-      ownProps.history.push(`/sunglasses/${sunglasses.id}`)
+      ownProps.history.push(`/sunglasses/${id}`)
+
     } catch (err) {
       console.log('ERROR updating those sunglasses', err)
     }
