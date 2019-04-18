@@ -20,8 +20,10 @@ class Sidebar extends React.Component {
   }
 
   handlePriceFilter = (event) => {
+    if(event.target.checked) {
         this.props.priceFilter(event.target.dataset.min, event.target.dataset.max)
-  }
+    }
+}
 
   render() {
     return( 

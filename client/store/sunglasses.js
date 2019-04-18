@@ -3,7 +3,8 @@ import axios from 'axios'
 const initialState = {
   allSunglasses: [],
   selectedSunglasses: {},
-  categories: []
+  categories: [],
+  filteredSunglasses: []
 }
 
 //ACTION TYPES
@@ -143,12 +144,11 @@ const handlers = {
   [GET_CATEGORIES]: (state, action) => ({ ...state, categories: action.categories }),
   [PRICE_FILTER]: (state, action) => {
       const priceCheck = sunglass => {
-        if (sunglass.price/100 >= Number(action.min) && sunglass.price/100 <= Number(action.max)) {
+        if (sunglass.price/100 >= Number(action.min) && sunglass.price/100 <= Number(action.max) && !state.filteredSunglasses.includes(sunglass)) {
             return true
         }
       }
-      let sunglasses = state.allSunglasses.filter(priceCheck)
-      return { ...state, allSunglasses: sunglasses }
+      return { ...state, filteredSunglasses: [ ...state.filteredSunglasses].concat(state.allSunglasses.filter(priceCheck)) }
   }
 }
 

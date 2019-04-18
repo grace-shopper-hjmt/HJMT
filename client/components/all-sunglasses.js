@@ -5,19 +5,26 @@ import Sidebar from './filter-sidebar'
 import { fetchCategories } from '../store/sunglasses';
 
 const DisconnectedAllSunglasses = props => {
+  let sunglasses = []
+  if (props.filteredSunglasses.length > 0) {
+    sunglasses = props.filteredSunglasses
+  } else {
+    sunglasses = props.sunglasses
+  }
+
   return (
     <div>
       <Sidebar />
-      {props.sunglasses.length > 0 ? (
+      {sunglasses.length > 0 ? (
         <div>
-          {props.sunglasses.map(sunglasses => (
-            <div key={sunglasses.id}>
-              <img src={sunglasses.imageUrl} />
-              <Link to={`/sunglasses/${sunglasses.id}`} className="navlink">
-                <span>{sunglasses.name}</span>
+          {sunglasses.map(sunglass => (
+            <div key={sunglass.id}>
+              <img src={sunglass.imageUrl} />
+              <Link to={`/sunglasses/${sunglass.id}`} className="navlink">
+                <span>{sunglass.name}</span>
               </Link>
-              <h2>Price: ${sunglasses.price / 100}</h2>
-              <h2>Brand: {sunglasses.brand}</h2>
+              <h2>Price: ${sunglass.price / 100}</h2>
+              <h2>Brand: {sunglass.brand}</h2>
             </div>
           ))}
         </div>
@@ -29,7 +36,8 @@ const DisconnectedAllSunglasses = props => {
 }
 
 const mapState = state => ({
-  sunglasses: state.sunglasses.allSunglasses
+  sunglasses: state.sunglasses.allSunglasses,
+  filteredSunglasses: state.sunglasses.filteredSunglasses
 })
 
 const mapDispatch = dispatch => ({
