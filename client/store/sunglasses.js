@@ -1,7 +1,6 @@
 import axios from 'axios'
 import history from '../history'
 
-
 const initialState = {
   allSunglasses: [],
   selectedSunglasses: {},
@@ -19,6 +18,11 @@ const GET_CATEGORIES = 'GET_CATEGORIES'
 const PRICE_FILTER = 'PRICE_FILTER'
 const REMOVE_PRICE_FILTER = 'REMOVE_PRICE_FILTER'
 const REMOVE_ALL_FILTERS = 'REMOVE_ALL_FILTERS'
+
+//HELPER FUNCTIONS
+const sortByPrice = (a, b) => {
+  return a.price - b.price
+}
 
 //ACTION CREATORS
 export const removePriceFilter = (min, max) => ({
@@ -70,7 +74,10 @@ export const fetchOneSunglasses = sunglasses => {
 export const updateSunglasses = (sunglasses, ownProps) => {
   return async dispatch => {
     try {
-     const {data}= await axios.put(`/api/sunglasses/${sunglasses.id}`, sunglasses)
+      const {data} = await axios.put(
+        `/api/sunglasses/${sunglasses.id}`,
+        sunglasses
+      )
       dispatch(editSunglasses(data))
       ownProps.history.push(`/sunglasses/${sunglasses.id}`)
     } catch (err) {
@@ -103,8 +110,6 @@ export const thunkDeleteSunglasses = (id, ownProps) => {
   }
 }
 
-
-
 export const fetchCategories = () => {
   return async dispatch => {
     try {
@@ -120,18 +125,11 @@ export const fetchCategories = () => {
 const handlers = {
   [GET_ALL_SUNGLASSES]: (state, action) => ({
     ...state,
-    allSunglasses: action.sunglasses.sort(function(a, b) {
-      return a.price - b.price
-    })
+    allSunglasses: action.sunglasses.sort(sortByPrice)
   }),
   [ADD_SUNGLASSES]: (state, action) => ({
     ...state,
-    allSunglasses: [...state.allSunglasses, action.sunglasses].sort(function(
-      a,
-      b
-    ) {
-      return a.price - b.price
-    })
+    allSunglasses: [...state.allSunglasses, action.sunglasses]
   }),
   [DELETE_SUNGLASSES]: (state, action) => ({
     ...state,
@@ -169,27 +167,23 @@ const handlers = {
     const priceCheck = sunglass => {
       if (
         sunglass.price / 100 >= Number(action.min) &&
-        sunglass.price / 100 <= Number(action.max) &&
-        !state.filteredSunglasses.includes(sunglass)
+        sunglass.price / 100 <= Number(action.max)
       ) {
         return true
       }
     }
-    const test = state.allSunglasses.filter(priceCheck)
     return {
       ...state,
       filteredSunglasses: [...state.filteredSunglasses]
-        .concat(test)
-        .sort(function(a, b) {
-          return a.price - b.price
-        })
+        .concat(state.allSunglasses.filter(priceCheck))
+        .sort(sortByPrice)
     }
   },
   [REMOVE_PRICE_FILTER]: (state, action) => {
     const priceCheck = sunglass => {
       if (
         sunglass.price / 100 < Number(action.min) ||
-        sunglass.price / 100 > Number(action.max) 
+        sunglass.price / 100 > Number(action.max)
       ) {
         return true
       }
@@ -197,9 +191,7 @@ const handlers = {
     const sunglasses = state.filteredSunglasses.filter(priceCheck)
     return {
       ...state,
-      filteredSunglasses: sunglasses.sort(function(a, b) {
-        return a.price - b.price
-      })
+      filteredSunglasses: sunglasses.sort(sortByPrice)
     }
   },
   [REMOVE_ALL_FILTERS]: (state, action) => ({...state, filteredSunglasses: []})
