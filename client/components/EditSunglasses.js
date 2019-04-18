@@ -38,7 +38,7 @@ import {Link, withRouter} from 'react-router-dom'
   }
   handleSubmit(event) {
     event.preventDefault()
-    try {
+
       this.props.updateSunglasses({...this.state})
     } catch (error) {
       console.error('Cannot submit the form')
@@ -130,7 +130,7 @@ const mapState = state => {
 const mapDispatch = (dispatch, ownProps) => {
   return {
     updateSunglasses: updatedSunglasses => {
-      dispatch(updateSunglasses(updatedSunglasses, ownProps.match.params.id))
+      dispatch(updateSunglasses(updatedSunglasses, ownProps.match.params.id, ownProps))
     },
     fetchCurrentSunglasses: sunglasses => {
       dispatch(fetchOneSunglasses(sunglasses))

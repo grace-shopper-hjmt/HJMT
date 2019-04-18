@@ -59,27 +59,17 @@ router.put('/:id', async (req, res, next) => {
       err.status = 404
       return next(err)
     }
-    const {
-      id,
-      name,
-      price,
-      imageUrl,
-      description,
-      inventory,
-      brand,
-      color,
-      shape
-    } = await Sunglasses.update({...req.body})
+    console.log('reqbody', req.body)
+    const updatedSunglasses = await Sunglasses.update(req.body, { where: { id: req.params.id } })
     res.json({
-      id,
-      name,
-      price,
-      imageUrl,
-      description,
-      inventory,
-      brand,
-      color,
-      shape
+      // id,
+      // name,
+      // price,
+      // imageUrl,
+      // description,
+      // inventory,
+      updatedSunglasses
+
     })
   } catch (err) {
     next(err)
