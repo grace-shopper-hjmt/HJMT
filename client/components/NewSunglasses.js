@@ -67,7 +67,6 @@ export class NewSunglasses extends Component{
 
             <label>
             imageUrl:
-                {!imageUrl && warning && <span className='warning'>{warning}</span>}
               <input
                 onChange={this.handleChange}
                 name='imageUrl'
@@ -78,7 +77,6 @@ export class NewSunglasses extends Component{
 
             <label>
             description:
-                {!description && warning && <span className='warning'>{warning}</span>}
               <input
                 onChange={this.handleChange}
                 name='description'
@@ -86,7 +84,6 @@ export class NewSunglasses extends Component{
                 value={description}
               />
             </label>
-
 
             <label>
             inventory:

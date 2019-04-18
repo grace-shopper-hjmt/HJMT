@@ -24,7 +24,11 @@ const Sunglasses = db.define('sunglasses', {
         type: Sequelize.TEXT,
     },
     inventory: {
-        type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+    }
     },
 })
 
