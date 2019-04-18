@@ -34,7 +34,6 @@ class Sidebar extends React.Component {
   handleFilterRemove = event => {
       event.preventDefault()
       this.props.removeFilters()
-      this.forceUpdate()
   }
 
   render() {

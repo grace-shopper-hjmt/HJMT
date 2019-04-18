@@ -20,7 +20,6 @@ router.get('/categories_and_products', async (req, res, next) => {
             attributes: ['id', 'name', 'type'],
             include: [{
                 model: Sunglasses,
-                attributes: ['id', 'name', 'price', 'description', 'inventory'],
             }],
             order: [Sequelize.col('id')]
         })

@@ -19,6 +19,7 @@ const GET_CATEGORY_PRODUCTS = 'GET_CATEGORY_PRODUCTS'
 const PRICE_FILTER = 'PRICE_FILTER'
 const REMOVE_PRICE_FILTER = 'REMOVE_PRICE_FILTER'
 const REMOVE_ALL_FILTERS = 'REMOVE_ALL_FILTERS'
+const SET_FILTER = 'SET_FILTER'
 
 //HELPER FUNCTIONS
 const sortByPrice = (a, b) => {
@@ -26,7 +27,14 @@ const sortByPrice = (a, b) => {
 }
 
 //ACTION CREATORS
-export const setCategoryProducts = (categories) => ({ type: GET_CATEGORY_PRODUCTS, categories })
+export const setFilter = (filterType) => ({
+  type: SET_FILTER,
+  filterType
+})
+export const setCategoryProducts = categories => ({
+  type: GET_CATEGORY_PRODUCTS,
+  categories
+})
 export const removePriceFilter = (min, max) => ({
   type: REMOVE_PRICE_FILTER,
   min,
@@ -76,10 +84,9 @@ export const fetchOneSunglasses = sunglasses => {
 export const updateSunglasses = (sunglasses, id, ownProps) => {
   return async dispatch => {
     try {
-     const {data}= await axios.put(`/api/sunglasses/${id}`, sunglasses)
+      const {data} = await axios.put(`/api/sunglasses/${id}`, sunglasses)
       dispatch(editSunglasses(data))
       ownProps.history.push(`/sunglasses/${id}`)
-
     } catch (err) {
       console.log('ERROR updating those sunglasses', err)
     }
@@ -122,14 +129,14 @@ export const fetchCategories = () => {
 }
 
 export const fetchCategoryProducts = () => {
-    return async dispatch => {
-        try {
-            const { data } = await axios.get('/api/categories/categories_and_products')
-            dispatch(setCategoryProducts(data))
-        } catch (error) {
-            console.log(error)
-        }
+  return async dispatch => {
+    try {
+      const {data} = await axios.get('/api/categories/categories_and_products')
+      dispatch(setCategoryProducts(data))
+    } catch (error) {
+      console.log(error)
     }
+  }
 }
 
 //HANDLERS FOR SUNGLASSES REDUCER
@@ -206,7 +213,25 @@ const handlers = {
     }
   },
   [REMOVE_ALL_FILTERS]: (state, action) => ({...state, filteredSunglasses: []}),
-  [GET_CATEGORY_PRODUCTS]: (state, action) => ({ ...state, categoryProducts: action.categories })
+  [GET_CATEGORY_PRODUCTS]: (state, action) => ({
+    ...state,
+    categoryProducts: action.categories
+  }),
+  [SET_FILTER]: (state, action) => {
+    let sunglasses = []
+    for (let i = 0; i < state.categoryProducts.length; i++) {
+        if (state.categoryProducts[i].name === action.filterType) {
+            sunglasses = state.categoryProducts[i].sunglasses
+            break
+          }
+    }
+    return {
+      ...state,
+      filteredSunglasses: [...state.filteredSunglasses]
+        .concat(sunglasses)
+        .sort(sortByPrice)
+    }
+  }
 }
 
 export const sunglassesReducer = (state = initialState, action) => {
