@@ -1,30 +1,86 @@
 'use strict'
 
 const db = require('../server/db')
-const { User, OrderItem, Reviews, Sunglasses, CartItems, Categories } = require('../server/db/models')
-
+const {
+  User,
+  OrderItem,
+  Reviews,
+  Sunglasses,
+  CartItems,
+  Categories
+} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
   const users = await Promise.all([
-    User.create({name:"cody",email: 'cody@email.com', password: '123'}),
-    User.create({name:"murphy", email: 'murphy@email.com', password: '123'})
+    User.create({name: 'cody', email: 'cody@email.com', password: '123'}),
+    User.create({name: 'murphy', email: 'murphy@email.com', password: '123'})
   ])
 
   const orderItem = await Promise.all([
-    OrderItem.create({quantity:1, price:500, timestamp:Date.now(), status:'Created', userId: 1}),
-    OrderItem.create({quantity:3, price:3000, timestamp:Date.now(), status:'Processing', userId: 2}),
-    OrderItem.create({quantity:2, price:2000, timestamp:Date.now(), status:'Completed', userId: 2}),
-    OrderItem.create({quantity:3, price:1500, timestamp:Date.now(), status:'Cancelled', userId: 1}),
-    OrderItem.create({quantity:1, price:1000, timestamp:Date.now(), status:'Created', userId: 2}),
+    OrderItem.create({
+      quantity: 1,
+      price: 500,
+      timestamp: Date.now(),
+      status: 'Created',
+      userId: 1
+    }),
+    OrderItem.create({
+      quantity: 3,
+      price: 3000,
+      timestamp: Date.now(),
+      status: 'Processing',
+      userId: 2
+    }),
+    OrderItem.create({
+      quantity: 2,
+      price: 2000,
+      timestamp: Date.now(),
+      status: 'Completed',
+      userId: 2
+    }),
+    OrderItem.create({
+      quantity: 3,
+      price: 1500,
+      timestamp: Date.now(),
+      status: 'Cancelled',
+      userId: 1
+    }),
+    OrderItem.create({
+      quantity: 1,
+      price: 1000,
+      timestamp: Date.now(),
+      status: 'Created',
+      userId: 2
+    })
   ])
   const reviews = await Promise.all([
-    Reviews.create({content:'this is meh!', rating:2, timestamp:Date.now(), userId: 1}),
-    Reviews.create({content:'this is ok!', rating:3, timestamp:Date.now(), userId: 2}),
-    Reviews.create({content:'this is great!', rating:4, timestamp:Date.now(), userId: 2}),
-    Reviews.create({content:'this is amazing!!', rating:5, timestamp:Date.now(), userId: 1})
+    Reviews.create({
+      content: 'this is meh!',
+      rating: 2,
+      timestamp: Date.now(),
+      userId: 1
+    }),
+    Reviews.create({
+      content: 'this is ok!',
+      rating: 3,
+      timestamp: Date.now(),
+      userId: 2
+    }),
+    Reviews.create({
+      content: 'this is great!',
+      rating: 4,
+      timestamp: Date.now(),
+      userId: 2
+    }),
+    Reviews.create({
+      content: 'this is amazing!!',
+      rating: 5,
+      timestamp: Date.now(),
+      userId: 1
+    })
   ])
   const sunglasses = await Promise.all([
     Sunglasses.create({ name:'Stingray',price:5500,inventory:5}),
@@ -34,12 +90,11 @@ async function seed() {
   ])
 
   const cartItems = await Promise.all([
-   CartItems.create({ quantity:10, userId: 1}),
-   CartItems.create({ quantity:9,userId: 1}),
-   CartItems.create({ quantity:8,userId: 2}),
-   CartItems.create({ quantity:7,userId: 2}),
+    CartItems.create({quantity: 10, userId: 1}),
+    CartItems.create({quantity: 9, userId: 1}),
+    CartItems.create({quantity: 8, userId: 2}),
+    CartItems.create({quantity: 7, userId: 2})
   ])
-
 
   const categories = await Promise.all([
     Categories.create({ name: 'Ray-Ban', type: 'Brand' }),
@@ -59,12 +114,10 @@ async function seed() {
   await sunglasses[2].addCategories('3')
   await sunglasses[3].addCategories('4')
 
-
   await reviews[0].setSunglass('1')
   await reviews[1].setSunglass('2')
   await reviews[2].setSunglass('3')
   await reviews[3].setSunglass('4')
-
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${orderItem.length} orderItem`)
