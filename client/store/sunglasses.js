@@ -52,10 +52,10 @@ export const fetchOneSunglasses = sunglassesId => {
   }
 }
 
-export const updateSunglasses = (id, sunglasses, ownProps) => {
+export const updateSunglasses = (sunglasses, ownProps) => {
   return async dispatch => {
     try {
-     const {data}= await axios.put(`/api/sunglasses/${id}`, sunglasses)
+     const {data}= await axios.put(`/api/sunglasses/${sunglasses.id}`, sunglasses)
       dispatch(editSunglasses(data))
       ownProps.history.push(`/sunglasses/${sunglasses.id}`)
     } catch (err) {
