@@ -11,16 +11,17 @@ class Category extends React.Component {
   }
 
   componentDidMount() {
-    const category = this.props.category
-    const sunglasses = this.props.sunglasses
+    console.log(this.props)
+    const currentCategory = this.props.category
+    const allCategories = this.props.allCategories
     const items = []
-    for (let j = 0; j < sunglasses.length; j++) {
-      let currentSunglasses = sunglasses[j]
-      if (!items.includes(currentSunglasses[category])) {
-          items.push(currentSunglasses[category])
+    for (let i = 0; i < allCategories.length; i++) {
+      let category = allCategories[i]
+      if (!items.includes(category.name) && category.type === currentCategory) {
+        items.push(category.name)
       }
     }
-    this.setState({ categoryItems: items })
+    this.setState({categoryItems: items})
   }
 
   render() {
@@ -30,11 +31,10 @@ class Category extends React.Component {
         <h3>{category}</h3>
         {this.state.categoryItems.map(item => {
           return (
-            <label key={item}>
-              <input type="checkbox" />
-              {item}
-            </label>
-          )
+          <label key={item}>
+            <input type="checkbox" />
+            {item}
+          </label>)
         })}
       </div>
     )

@@ -27,10 +27,10 @@ async function seed() {
     Reviews.create({content:'this is amazing!!', rating:5, timestamp:Date.now(), userId: 1})
   ])
   const sunglasses = await Promise.all([
-    Sunglasses.create({ name:'stingray',price:500,inventory:5}),
-    Sunglasses.create({ name:'aviator',price:500,inventory:15}),
-    Sunglasses.create({ name:'wayfarer',price:500,inventory:7}),
-    Sunglasses.create({ name:'clubmaster',price:500,inventory:3}),
+    Sunglasses.create({ name:'Stingray',price:5500,inventory:5}),
+    Sunglasses.create({ name:'Aviator',price:10000,inventory:15}),
+    Sunglasses.create({ name:'Wayfarer',price:15000,inventory:7}),
+    Sunglasses.create({ name:'Clubmaster',price:2500,inventory:3}),
   ])
 
   const cartItems = await Promise.all([
@@ -42,10 +42,10 @@ async function seed() {
 
 
   const categories = await Promise.all([
-    Categories.create({ name: 'Ray-Ban', type: 'brand' }),
-    Categories.create({ name: 'Persol', type: 'brand' }),
-    Categories.create({ name: 'brown', type: 'color' }),
-    Categories.create({ name: 'square', type: 'shape' }),
+    Categories.create({ name: 'Ray-Ban', type: 'Brand' }),
+    Categories.create({ name: 'Persol', type: 'Brand' }),
+    Categories.create({ name: 'Brown', type: 'Color' }),
+    Categories.create({ name: 'Square', type: 'Shape' }),
    ])
   await cartItems[0].setSunglass('1')
   await cartItems[1].setSunglass('2')

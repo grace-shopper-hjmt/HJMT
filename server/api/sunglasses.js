@@ -1,9 +1,12 @@
 const router = require('express').Router()
+const Sequelize = require("sequelize");
 const { Sunglasses, Reviews, Categories } = require('../db/models')
 
 router.get('/', async (req, res, next) => {
   try {
-    const sunglasses = await Sunglasses.findAll()
+    const sunglasses = await Sunglasses.findAll({
+      order: [Sequelize.col('id')]
+    })
     res.json(sunglasses)
   } catch (error) {
     next(error)
@@ -12,7 +15,9 @@ router.get('/', async (req, res, next) => {
 
 router.get('/categories', async (req, res, next) => {
   try {
-    const categories = await Categories.findAll()
+    const categories = await Categories.findAll({
+      attributes: ['name', 'type']
+    })
     res.json(categories)
   } catch (error) {
     next(error)

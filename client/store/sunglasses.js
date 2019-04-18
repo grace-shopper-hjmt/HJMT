@@ -1,5 +1,4 @@
 import axios from 'axios'
-import Axios from 'axios';
 
 const initialState = {
   allSunglasses: [],
@@ -14,8 +13,10 @@ const EDIT_SUNGLASSES = 'EDIT_SUNGLASSES'
 const DELETE_SUNGLASSES = 'DELETE_SUNGLASSES'
 const ADD_SUNGLASSES = 'ADD_SUNGLASSES'
 const GET_CATEGORIES = 'GET_CATEGORIES'
+const PRICE_FILTER = 'PRICE_FILTER'
 
 //ACTION CREATORS
+export const filterByPrice = (min, max) => ({ type: PRICE_FILTER, min, max })
 export const getAllSunglasses = sunglasses => ({
   type: GET_ALL_SUNGLASSES,
   sunglasses
@@ -93,7 +94,7 @@ export const fetchOneSunglasses = (sunglasses) => {
 export const fetchCategories = () => {
     return async dispatch => {
         try {
-            const { data } = await Axios.get('/api/sunglasses/categories')
+            const { data } = await axios.get('/api/sunglasses/categories')
             dispatch(getCategories(data))
         } catch (error) {
             console.log(error)
@@ -139,7 +140,16 @@ const handlers = {
     ...state,
     selectedSunglasses: action.sunglassesId
   }),
-  [GET_CATEGORIES]: (state, action) => ({ ...state, categories: action.categories })
+  [GET_CATEGORIES]: (state, action) => ({ ...state, categories: action.categories }),
+  [PRICE_FILTER]: (state, action) => {
+      const priceCheck = sunglass => {
+        if (sunglass.price/100 >= Number(action.min) && sunglass.price/100 <= Number(action.max)) {
+            return true
+        }
+      }
+      let sunglasses = state.allSunglasses.filter(priceCheck)
+      return { ...state, allSunglasses: sunglasses }
+  }
 }
 
 export const sunglassesReducer = (state = initialState, action) => {
