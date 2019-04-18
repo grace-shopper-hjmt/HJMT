@@ -11,7 +11,6 @@ class Category extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
     const currentCategory = this.props.category
     const allCategories = this.props.allCategories
     const items = []

@@ -17,7 +17,7 @@ const GET_CATEGORIES = 'GET_CATEGORIES'
 const PRICE_FILTER = 'PRICE_FILTER'
 
 //ACTION CREATORS
-export const filterByPrice = (min, max) => ({ type: PRICE_FILTER, min, max })
+export const filterByPrice = (min, max) => ({type: PRICE_FILTER, min, max})
 export const getAllSunglasses = sunglasses => ({
   type: GET_ALL_SUNGLASSES,
   sunglasses
@@ -33,7 +33,7 @@ export const editSunglasses = (id, sunglasses) => ({
 })
 export const deleteSunglasses = id => ({type: DELETE_SUNGLASSES, id})
 export const addSunglasses = sunglasses => ({type: ADD_SUNGLASSES, sunglasses})
-export const getCategories = categories => ({ type: GET_CATEGORIES, categories })
+export const getCategories = categories => ({type: GET_CATEGORIES, categories})
 //THUNKS
 export const fetchSunglasses = () => {
   return async dispatch => {
@@ -81,37 +81,44 @@ export const thunkDeleteSunglasses = (id, ownProps) => {
   }
 }
 
-export const fetchOneSunglasses = (sunglasses) => {
+export const fetchOneSunglasses = sunglasses => {
   return async dispatch => {
     try {
-      const { data } = await axios.get(`/api/sunglasses/${sunglasses.id}`)
+      const {data} = await axios.get(`/api/sunglasses/${sunglasses.id}`)
       dispatch(selectSunglasses(data))
     } catch (error) {
       console.log('Cannot get this pair of sunglasses!')
     }
   }
 }
- 
+
 export const fetchCategories = () => {
-    return async dispatch => {
-        try {
-            const { data } = await axios.get('/api/sunglasses/categories')
-            dispatch(getCategories(data))
-        } catch (error) {
-            console.log(error)
-        }
+  return async dispatch => {
+    try {
+      const {data} = await axios.get('/api/sunglasses/categories')
+      dispatch(getCategories(data))
+    } catch (error) {
+      console.log(error)
     }
+  }
 }
 
 //HANDLERS FOR SUNGLASSES REDUCER
 const handlers = {
   [GET_ALL_SUNGLASSES]: (state, action) => ({
     ...state,
-    allSunglasses: action.sunglasses
+    allSunglasses: action.sunglasses.sort(function(a, b) {
+      return a.price - b.price
+    })
   }),
   [ADD_SUNGLASSES]: (state, action) => ({
     ...state,
-    allSunglasses: [...state.allSunglasses, action.sunglasses]
+    allSunglasses: [...state.allSunglasses, action.sunglasses].sort(function(
+      a,
+      b
+    ) {
+      return a.price - b.price
+    })
   }),
   [DELETE_SUNGLASSES]: (state, action) => ({
     ...state,
@@ -141,14 +148,28 @@ const handlers = {
     ...state,
     selectedSunglasses: action.sunglassesId
   }),
-  [GET_CATEGORIES]: (state, action) => ({ ...state, categories: action.categories }),
+  [GET_CATEGORIES]: (state, action) => ({
+    ...state,
+    categories: action.categories
+  }),
   [PRICE_FILTER]: (state, action) => {
-      const priceCheck = sunglass => {
-        if (sunglass.price/100 >= Number(action.min) && sunglass.price/100 <= Number(action.max) && !state.filteredSunglasses.includes(sunglass)) {
-            return true
-        }
+    const priceCheck = sunglass => {
+      if (
+        sunglass.price / 100 >= Number(action.min) &&
+        sunglass.price / 100 <= Number(action.max) &&
+        !state.filteredSunglasses.includes(sunglass)
+      ) {
+        return true
       }
-      return { ...state, filteredSunglasses: [ ...state.filteredSunglasses].concat(state.allSunglasses.filter(priceCheck)) }
+    }
+    return {
+      ...state,
+      filteredSunglasses: [...state.filteredSunglasses]
+        .concat(state.allSunglasses.filter(priceCheck))
+        .sort(function(a, b) {
+          return a.price - b.price
+        })
+    }
   }
 }
 
