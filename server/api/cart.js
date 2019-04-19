@@ -17,22 +17,26 @@ router.get('/', async (req, res, next) => {
     }
 })
 
-router.post('/add/:sunglassesId', async (req, res, next) => {
-    // console.log('USERID IS: ', req.user.id)
+router.post('/add/:sunglassesId/:userId', async (req, res, next) => {
     try {
         let cartItem = await CartItems.findOne({
             where: {
-                userId: '3',
+                userId: req.params.userId,
                 sunglassId: req.params.sunglassesId
             }
         })
 
 
         if (cartItem) {
-            await cartItem.quantity++
+            const newCount = cartItem.quantity + 1
+            await CartItems.update({quantity: newCount}, {
+                where: {
+                    id: cartItem.id
+                }
+            })
         } else {
            cartItem = await CartItems.create({
-                userId: '3',
+                userId: req.params.userId,
                 sunglassId: req.params.sunglassesId,
                 quantity: 1
             })
