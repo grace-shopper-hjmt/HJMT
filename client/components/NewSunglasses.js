@@ -1,20 +1,18 @@
 /* eslint-disable complexity */
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { thunkAddSunglasses } from '../store/sunglasses'
-import { Link } from "react-router-dom";
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {thunkAddSunglasses} from '../store/sunglasses'
+import {Link} from 'react-router-dom'
 
-
- class DisconnectedNewSunglasses extends Component{
+class DisconnectedNewSunglasses extends Component {
   constructor() {
     super()
     this.state = {
       name: '',
       price: '',
-      imageUrl: '',
       description: '',
       inventory: '',
-      warning:'Field is required'
+      warning: 'Field is required'
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -22,9 +20,9 @@ import { Link } from "react-router-dom";
 
   handleChange(event) {
     this.setState({
-      [event.target.name]:event.target.value
+      [event.target.name]: event.target.value
     })
-   }
+  }
   handleSubmit(event) {
     event.preventDefault()
     try {
@@ -32,89 +30,89 @@ import { Link } from "react-router-dom";
     } catch (error) {
       console.error('Cannot submit the form')
     }
-   }
+  }
 
   render() {
-    const { name, price, imageUrl, description, inventory, warning} = this.state
+    const {name, price, imageUrl, description, inventory, warning} = this.state
     return (
       <div>
         <main>
           <h1>Add new sunglasses here!</h1>
           <form onSubmit={this.handleSubmit}>
-
             <label>
-            Name:
-                {!name && warning && <span className='warning'>{warning}</span>}
+              Name:
+              {!name && warning && <span className="warning">{warning}</span>}
               <input
                 onChange={this.handleChange}
-                name='name'
-                type='text'
+                name="name"
+                type="text"
                 value={name}
               />
             </label>
 
             <label>
-            Price:
-                {!price && warning && <span className='warning'>{warning}</span>}
+              Price:
+              {!price && warning && <span className="warning">{warning}</span>}
               <input
                 onChange={this.handleChange}
-                name='price'
-                type='number'
-                step='.01'
+                name="price"
+                type="number"
+                step=".01"
                 value={price}
               />
             </label>
 
             <label>
-            imageUrl:
+              imageUrl:
               <input
                 onChange={this.handleChange}
-                name='imageUrl'
-                type='text'
+                name="imageUrl"
+                type="text"
                 value={imageUrl}
               />
             </label>
 
             <label>
-            description:
+              description:
               <input
                 onChange={this.handleChange}
-                name='description'
-                type='text'
+                name="description"
+                type="text"
                 value={description}
               />
             </label>
 
             <label>
-            inventory:
-                {!inventory && warning && <span className='warning'>{warning}</span>}
+              inventory:
+              {!inventory &&
+                warning && <span className="warning">{warning}</span>}
               <input
                 onChange={this.handleChange}
-                name='inventory'
-                type='number'
+                name="inventory"
+                type="number"
                 value={inventory}
               />
             </label>
 
-
-<button type='submit'>Submit</button>
+            <button type="submit">Submit</button>
           </form>
           <h4>
-            <Link to='/sunglasses'>Back</Link>
+            <Link to="/sunglasses">Back</Link>
           </h4>
-          </main>
-        </div>
+        </main>
+      </div>
     )
+  }
 }
-}
-
 
 const mapDispatch = (dispatch, ownProps) => {
   return {
     thunkAddSunglasses: newProps => {
       dispatch(thunkAddSunglasses(newProps, ownProps))
-   }
+    }
   }
 }
 
-export const NewSunglasses =connect(null, mapDispatch)(DisconnectedNewSunglasses)
+export const NewSunglasses = connect(null, mapDispatch)(
+  DisconnectedNewSunglasses
+)

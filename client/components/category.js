@@ -66,4 +66,5 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(Category)
+
+export default connect(mapState)(Category)

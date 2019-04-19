@@ -1,9 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {fetchOneSunglasses} from '../store/sunglasses'
+import {fetchOneSunglasses, thunkDeleteSunglasses} from '../store/sunglasses'
 import {Review} from './reviews'
-import { EditSunglasses } from './EditSunglasses';
 
 class DisconnectedSingleSunglasses extends React.Component {
   componentDidMount() {
@@ -21,15 +20,27 @@ class DisconnectedSingleSunglasses extends React.Component {
         <h4>Inventory: {this.props.sunglasses.inventory}</h4>
         <button type="button">ADD TO CART</button>
         <h2>REVIEWS:</h2>
-        {
-          this.props.sunglasses.id ? reviews.map(review => {
+        {this.props.sunglasses.id ? (
+          reviews.map(review => {
             return <Review key={review.id} reviewContent={review} />
-          }) : <div />
-        }
+          })
+        ) : (
+          <div />
+          )}
+        <h3>
+        <button
+          type="button"
+          onClick={() => this.props.deleteSunglasses(this.props.sunglasses.id)}
+        >
+          Delete
+        </button>
+          </h3>
         <Link to="/home">BACK TO SEARCH RESULTS</Link>
         <h4>
+        <Link to="/sunglasses">BACK TO All SUNGLASSES PAGE!</Link>
+        </h4>
+        <h4>
           <Link to={`/sunglasses/${this.props.sunglasses.id}/edit`}>Edit</Link>
-          {/* <EditSunglasses/> */}
         </h4>
       </div>
     )
@@ -40,10 +51,14 @@ const mapState = state => ({
   sunglasses: state.sunglasses.selectedSunglasses
 })
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch, ownProps) => {
   return {
-    fetchInitialSunglasses: sunglassesId =>
+    fetchInitialSunglasses: sunglassesId => {
       dispatch(fetchOneSunglasses(sunglassesId))
+    },
+    deleteSunglasses: newProps => {
+      dispatch(thunkDeleteSunglasses(newProps, ownProps))
+    }
   }
 }
 

@@ -94,7 +94,7 @@ async function seed() {
     CartItems.create({quantity: 10, userId: 1}),
     CartItems.create({quantity: 9, userId: 1}),
     CartItems.create({quantity: 8, userId: 2}),
-    CartItems.create({quantity: 7, userId: 2})
+    CartItems.create({quantity: 7, userId: 2}),
   ])
 
   const categories = await Promise.all([
@@ -138,7 +138,6 @@ async function seed() {
   console.log(`seeded ${sunglasses.length} sunglasses`)
   console.log(`seeded ${cartItems.length} cartItems`)
   console.log(`seeded ${categories.length} categories`)
-
   console.log(`seeded successfully`)
 }
 

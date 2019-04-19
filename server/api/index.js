@@ -3,7 +3,11 @@ module.exports = router
 
 router.use('/users', require('./users'))
 router.use('/sunglasses', require('./sunglasses'))
+<<<<<<< HEAD
 router.use('/categories', require('./categories'))
+=======
+router.use('/cart', require('./cart') )
+>>>>>>> master
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')

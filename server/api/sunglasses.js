@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const Sequelize = require("sequelize");
-const { Sunglasses, Reviews, Categories } = require('../db/models')
+const Sequelize = require('sequelize')
+const {Sunglasses, Reviews, Categories} = require('../db/models')
 
 router.get('/', async (req, res, next) => {
   try {
@@ -52,7 +52,9 @@ router.put('/:id', async (req, res, next) => {
       err.status = 404
       return next(err)
     }
-    const updatedSunglasses = await Sunglasses.update(req.body, { where: { id: req.params.id } })
+    const updatedSunglasses = await Sunglasses.update(req.body, {
+      where: {id: req.params.id}
+    })
     res.json({
       updatedSunglasses
     })

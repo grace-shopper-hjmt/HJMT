@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom'
-import {thunkDeleteSunglasses, fetchCategories } from '../store/sunglasses'
+import { fetchCategories } from '../store/sunglasses'
 import Sidebar from './filter-sidebar'
 
 const DisconnectedAllSunglasses = props => {
@@ -20,19 +20,11 @@ const DisconnectedAllSunglasses = props => {
         <div>
           {sunglasses.map(sunglass => (
             <div key={sunglass.id}>
-              <img src={sunglass.imageUrl} />
               <Link to={`/sunglasses/${sunglass.id}`} className="navlink">
+              <img src={sunglass.imageUrl} />
                 <span>{sunglass.name}</span>
               </Link>
               <h2>Price: ${sunglass.price / 100}</h2>
-              <button
-                    type="button"
-                    // className="tooltip"
-                    onClick={() => props.deleteSunglasses(sunglasses.id)}
-                  >
-                    {/* <span  className="tooltiptext">rude!</span> */}
-                    Delete
-                  </button>
             </div>
           ))}
         </div>
@@ -49,11 +41,8 @@ const mapState = state => ({
 })
 
 
-const mapDispatch = (dispatch, ownProps) => {
+const mapDispatch = dispatch => {
   return {
-    deleteSunglasses: newProps => {
-      dispatch(thunkDeleteSunglasses(newProps, ownProps));
-    },
     getCategories: () => dispatch(fetchCategories())
   };
 };
