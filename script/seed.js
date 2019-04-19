@@ -113,7 +113,7 @@ async function seed() {
 
   await sunglasses[0].addCategories('1')
   await sunglasses[0].addCategories('3')
-  await sunglasses[0].addCategories('4')
+  await sunglasses[0].addCategories('6')
 
   await sunglasses[1].addCategories('2')
   await sunglasses[1].addCategories('4')

@@ -19,8 +19,6 @@ import {Link, withRouter} from 'react-router-dom'
   }
   componentDidMount() {
     const sunglassesId = this.props.match.params.id
-    console.log('props', this.props)
-    // if (this.props.fetchCurrentSunglasses) {
     this.props.fetchCurrentSunglasses(sunglassesId)
     this.setState({
       name: this.props.sunglasses.name,
@@ -29,7 +27,6 @@ import {Link, withRouter} from 'react-router-dom'
       description: this.props.sunglasses.description,
       inventory: this.props.sunglasses.inventory
     })
-    // }
   }
   handleChange(event) {
     this.setState({
@@ -38,8 +35,11 @@ import {Link, withRouter} from 'react-router-dom'
   }
   handleSubmit(event) {
     event.preventDefault()
-
-      this.props.updateSunglasses({...this.state})
+    try {
+      this.props.updateSunglasses({...this.state} )
+    } catch (error) {
+      console.error('Cannot submit the form')
+    }
   }
 
   render() {
@@ -118,7 +118,6 @@ import {Link, withRouter} from 'react-router-dom'
 }
 
 const mapState = state => {
-  console.log('state', state.sunglasses)
   return {
     sunglasses: state.sunglasses.selectedSunglasses
   }

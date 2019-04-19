@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {setFilter} from '../store/sunglasses'
+import {setFilter, removeFilter} from '../store/sunglasses'
 
 class Category extends React.Component {
   constructor() {
@@ -26,6 +26,8 @@ class Category extends React.Component {
   handleChange = event => {
     if (event.target.checked) {
       this.props.categoryFilter(event.target.value)
+    } else {
+      this.props.removeCatFilter(event.target.value)
     }
   }
 
@@ -59,7 +61,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    categoryFilter: filterType => dispatch(setFilter(filterType))
+    categoryFilter: filterType => dispatch(setFilter(filterType)),
+    removeCatFilter: filterType => dispatch(removeFilter(filterType))
   }
 }
 
