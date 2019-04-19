@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {filterSunglasses} from '../store/sunglasses'
+
 
 class Category extends React.Component {
   constructor() {
@@ -46,11 +46,6 @@ const mapState = state => {
   }
 }
 
-const mapDispatch = dispatch => {
-  return {
-    filter: (filter, filterType) =>
-      dispatch(filterSunglasses(filter, filterType))
-  }
-}
 
-export default connect(mapState, mapDispatch)(Category)
+
+export default connect(mapState)(Category)

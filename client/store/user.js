@@ -1,30 +1,22 @@
 import axios from 'axios'
 import history from '../history'
 
-/**
- * ACTION TYPES
- */
-const GET_USER = 'GET_USER'
-const REMOVE_USER = 'REMOVE_USER'
-
-/**
- * INITIAL STATE
- */
+//INITIAL STATE
 const defaultUser = {}
 
-/**
- * ACTION CREATORS
- */
-const getUser = user => ({type: GET_USER, user})
-const removeUser = () => ({type: REMOVE_USER})
+//ACTION TYPES
+const LOGIN_USER = 'LOGIN_USER'
+const LOGOUT_USER = 'LOGOUT_USER'
 
-/**
- * THUNK CREATORS
- */
+//ACTION CREATORS
+const loginUser = user => ({type: LOGIN_USER, user})
+const logoutUser = () => ({type: LOGOUT_USER})
+
+//THUNK CREATORS
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
-    dispatch(getUser(res.data || defaultUser))
+    dispatch(loginUser(res.data || defaultUser))
   } catch (err) {
     console.error(err)
   }
@@ -35,11 +27,10 @@ export const auth = (email, password, method) => async dispatch => {
   try {
     res = await axios.post(`/auth/${method}`, {email, password})
   } catch (authError) {
-    return dispatch(getUser({error: authError}))
+    return dispatch(loginUser({error: authError}))
   }
-
   try {
-    dispatch(getUser(res.data))
+    dispatch(loginUser(res.data))
     history.push('/home')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
@@ -49,23 +40,22 @@ export const auth = (email, password, method) => async dispatch => {
 export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout')
-    dispatch(removeUser())
+    dispatch(logoutUser())
     history.push('/login')
   } catch (err) {
     console.error(err)
   }
 }
 
-/**
- * REDUCER
- */
+// HANDLERS FOR USERS REDUCER CAN'T GET THIS TO WORK, SO WENT BACK TO SWITCH
+const handlers = {
+  [LOGIN_USER]: (state, action) => action.user,
+  [LOGOUT_USER]: (state, action) => defaultUser
+}
+
 export default function(state = defaultUser, action) {
-  switch (action.type) {
-    case GET_USER:
-      return action.user
-    case REMOVE_USER:
-      return defaultUser
-    default:
-      return state
+  if (handlers.hasOwnProperty(action.type)) {
+    return handlers[action.type](state, action)
   }
+  return state
 }
