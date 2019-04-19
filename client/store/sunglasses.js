@@ -27,7 +27,7 @@ const sortByPrice = (a, b) => {
 }
 
 //ACTION CREATORS
-export const setFilter = (filterType) => ({
+export const setFilter = filterType => ({
   type: SET_FILTER,
   filterType
 })
@@ -219,11 +219,13 @@ const handlers = {
   }),
   [SET_FILTER]: (state, action) => {
     let sunglasses = []
-    for (let i = 0; i < state.categoryProducts.length; i++) {
+    if (state.filteredSunglasses.length > 1) {
+      for (let i = 0; i < state.categoryProducts.length; i++) {
         if (state.categoryProducts[i].name === action.filterType) {
-            sunglasses = state.categoryProducts[i].sunglasses
-            break
-          }
+          sunglasses = state.categoryProducts[i].sunglasses
+          break
+        }
+      }
     }
     return {
       ...state,

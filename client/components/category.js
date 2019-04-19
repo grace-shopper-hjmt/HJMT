@@ -6,7 +6,7 @@ class Category extends React.Component {
   constructor() {
     super()
     this.state = {
-      categoryItems: []
+      subCategories: []
     }
   }
 
@@ -20,12 +20,12 @@ class Category extends React.Component {
         items.push(category.name)
       }
     }
-    this.setState({categoryItems: items})
+    this.setState({subCategories: items})
   }
 
   handleChange = event => {
     if (event.target.checked) {
-      this.props.filter(event.target.value)
+      this.props.categoryFilter(event.target.value)
     }
   }
 
@@ -34,15 +34,15 @@ class Category extends React.Component {
     return (
       <div className="filter-category">
         <h3>{category}</h3>
-        {this.state.categoryItems.map(item => {
+        {this.state.subCategories.map(subCategory => {
           return (
-            <label key={item}>
+            <label key={subCategory}>
               <input
                 type="checkbox"
                 onChange={this.handleChange}
-                value={item}
+                value={subCategory}
               />
-              {item}
+              {subCategory}
             </label>
           )
         })}
@@ -59,7 +59,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    filter: filterType => dispatch(setFilter(filterType))
+    categoryFilter: filterType => dispatch(setFilter(filterType))
   }
 }
 

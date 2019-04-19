@@ -5,7 +5,11 @@ const { Sunglasses, Reviews, Categories } = require('../db/models')
 router.get('/', async (req, res, next) => {
   try {
     const sunglasses = await Sunglasses.findAll({
-      order: [Sequelize.col('id')]
+      order: [Sequelize.col('id')],
+      include: [{
+        model: Categories,
+        attributes: ['id', 'name', 'type']
+      }]
     })
     res.json(sunglasses)
   } catch (error) {
