@@ -13,18 +13,3 @@ router.get('/', async (req, res, next) => {
       next(error)
     }
 })
-
-router.get('/categories_and_products', async (req, res, next) => {
-    try {
-        const categories = await Categories.findAll({
-            attributes: ['id', 'name', 'type'],
-            include: [{
-                model: Sunglasses,
-            }],
-            order: [Sequelize.col('id')]
-        })
-        res.json(categories)
-    } catch (error) {
-        next(error)
-    }
-})

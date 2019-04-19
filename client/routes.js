@@ -16,7 +16,6 @@ class Routes extends Component {
     this.props.loadInitialData()
     this.props.fetchInitialSunglasses()
     this.props.categories()
-    this.props.categoryProducts()
   }
 
   render() {
