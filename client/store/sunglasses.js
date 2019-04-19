@@ -67,11 +67,14 @@ export const updateSunglasses = (sunglasses, id, ownProps) => {
 }
 
 export const thunkAddSunglasses = (sunglasses, ownProps) => {
+  console.log('sunglass', sunglasses)
+  console.log('own', ownProps)
+
   return async dispatch => {
     try {
       const {data} = await axios.post('/api/sunglasses', sunglasses)
       dispatch(addSunglasses(data))
-      ownProps.history.push(`/sunglasses/${sunglasses.id}`)
+      ownProps.history.push(`/sunglasses/${data.id}`)
     } catch (error) {
       console.log('ERROR ADDING SUNGLASSES', error)
     }

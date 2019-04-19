@@ -5,7 +5,7 @@ import { thunkAddSunglasses } from '../store/sunglasses'
 import { Link } from "react-router-dom";
 
 
-export class NewSunglasses extends Component{
+ class DisconnectedNewSunglasses extends Component{
   constructor() {
     super()
     this.state = {
@@ -117,4 +117,4 @@ const mapDispatch = (dispatch, ownProps) => {
   }
 }
 
-export default connect(null, mapDispatch)(NewSunglasses)
+export const NewSunglasses =connect(null, mapDispatch)(DisconnectedNewSunglasses)
