@@ -11,7 +11,8 @@ import {
   NewSunglasses,
   EditSunglasses,
   AllUsers,
-  SingleUser
+  SingleUser,
+  Cart
 } from './components'
 import {me} from './store'
 import {fetchSunglasses, fetchCategories} from '../client/store/sunglasses'
@@ -32,6 +33,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route exact path="/cart" component={Cart} />
         <Route exact path="/sunglasses/:id/edit" component={EditSunglasses} />
         <Route path="/sunglasses/:id" component={SingleSunglasses} />
         <Route exact path="/sunglasses" component={AllSunglasses} />
