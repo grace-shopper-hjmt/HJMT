@@ -93,8 +93,7 @@ async function seed() {
     CartItems.create({quantity: 10, userId: 1}),
     CartItems.create({quantity: 9, userId: 1}),
     CartItems.create({quantity: 8, userId: 2}),
-    CartItems.create({quantity: 7, userId: 3}),
-    CartItems.create({quantity: 1, userId: 3}),
+    CartItems.create({quantity: 7, userId: 2}),
   ])
 
   const categories = await Promise.all([
@@ -107,8 +106,6 @@ async function seed() {
   await cartItems[1].setSunglass('2')
   await cartItems[2].setSunglass('3')
   await cartItems[3].setSunglass('4')
-  await cartItems[4].setSunglasses('1')
-
 
   await sunglasses[0].addCategories('1')
   await sunglasses[0].addCategories('3')
@@ -128,7 +125,6 @@ async function seed() {
   console.log(`seeded ${sunglasses.length} sunglasses`)
   console.log(`seeded ${cartItems.length} cartItems`)
   console.log(`seeded ${categories.length} categories`)
-
   console.log(`seeded successfully`)
 }
 
