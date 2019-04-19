@@ -4,7 +4,7 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, AllSunglasses, SingleSunglasses, NewSunglasses, EditSunglasses} from './components'
 import {me} from './store'
-import { fetchSunglasses } from '../client/store/sunglasses'
+import { fetchSunglasses, fetchCategories } from '../client/store/sunglasses'
 
 
 
@@ -15,6 +15,7 @@ class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
     this.props.fetchInitialSunglasses()
+    this.props.categories()
   }
 
   render() {
@@ -59,7 +60,8 @@ const mapDispatch = dispatch => {
     loadInitialData() {
       dispatch(me())
     },
-    fetchInitialSunglasses: () => dispatch(fetchSunglasses())
+    fetchInitialSunglasses: () => dispatch(fetchSunglasses()),
+    categories: () => dispatch(fetchCategories())
   }
 }
 
