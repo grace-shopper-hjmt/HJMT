@@ -25,8 +25,6 @@ router.post('/add/:sunglassesId/:userId', async (req, res, next) => {
                 sunglassId: req.params.sunglassesId
             }
         })
-
-
         if (cartItem) {
             const newCount = cartItem.quantity + 1
             await CartItems.update({quantity: newCount}, {
@@ -34,6 +32,7 @@ router.post('/add/:sunglassesId/:userId', async (req, res, next) => {
                     id: cartItem.id
                 }
             })
+            cartItem = await CartItems.findByPk(cartItem.id)
         } else {
            cartItem = await CartItems.create({
                 userId: req.params.userId,
@@ -42,7 +41,7 @@ router.post('/add/:sunglassesId/:userId', async (req, res, next) => {
             })
         }
 
-        res.json(cartItem)
+        res.send(cartItem)
     } catch (error) {
         next(error)
     }
