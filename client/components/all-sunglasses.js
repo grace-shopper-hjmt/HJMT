@@ -1,9 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom'
-import {thunkDeleteSunglasses} from '../store/sunglasses'
+import {thunkDeleteSunglasses, fetchCategories } from '../store/sunglasses'
 import Sidebar from './filter-sidebar'
-import { fetchCategories } from '../store/sunglasses';
 
 const DisconnectedAllSunglasses = props => {
   let sunglasses = []
@@ -49,15 +48,13 @@ const mapState = state => ({
   filteredSunglasses: state.sunglasses.filteredSunglasses
 })
 
-const mapDispatch = dispatch => ({
-    getCategories: () => dispatch(fetchCategories())
-})
 
 const mapDispatch = (dispatch, ownProps) => {
   return {
     deleteSunglasses: newProps => {
       dispatch(thunkDeleteSunglasses(newProps, ownProps));
-    }
+    },
+    getCategories: () => dispatch(fetchCategories())
   };
 };
 
