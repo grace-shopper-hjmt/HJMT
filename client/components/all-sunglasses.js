@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import {thunkDeleteSunglasses} from '../store/sunglasses'
 
 const DisconnectedAllSunglasses = props => {
-  console.log('sunglasses', props.sunglasses)
   return (
     <div>
       <Link to='/newSunglasses'>create Sunglasses!</Link>

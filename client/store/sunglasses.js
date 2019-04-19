@@ -67,9 +67,6 @@ export const updateSunglasses = (sunglasses, id, ownProps) => {
 }
 
 export const thunkAddSunglasses = (sunglasses, ownProps) => {
-  console.log('sunglass', sunglasses)
-  console.log('own', ownProps)
-
   return async dispatch => {
     try {
       const {data} = await axios.post('/api/sunglasses', sunglasses)
