@@ -18,10 +18,10 @@ const DisconnectedAllSunglasses = props => {
               <h2>Price: ${sunglasses.price / 100}</h2>
               <button
                     type="button"
-                    className="tooltip"
+                    // className="tooltip"
                     onClick={() => props.deleteSunglasses(sunglasses.id)}
                   >
-                    <span  className="tooltiptext">rude!</span>
+                    {/* <span  className="tooltiptext">rude!</span> */}
                     Delete
                   </button>
             </div>
