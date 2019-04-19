@@ -59,6 +59,7 @@ router.put('/:id', async (req, res, next) => {
       err.status = 404
       return next(err)
     }
+<<<<<<< HEAD
     const {
       id,
       name,
@@ -74,6 +75,11 @@ router.put('/:id', async (req, res, next) => {
       imageUrl,
       description,
       inventory
+=======
+    const updatedSunglasses = await Sunglasses.update(req.body, { where: { id: req.params.id } })
+    res.json({
+      updatedSunglasses
+>>>>>>> master
     })
   } catch (err) {
     next(err)
