@@ -1,11 +1,11 @@
 import axios from 'axios'
 
-
 const initialState = {
   allSunglasses: [],
   selectedSunglasses: {},
   categories: [],
-  filteredSunglasses: []
+  filteredSunglasses: [],
+  activeFilters: []
 }
 
 //ACTION TYPES
@@ -18,13 +18,40 @@ const GET_CATEGORIES = 'GET_CATEGORIES'
 const PRICE_FILTER = 'PRICE_FILTER'
 const REMOVE_PRICE_FILTER = 'REMOVE_PRICE_FILTER'
 const REMOVE_ALL_FILTERS = 'REMOVE_ALL_FILTERS'
+const SET_FILTER = 'SET_FILTER'
+const REMOVE_FILTER = 'REMOVE_FILTER'
 
 //HELPER FUNCTIONS
 const sortByPrice = (a, b) => {
   return a.price - b.price
 }
+const categoryFilter = (sunglasses, filters) => {
+  let filteredSunglasses = []
+  for (let i = 0; i < sunglasses.length; i++) {
+    let filterCount = 0
+    let currentSunglasses = sunglasses[i]
+    for (let j = 0; j < currentSunglasses.categories.length; j++) {
+      const currentSunglassesCategories = currentSunglasses.categories[j]
+      for (let k = 0; k < filters.length; k++) {
+        if (currentSunglassesCategories.name === filters[k]) {
+          filterCount++
+        }
+        if (currentSunglassesCategories.name === filters[k] && filterCount === filters.length) {
+          filteredSunglasses.push(currentSunglasses)
+          break
+        }
+      }
+    }
+  }
+  return filteredSunglasses
+}
 
 //ACTION CREATORS
+export const removeFilter = filterType => ({type: REMOVE_FILTER, filterType})
+export const setFilter = filterType => ({
+  type: SET_FILTER,
+  filterType
+})
 export const removePriceFilter = (min, max) => ({
   type: REMOVE_PRICE_FILTER,
   min,
@@ -74,7 +101,7 @@ export const fetchOneSunglasses = sunglasses => {
 export const updateSunglasses = (sunglasses, id, ownProps) => {
   return async dispatch => {
     try {
-     const {data}= await axios.put(`/api/sunglasses/${id}`, sunglasses)
+      const {data} = await axios.put(`/api/sunglasses/${id}`, sunglasses)
       dispatch(editSunglasses(data))
       ownProps.history.push(`/sunglasses/${id}`)
     } catch (err) {
@@ -110,7 +137,7 @@ export const thunkDeleteSunglasses = (id, ownProps) => {
 export const fetchCategories = () => {
   return async dispatch => {
     try {
-      const {data} = await axios.get('/api/sunglasses/categories')
+      const {data} = await axios.get('/api/categories')
       dispatch(getCategories(data))
     } catch (error) {
       console.log(error)
@@ -185,13 +212,45 @@ const handlers = {
         return true
       }
     }
-    const sunglasses = state.filteredSunglasses.filter(priceCheck)
+    let sunglasses = state.filteredSunglasses.filter(priceCheck)
     return {
       ...state,
       filteredSunglasses: sunglasses.sort(sortByPrice)
     }
   },
-  [REMOVE_ALL_FILTERS]: (state, action) => ({...state, filteredSunglasses: []})
+  [REMOVE_ALL_FILTERS]: (state, action) => ({
+    ...state,
+    filteredSunglasses: [],
+    activeFilters: []
+  }),
+  [SET_FILTER]: (state, action) => {
+    let sunglasses = []
+    if (state.filteredSunglasses.length < 1) {
+      sunglasses = categoryFilter(state.allSunglasses, [action.filterType])
+      return {
+        ...state,
+        filteredSunglasses: sunglasses.sort(sortByPrice),
+        activeFilters: [action.filterType]
+      }
+    } else {
+      sunglasses = categoryFilter(state.filteredSunglasses, [...state.activeFilters, action.filterType])
+      return {
+        ...state,
+        filteredSunglasses: sunglasses.sort(sortByPrice),
+        activeFilters: [...state.activeFilters, action.filterType]
+      }
+    }
+  },
+  [REMOVE_FILTER]: (state, action) => {
+    if (state.activeFilters.length === 1) {
+      return ({ ...state, activeFilters: [], filteredSunglasses: [] })
+    }
+    let activeFilters = state.activeFilters.filter(
+      filter => filter !== action.filterType
+    )
+    let sunglasses = categoryFilter(state.allSunglasses, activeFilters)
+    return ({ ...state, filteredSunglasses: sunglasses, activeFilters})
+  }
 }
 
 export const sunglassesReducer = (state = initialState, action) => {

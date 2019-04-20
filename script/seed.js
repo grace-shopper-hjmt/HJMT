@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 'use strict'
 
 const db = require('../server/db')
@@ -100,7 +101,10 @@ async function seed() {
     Categories.create({ name: 'Ray-Ban', type: 'Brand' }),
     Categories.create({ name: 'Persol', type: 'Brand' }),
     Categories.create({ name: 'Brown', type: 'Color' }),
+    Categories.create({ name: 'Black', type: 'Color'}),
+    Categories.create({ name: 'Red', type: 'Color'}),
     Categories.create({ name: 'Square', type: 'Shape' }),
+    Categories.create({ name: 'Round', type: 'Shape' }),
    ])
   await cartItems[0].setSunglass('1')
   await cartItems[1].setSunglass('2')
@@ -109,10 +113,19 @@ async function seed() {
 
   await sunglasses[0].addCategories('1')
   await sunglasses[0].addCategories('3')
-  await sunglasses[0].addCategories('4')
+  await sunglasses[0].addCategories('6')
+
   await sunglasses[1].addCategories('2')
-  await sunglasses[2].addCategories('3')
+  await sunglasses[1].addCategories('4')
+  await sunglasses[1].addCategories('6')
+  
+  await sunglasses[2].addCategories('2')
+  await sunglasses[2].addCategories('5')
+  await sunglasses[2].addCategories('7')
+
+  await sunglasses[3].addCategories('1')
   await sunglasses[3].addCategories('4')
+  await sunglasses[3].addCategories('7')
 
   await reviews[0].setSunglass('1')
   await reviews[1].setSunglass('2')

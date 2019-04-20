@@ -6,7 +6,7 @@ import Sidebar from './filter-sidebar'
 
 const DisconnectedAllSunglasses = props => {
   let sunglasses = []
-  if (props.filteredSunglasses.length > 0) {
+  if (props.filteredSunglasses.length > 0 || props.filteredSunglasses === {}) {
     sunglasses = props.filteredSunglasses
   } else {
     sunglasses = props.sunglasses

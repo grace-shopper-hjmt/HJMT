@@ -15,7 +15,7 @@ import {
   Cart
 } from './components'
 import {me} from './store'
-import {fetchSunglasses, fetchCategories} from '../client/store/sunglasses'
+import { fetchSunglasses, fetchCategories, fetchCategoryProducts } from '../client/store/sunglasses'
 import {fetchUsers} from '../client/store/admin'
 
 //COMPONENT

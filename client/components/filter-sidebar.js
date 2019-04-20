@@ -31,11 +31,15 @@ class Sidebar extends React.Component {
         this.props.removePriceFilters(event.target.dataset.min, event.target.dataset.max)
     }
   }
+  handleFilterRemove = event => {
+      event.preventDefault()
+      this.props.removeFilters()
+  }
 
   render() {
     return (
       <div>
-          <button type='button' onClick={this.props.removeFilters}>Clear Filters</button>
+          <button type='button' onClick={this.handleFilterRemove}>Clear Filters</button>
         {this.getFilters()}
         <div className="filter-category">
           <h3>Price</h3>
