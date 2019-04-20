@@ -20,43 +20,6 @@ async function seed() {
     User.create({name: 'murphy', email: 'murphy@email.com', password: '123'})
   ])
 
-  const orderItem = await Promise.all([
-    OrderItem.create({
-      quantity: 1,
-      price: 500,
-      timestamp: Date.now(),
-      status: 'Created',
-      userId: 1
-    }),
-    OrderItem.create({
-      quantity: 3,
-      price: 3000,
-      timestamp: Date.now(),
-      status: 'Processing',
-      userId: 2
-    }),
-    OrderItem.create({
-      quantity: 2,
-      price: 2000,
-      timestamp: Date.now(),
-      status: 'Completed',
-      userId: 2
-    }),
-    OrderItem.create({
-      quantity: 3,
-      price: 1500,
-      timestamp: Date.now(),
-      status: 'Cancelled',
-      userId: 1
-    }),
-    OrderItem.create({
-      quantity: 1,
-      price: 1000,
-      timestamp: Date.now(),
-      status: 'Created',
-      userId: 2
-    })
-  ])
   const reviews = await Promise.all([
     Reviews.create({
       content: 'this is meh!',
@@ -88,6 +51,49 @@ async function seed() {
     Sunglasses.create({ name:'Aviator',price:10000,inventory:15}),
     Sunglasses.create({ name:'Wayfarer',price:15000,inventory:7}),
     Sunglasses.create({ name:'Clubmaster',price:2500,inventory:3}),
+  ])
+
+  const orderItem = await Promise.all([
+    OrderItem.create({
+      quantity: 1,
+      price: 500,
+      timestamp: Date.now(),
+      status: 'Created',
+      userId: 1,
+      sunglassId: 1
+    }),
+    OrderItem.create({
+      quantity: 3,
+      price: 3000,
+      timestamp: Date.now(),
+      status: 'Processing',
+      userId: 2,
+      sunglassId: 2
+    }),
+    OrderItem.create({
+      quantity: 2,
+      price: 2000,
+      timestamp: Date.now(),
+      status: 'Completed',
+      userId: 2,
+      sunglassId: 3
+    }),
+    OrderItem.create({
+      quantity: 3,
+      price: 1500,
+      timestamp: Date.now(),
+      status: 'Cancelled',
+      userId: 1,
+      sunglassId: 4
+    }),
+    OrderItem.create({
+      quantity: 1,
+      price: 1000,
+      timestamp: Date.now(),
+      status: 'Created',
+      userId: 2,
+      sunglassId: 1
+    })
   ])
 
   const cartItems = await Promise.all([
