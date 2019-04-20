@@ -18,11 +18,11 @@ router.get('/', async (req, res, next) => {
     }
 })
 
-router.post('/add/:sunglassesId/:userId', async (req, res, next) => {
+router.post('/add/:sunglassesId/', async (req, res, next) => {
     try {
         let cartItem = await CartItems.findOne({
             where: {
-                userId: req.params.userId,
+                userId: req.user.id,
                 sunglassId: req.params.sunglassesId
             }
         })
@@ -36,7 +36,7 @@ router.post('/add/:sunglassesId/:userId', async (req, res, next) => {
             cartItem = await CartItems.findByPk(cartItem.id)
         } else {
            cartItem = await CartItems.create({
-                userId: req.params.userId,
+                userId: req.user.id,
                 sunglassId: req.params.sunglassesId,
                 quantity: 1
             })

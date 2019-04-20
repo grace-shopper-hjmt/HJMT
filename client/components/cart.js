@@ -21,6 +21,8 @@ export class Cart extends React.Component {
                     return <CartItem key={item.id} sunglasses={item.sunglass} quantity={item.quantity} />
                 }) : <div />
             }
+
+            <button type="button">Place Order</button>
         </div>
         )
     }
