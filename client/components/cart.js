@@ -21,11 +21,12 @@ class DisconnectedCart extends React.Component {
                 quantity: item.quantity,
                 sunglassId: item.sunglass.id,
                 price: item.sunglass.price,
-                timestamp: Date.now()
             })
         })
 
         axios.post('/api/order', {orderItems: orders})
+        //need to delete all items that were in order from cart items table
+        //need to clear cart page
     }
 
     async componentDidMount() {

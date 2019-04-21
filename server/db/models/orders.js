@@ -9,10 +9,12 @@ const OrderItem = db.define('orders', {
     type:Sequelize.INTEGER
   },
   timestamp: {
-    type:Sequelize.DATE
+    type:Sequelize.DATE,
+    defaultValue: Date.now()
   },
   status: {
-    type: Sequelize.ENUM('Created', 'Processing', 'Cancelled', 'Completed')
+    type: Sequelize.ENUM('Created', 'Processing', 'Cancelled', 'Completed'),
+    defaultValue: 'Created'
   },
   paymentMethod: {
     type: Sequelize.INTEGER,
