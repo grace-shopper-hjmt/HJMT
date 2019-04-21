@@ -14,7 +14,7 @@ class DisconnectedPaginate extends React.Component {
     }
   }
 
-  componentDidMount = (props) => {
+  componentWillReceiveProps = (props) => {
     const {offset} = this.state 
     this.setState({
       sunglasses: props.sunglasses,
