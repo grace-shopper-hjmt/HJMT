@@ -36,12 +36,19 @@ class DisconnectedCart extends React.Component {
         return (
         <div>
             {
-             (this.state.cartItems.length) ? this.state.cartItems.map(item => {
-                    return <CartItem key={item.id} sunglasses={item.sunglass} quantity={item.quantity} />
-                }) : <div>There are no items in your cart!</div>
-            }
+             (this.state.cartItems.length) ? 
+                <div>
+                    {
+                        this.state.cartItems.map(item => {
+                            return <CartItem key={item.id} sunglasses={item.sunglass} quantity={item.quantity} />
 
-            <button type="button" onClick={this.placeOrder}>Place Order</button>
+                        }) 
+                    }
+                     <button type="button" onClick={this.placeOrder}>Place Order</button>
+                </div>
+                
+            : <div>There are no items in your cart!</div>
+            }
         </div>
         )
     }
