@@ -49,5 +49,19 @@ router.post('/:sunglassesId', async (req, res, next) => {
 
 })
 
+router.delete('/', async (req, res, next) => {
+    try { 
+        await CartItems.destroy({
+            where: {
+                userId: req.body.userId
+            }
+        })
+        res.end()
+    }
+    catch (error) {
+        next(error)
+    }
+})
+
 
 module.exports = router

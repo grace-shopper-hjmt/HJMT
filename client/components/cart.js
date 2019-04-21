@@ -14,7 +14,6 @@ class DisconnectedCart extends React.Component {
     }
 
     placeOrder() {
-        //iterate through all cart items, create order items for each
         const orders = this.state.cartItems.map(item => {
             return ({
                 userId: this.props.user.id,
@@ -25,8 +24,8 @@ class DisconnectedCart extends React.Component {
         })
 
         axios.post('/api/order', {orderItems: orders})
-        //need to delete all items that were in order from cart items table
-        //need to clear cart page
+        axios.delete('/api/cart', {data: {userId: this.props.user.id}})
+        this.setState({cartItems: []})
     }
 
     async componentDidMount() {
@@ -39,7 +38,7 @@ class DisconnectedCart extends React.Component {
             {
              (this.state.cartItems.length) ? this.state.cartItems.map(item => {
                     return <CartItem key={item.id} sunglasses={item.sunglass} quantity={item.quantity} />
-                }) : <div />
+                }) : <div>There are no items in your cart!</div>
             }
 
             <button type="button" onClick={this.placeOrder}>Place Order</button>
