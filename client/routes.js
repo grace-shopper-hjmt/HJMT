@@ -13,7 +13,7 @@ import {
   AllUsers,
   SingleUser,
 } from './components'
-import {Paginate} from './components/Paginate'
+import {Paginate} from './components/paginate'
 import {me} from './store'
 import { fetchSunglasses, fetchCategories } from '../client/store/sunglasses'
 import {fetchUsers} from '../client/store/admin'
