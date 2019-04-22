@@ -67,15 +67,15 @@ router.put('/:id', async (req, res, next) => {
     const updatedSunglasses = await Sunglasses.update(req.body.sunglassesAtt, {
       where: {id: req.params.id}
     })
-    for (let key in categories) {
-      let category = await Categories.findOrCreate({
-        where: {
-          type: key,
-          name: categories[key]
-        }
-      })
-      updatedSunglasses.addCategories(`${category[0].id}`)
-    }
+    // for (let key in categories) {
+    //   let category = await Categories.findOrCreate({
+    //     where: {
+    //       type: key,
+    //       name: categories[key]
+    //     }
+    //   })
+    //   updatedSunglasses.addCategories(`${category[0].id}`)
+    // }
     res.json({
       updatedSunglasses
     })

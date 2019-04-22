@@ -41,9 +41,9 @@ class DisconnectedEditSunglasses extends Component {
     })
   }
   handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
+    const sunglassesAtt = {...this.state.sunglassesAtt}
+    sunglassesAtt[event.target.name] = event.target.value
+    this.setState({ sunglassesAtt })
   }
   handleSubmit(event) {
     event.preventDefault()
@@ -66,7 +66,12 @@ class DisconnectedEditSunglasses extends Component {
     }
     return []
   }
-
+  handleCategoryChange = event => {
+    const categories = {...this.state.categories}
+    categories[event.target.dataset.cattype] = event.target.value
+    this.setState({categories})
+  }
+  
   render() {
     const {name, price, imageUrl, description, inventory, warning} = this.state.sunglassesAtt
     return (
