@@ -20,6 +20,7 @@ const REMOVE_PRICE_FILTER = 'REMOVE_PRICE_FILTER'
 const REMOVE_ALL_FILTERS = 'REMOVE_ALL_FILTERS'
 const SET_FILTER = 'SET_FILTER'
 const REMOVE_FILTER = 'REMOVE_FILTER'
+const ADD_CATEGORY = 'ADD_CATEGORY'
 
 //HELPER FUNCTIONS
 const sortByPrice = (a, b) => {
@@ -47,6 +48,7 @@ const categoryFilter = (sunglasses, filters) => {
 }
 
 //ACTION CREATORS
+export const addCategory = category => ({ type: ADD_CATEGORY, category })
 export const removeFilter = filterType => ({type: REMOVE_FILTER, filterType})
 export const setFilter = filterType => ({
   type: SET_FILTER,
@@ -76,6 +78,16 @@ export const deleteSunglasses = id => ({type: DELETE_SUNGLASSES, id})
 export const addSunglasses = sunglasses => ({type: ADD_SUNGLASSES, sunglasses})
 export const getCategories = categories => ({type: GET_CATEGORIES, categories})
 //THUNKS
+export const dbAddCategory = (category) => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.post('/api/categories', category)
+      dispatch(addCategory(data))
+    } catch (error) {
+      console.log("ERROR CREATING CATEGORY", error)
+    }
+  }
+}
 export const fetchSunglasses = () => {
   return async dispatch => {
     try {
@@ -261,7 +273,8 @@ const handlers = {
       sunglasses = state.allSunglasses
     }
     return ({ ...state, filteredSunglasses: sunglasses, activeFilters})
-  }
+  },
+  [ADD_CATEGORY]: (state, action) => ({ ...state, categories: [...state.categories, action.category] })
 }
 
 export const sunglassesReducer = (state = initialState, action) => {
