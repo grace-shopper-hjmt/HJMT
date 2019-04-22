@@ -48,14 +48,25 @@ export const logout = () => async dispatch => {
 }
 
 // HANDLERS FOR USERS REDUCER CAN'T GET THIS TO WORK, SO WENT BACK TO SWITCH
-const handlers = {
-  [LOGIN_USER]: (state, action) => action.user,
-  [LOGOUT_USER]: (state, action) => defaultUser
-}
+// const handlers = {
+//   [LOGIN_USER]: (state, action) =>action.user,
+//   [LOGOUT_USER]: (state, action) => defaultUser
+// }
+
+// export default function(state = defaultUser, action) {
+//   if (handlers.hasOwnProperty(action.type)) {
+//     return handlers[action.type](state, action)
+//   }
+//   return state
+// }
 
 export default function(state = defaultUser, action) {
-  if (handlers.hasOwnProperty(action.type)) {
-    return handlers[action.type](state, action)
+  switch (action.type) {
+    case LOGIN_USER:
+      return action.user
+    case LOGOUT_USER:
+      return defaultUser
+    default:
+      return state
   }
-  return state
 }

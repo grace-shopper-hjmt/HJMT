@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const Sequelize = require('sequelize')
 const {Sunglasses, Reviews, Categories} = require('../db/models')
-
+const { isAdmin} = require('./auth-middleware')
 router.get('/', async (req, res, next) => {
   try {
     const sunglasses = await Sunglasses.findAll({
@@ -35,7 +35,7 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', isAdmin, async (req, res, next) => {
   try {
     const sunglasses = await Sunglasses.create(req.body)
     res.json(sunglasses)
@@ -44,7 +44,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', isAdmin, async (req, res, next) => {
   try {
     const sunglasses = await Sunglasses.findByPk(req.params.id)
     if (!sunglasses) {
@@ -63,7 +63,7 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', isAdmin, async (req, res, next) => {
   try {
     const sunglasses = await Sunglasses.findByPk(req.params.id)
     await sunglasses.destroy()
