@@ -13,6 +13,7 @@ const CartItems = require('./cart-items')
  */
 User.hasMany(OrderItem)
 OrderItem.belongsTo(User)
+Sunglasses.hasMany(OrderItem)
 User.hasMany(Reviews)
 Reviews.belongsTo(User)
 Sunglasses.hasMany(Reviews)

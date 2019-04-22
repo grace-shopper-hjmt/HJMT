@@ -1,12 +1,12 @@
 import React from 'react'
 import {connect} from 'react-redux'
-
+import {setFilter, removeFilter} from '../store/sunglasses'
 
 class Category extends React.Component {
   constructor() {
     super()
     this.state = {
-      categoryItems: []
+      subCategories: []
     }
   }
 
@@ -20,7 +20,15 @@ class Category extends React.Component {
         items.push(category.name)
       }
     }
-    this.setState({categoryItems: items})
+    this.setState({subCategories: items})
+  }
+
+  handleChange = event => {
+    if (event.target.checked) {
+      this.props.categoryFilter(event.target.value)
+    } else {
+      this.props.removeCatFilter(event.target.value)
+    }
   }
 
   render() {
@@ -28,12 +36,17 @@ class Category extends React.Component {
     return (
       <div className="filter-category">
         <h3>{category}</h3>
-        {this.state.categoryItems.map(item => {
+        {this.state.subCategories.map(subCategory => {
           return (
-          <label key={item}>
-            <input type="checkbox" />
-            {item}
-          </label>)
+            <label key={subCategory}>
+              <input
+                type="checkbox"
+                onChange={this.handleChange}
+                value={subCategory}
+              />
+              {subCategory}
+            </label>
+          )
         })}
       </div>
     )
@@ -46,6 +59,12 @@ const mapState = state => {
   }
 }
 
+const mapDispatch = dispatch => {
+  return {
+    categoryFilter: filterType => dispatch(setFilter(filterType)),
+    removeCatFilter: filterType => dispatch(removeFilter(filterType))
+  }
+}
 
 
-export default connect(mapState)(Category)
+export default connect(mapState, mapDispatch)(Category)
