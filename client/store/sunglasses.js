@@ -197,9 +197,13 @@ const handlers = {
         return true
       }
     }
+    let sunglasses = state.allSunglasses.filter(priceCheck)
+    if (state.activeFilters.length > 1) {    
+      sunglasses = categoryFilter(sunglasses, state.activeFilters)
+    }
     return {
       ...state,
-      filteredSunglasses: state.allSunglasses.filter(priceCheck)
+      filteredSunglasses: sunglasses
         .sort(sortByPrice)
     }
   },
