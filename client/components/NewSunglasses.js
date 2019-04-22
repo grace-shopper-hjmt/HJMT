@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {thunkAddSunglasses} from '../store/sunglasses'
+import {thunkAddSunglasses, dbAddCategory} from '../store/sunglasses'
 import {Link} from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 
@@ -16,7 +16,8 @@ class DisconnectedNewSunglasses extends Component {
         inventory: '',
         warning: 'Field is required'
       },
-      categories: {}
+      categories: {},
+      newCategories: {}
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -25,7 +26,7 @@ class DisconnectedNewSunglasses extends Component {
   handleChange(event) {
     const sunglassesAtt = {...this.state.sunglassesAtt}
     sunglassesAtt[event.target.name] = event.target.value
-    this.setState({ sunglassesAtt })
+    this.setState({sunglassesAtt})
   }
   handleSubmit(event) {
     event.preventDefault()
@@ -52,6 +53,16 @@ class DisconnectedNewSunglasses extends Component {
     const categories = {...this.state.categories}
     categories[event.target.dataset.cattype] = event.target.value
     this.setState({categories})
+  }
+  handleCategoryAddition = event => {
+    let newCategory = {...this.state.newCategory}
+    newCategory[event.target.name] = event.target.value
+    console.log(newCategory)
+    this.setState({newCategory})
+  }
+  addNewCategory = event => {
+    event.preventDefault()
+    this.props.addCategory(this.state.newCategory)
   }
 
   render() {
@@ -139,6 +150,25 @@ class DisconnectedNewSunglasses extends Component {
               )
             })}
 
+            <h3>Add a New category</h3>
+            <label>
+              Category Type:
+              <input
+                name="type"
+                type="text"
+                onChange={this.handleCategoryAddition}
+              />
+            </label>
+            <label>
+              Sub-Category Name:
+              <input
+                name="name"
+                type="text"
+                onChange={this.handleCategoryAddition}
+              />
+            </label>
+            <button onClick={this.addNewCategory} type="button" />
+
             <Button variant="contained" color="primary" type="submit">
               Submit
             </Button>
@@ -162,7 +192,8 @@ const mapDispatch = (dispatch, ownProps) => {
   return {
     thunkAddSunglasses: newProps => {
       dispatch(thunkAddSunglasses(newProps, ownProps))
-    }
+    },
+    addCategory: (category) => dispatch(dbAddCategory(category))
   }
 }
 
