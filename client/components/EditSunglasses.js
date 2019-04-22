@@ -1,7 +1,7 @@
 /* eslint-disable guard-for-in */
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {updateSunglasses, fetchOneSunglasses} from '../store/sunglasses'
+import {updateSunglasses, fetchOneSunglasses, fetchCategories} from '../store/sunglasses'
 import {Link, withRouter} from 'react-router-dom'
 
 class DisconnectedEditSunglasses extends Component {
@@ -23,6 +23,7 @@ class DisconnectedEditSunglasses extends Component {
   }
   componentDidMount() {
     const sunglassesId = this.props.match.params.id
+    this.props.getCategories()
     this.props.fetchCurrentSunglasses(sunglassesId)
     const sunglassesCategories = this.props.sunglasses.categories
     const categories = {}
@@ -55,7 +56,7 @@ class DisconnectedEditSunglasses extends Component {
   }
   getCategories = () => {
     let categories = this.props.categories
-    if (categories[0]) {
+    if (categories) {
       let cats = []
       for (let i = 0; i < categories.length; i++) {
         if (!cats.includes(categories[i].type)) {
@@ -71,7 +72,7 @@ class DisconnectedEditSunglasses extends Component {
     categories[event.target.dataset.cattype] = event.target.value
     this.setState({categories})
   }
-  
+
   render() {
     const {name, price, imageUrl, description, inventory, warning} = this.state.sunglassesAtt
     return (
@@ -179,7 +180,8 @@ const mapDispatch = (dispatch, ownProps) => {
     },
     fetchCurrentSunglasses: sunglasses => {
       dispatch(fetchOneSunglasses(sunglasses))
-    }
+    },
+    getCategories: () => dispatch(fetchCategories())
   }
 }
 

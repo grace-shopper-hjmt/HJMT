@@ -101,10 +101,8 @@ export const fetchOneSunglasses = sunglasses => {
 export const updateSunglasses = (sunglasses, id, ownProps) => {
   return async dispatch => {
     try {
-      console.log(sunglasses)
       const {data} = await axios.put(`/api/sunglasses/${id}`, sunglasses)
-      console.log(data)
-      dispatch(editSunglasses(id, data))
+      dispatch(editSunglasses(id, data.updatedSunglasses))
       ownProps.history.push(`/sunglasses/${id}`)
     } catch (err) {
       console.log('ERROR updating those sunglasses', err)
@@ -163,22 +161,22 @@ const handlers = {
     ...state,
     selectedSunglasses: {},
     allSunglasses: state.allSunglasses.filter(
-      sunglasses => sunglasses.id !== action.id
+      sunglasses => sunglasses.id !== Number(action.id)
     )
   }),
   [EDIT_SUNGLASSES]: (state, action) => {
-    if (state.selectedSunglasses.id === action.id) {
+    if (state.selectedSunglasses.id === Number(action.id)) {
       return {
         selectedSunglasses: action.sunglasses,
         allSunglasses: state.allSunglasses
-          .filter(sunglasses => sunglasses.id !== action.id)
+          .filter(sunglasses => sunglasses.id !== Number(action.id))
           .push(action.sunglasses)
       }
     } else {
       return {
         ...state,
         allSunglasses: state.allSunglasses
-          .filter(sunglasses => sunglasses.id !== action.id)
+          .filter(sunglasses => sunglasses.id !== Number(action.id))
           .push(action.sunglasses)
       }
     }

@@ -57,23 +57,26 @@ router.post('/', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   try {
-    const sunglasses = await Sunglasses.findByPk(req.params.id)
+    const sunglasses = await Sunglasses.findByPk(req.params.id, {
+      include: [{model: Reviews}, {model: Categories}]
+    })
     if (!sunglasses) {
       const err = new Error('sunglasses not found!')
       err.status = 404
       return next(err)
     }
-    const categories = req.body.categories
-    const updatedSunglasses = await sunglasses.update(req.body)
-    // for (let key in categories) {
-    //   let category = await Categories.findOrCreate({
-    //     where: {
-    //       type: key,
-    //       name: categories[key]
-    //     }
-    //   })
-    //   updatedSunglasses.addCategories(`${category[0].id}`)
-    // }
+    sunglasses.removeCategory(Categories)
+    const newCategories = req.body.categories
+    const updatedSunglasses = await sunglasses.update(req.body.sunglassesAtt)
+    for (let key in newCategories) {
+      let category = await Categories.findOrCreate({
+        where: {
+          type: key,
+          name: newCategories[key]
+        }
+      })
+      updatedSunglasses.addCategories(`${category[0].id}`)
+    }
     res.json({
       updatedSunglasses
     })
