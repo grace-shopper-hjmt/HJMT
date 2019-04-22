@@ -12,6 +12,7 @@ import {
   EditSunglasses,
   AllUsers,
   SingleUser,
+  Cart
 } from './components'
 import {Paginate} from './components/paginate'
 import {me} from './store'
@@ -33,6 +34,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route exact path="/cart" component={Cart} />
         <Route exact path="/sunglasses/:id/edit" component={EditSunglasses} />
         <Route path="/sunglasses/:id" component={SingleSunglasses} />
         <Route exact path="/sunglasses" component={Paginate} />
