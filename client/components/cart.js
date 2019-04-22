@@ -19,6 +19,7 @@ class DisconnectedCart extends React.Component {
         const updatedCartItems = cartItems.filter(item => {
             return item.sunglass.id !== sunglassesId
         })
+        axios.delete(`/api/cart/${sunglassesId}`, {data: {userId: this.props.user.id}})
         this.setState({cartItems: updatedCartItems})
     }
 

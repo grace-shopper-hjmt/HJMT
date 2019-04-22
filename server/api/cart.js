@@ -63,5 +63,18 @@ router.delete('/', async (req, res, next) => {
     }
 })
 
+router.delete('/:sunglassId', async (req, res, next) => {
+    try {
+        await CartItems.destroy({
+            where: {
+                userId: req.body.userId,
+                sunglassId: req.params.sunglassId
+            }
+        })
+        res.end()
+    } catch (error) {
+        next(error)
+    }
+})
 
 module.exports = router
