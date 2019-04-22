@@ -149,7 +149,8 @@ export const fetchCategories = () => {
 const handlers = {
   [GET_ALL_SUNGLASSES]: (state, action) => ({
     ...state,
-    allSunglasses: action.sunglasses.sort(sortByPrice)
+    allSunglasses: action.sunglasses.sort(sortByPrice),
+    filteredSunglasses: action.sunglasses.sort(sortByPrice)
   }),
   [ADD_SUNGLASSES]: (state, action) => ({
     ...state,
@@ -196,10 +197,13 @@ const handlers = {
         return true
       }
     }
+    let sunglasses = state.allSunglasses.filter(priceCheck)
+    if (state.activeFilters.length > 1) {    
+      sunglasses = categoryFilter(sunglasses, state.activeFilters)
+    }
     return {
       ...state,
-      filteredSunglasses: [...state.filteredSunglasses]
-        .concat(state.allSunglasses.filter(priceCheck))
+      filteredSunglasses: sunglasses
         .sort(sortByPrice)
     }
   },
@@ -213,6 +217,9 @@ const handlers = {
       }
     }
     let sunglasses = state.filteredSunglasses.filter(priceCheck)
+    if (sunglasses.length === 0) {
+      sunglasses = state.allSunglasses
+    }
     return {
       ...state,
       filteredSunglasses: sunglasses.sort(sortByPrice)
@@ -220,7 +227,7 @@ const handlers = {
   },
   [REMOVE_ALL_FILTERS]: (state, action) => ({
     ...state,
-    filteredSunglasses: [],
+    filteredSunglasses: [...state.allSunglasses],
     activeFilters: []
   }),
   [SET_FILTER]: (state, action) => {
@@ -243,12 +250,15 @@ const handlers = {
   },
   [REMOVE_FILTER]: (state, action) => {
     if (state.activeFilters.length === 1) {
-      return ({ ...state, activeFilters: [], filteredSunglasses: [] })
+      return ({ ...state, activeFilters: [], filteredSunglasses: state.allSunglasses })
     }
     let activeFilters = state.activeFilters.filter(
       filter => filter !== action.filterType
     )
     let sunglasses = categoryFilter(state.allSunglasses, activeFilters)
+    if (sunglasses.length === 0) {
+      sunglasses = state.allSunglasses
+    }
     return ({ ...state, filteredSunglasses: sunglasses, activeFilters})
   }
 }
