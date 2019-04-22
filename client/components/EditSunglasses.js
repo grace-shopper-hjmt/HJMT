@@ -3,6 +3,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {updateSunglasses, fetchOneSunglasses, fetchCategories} from '../store/sunglasses'
 import {Link, withRouter} from 'react-router-dom'
+import Button from '@material-ui/core/Button'
 
 class DisconnectedEditSunglasses extends Component {
   constructor() {
@@ -152,7 +153,9 @@ class DisconnectedEditSunglasses extends Component {
               )
             })}
 
-            <button type="submit">Submit</button>
+            <Button variant="contained" color="primary" type="submit">
+              Submit
+            </Button>
           </form>
 
           <h4>

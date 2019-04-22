@@ -3,6 +3,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {thunkAddSunglasses} from '../store/sunglasses'
 import {Link} from 'react-router-dom'
+import Button from '@material-ui/core/Button'
 
 class DisconnectedNewSunglasses extends Component {
   constructor() {
@@ -138,7 +139,9 @@ class DisconnectedNewSunglasses extends Component {
               )
             })}
 
-            <button type="submit">Submit</button>
+            <Button variant="contained" color="primary" type="submit">
+              Submit
+            </Button>
           </form>
           <h4>
             <Link to="/sunglasses">Back</Link>
