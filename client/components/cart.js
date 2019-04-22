@@ -16,10 +16,13 @@ class DisconnectedCart extends React.Component {
     placeOrder() {
         const orders = this.state.cartItems.map(item => {
             return ({
-                userId: this.props.user.id,
+                name: item.sunglass.name,
+                description: item.sunglass.description,
+                imageUrl: item.sunglass.imageUrl,
                 quantity: item.quantity,
-                sunglassId: item.sunglass.id,
                 price: item.sunglass.price,
+                sunglassId: item.sunglass.id,
+                userId: this.props.user.id,
             })
         })
 
