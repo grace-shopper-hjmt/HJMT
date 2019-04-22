@@ -1,6 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchCategories, filterByPrice, removeAllFilters, removePriceFilter} from '../store/sunglasses'
+import {
+  fetchCategories,
+  filterByPrice,
+  removeAllFilters,
+  removePriceFilter
+} from '../store/sunglasses'
 import Category from './category'
 
 class Sidebar extends React.Component {
@@ -28,14 +33,27 @@ class Sidebar extends React.Component {
     if (event.target.checked) {
       this.props.priceFilter(event.target.dataset.min, event.target.dataset.max)
     } else {
-        this.props.removePriceFilters(event.target.dataset.min, event.target.dataset.max)
+      this.props.removePriceFilters(
+        event.target.dataset.min,
+        event.target.dataset.max
+      )
     }
+  }
+  handleFilterRemove = event => {
+    event.preventDefault()
+    this.props.removeFilters()
+    document
+      .querySelectorAll('input[type=checkbox]')
+      .forEach(el => (el.checked = false))
   }
 
   render() {
     return (
       <div>
-          <button type='button' onClick={this.props.removeFilters}>Clear Filters</button>
+        <h3>{this.props.resultsTotal} results found.</h3>
+        <button type="button" onClick={this.handleFilterRemove}>
+          Clear Filters
+        </button>
         {this.getFilters()}
         <div className="filter-category">
           <h3>Price</h3>

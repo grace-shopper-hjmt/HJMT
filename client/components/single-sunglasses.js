@@ -1,13 +1,23 @@
 import React from 'react'
+import axios from 'axios'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {fetchOneSunglasses, thunkDeleteSunglasses} from '../store/sunglasses'
 import {Review} from './reviews'
 
 class DisconnectedSingleSunglasses extends React.Component {
+  constructor() {
+    super()
+
+    this.addToCart = this.addToCart.bind(this)    
+  }
   componentDidMount() {
     const sunglassesId = this.props.match.params.id
     this.props.fetchInitialSunglasses(sunglassesId)
+  }
+
+  addToCart() {
+    axios.post(`/api/cart/${this.props.match.params.id}`, {userId: this.props.userId})
   }
   render() {
     const reviews = this.props.sunglasses.reviews
@@ -18,7 +28,7 @@ class DisconnectedSingleSunglasses extends React.Component {
         <img src={this.props.sunglasses.imageUrl} />
         <h3>Price: ${this.props.sunglasses.price / 100}</h3>
         <h4>Inventory: {this.props.sunglasses.inventory}</h4>
-        <button type="button">ADD TO CART</button>
+        <button type="button" onClick={this.addToCart}>ADD TO CART</button>
         <h2>REVIEWS:</h2>
         {this.props.sunglasses.id ? (
           reviews.map(review => {
@@ -48,7 +58,8 @@ class DisconnectedSingleSunglasses extends React.Component {
 }
 
 const mapState = state => ({
-  sunglasses: state.sunglasses.selectedSunglasses
+  sunglasses: state.sunglasses.selectedSunglasses,
+  userId: state.user.id
 })
 
 const mapDispatch = (dispatch, ownProps) => {
