@@ -59,18 +59,18 @@ const handlers = {
   [GET_USERS]: (state, action) => ({...state, allUsers: action.users}),
   [SELECT_USER]: (state, action) => ({...state, selectedUser: action.userId}),
   [EDIT_USER]: (state, action) => {
-    if (state.selectedUser.id === action.id) {
+    if (state.selectedUser.id === Number(action.userId)) {
       return {
         selectedUser: action.user,
         allUsers: state.allUsers
-          .filter(user => user.id !== action.id)
+          .filter(user => user.id !== Number(action.userId))
           .push(action.user)
       }
     } else {
       return {
         ...state,
         allUsers: state.allUsers
-          .filter(user => user.id !== action.id)
+          .filter(user => user.id !== Number(action.userId))
           .push(action.user)
       }
     }

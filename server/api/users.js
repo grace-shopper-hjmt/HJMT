@@ -44,7 +44,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', isAdminOrIsUser, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id)
     if (!user) {
@@ -59,7 +59,7 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', isAdminOrIsUser, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id)
     await user.destroy()
