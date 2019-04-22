@@ -1,18 +1,22 @@
+/* eslint-disable guard-for-in */
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {updateSunglasses, fetchOneSunglasses} from '../store/sunglasses'
 import {Link, withRouter} from 'react-router-dom'
 
- class DisconnectedEditSunglasses extends Component {
+class DisconnectedEditSunglasses extends Component {
   constructor() {
     super()
     this.state = {
-      name: '',
-      price: '',
-      imageUrl: '',
-      description: '',
-      inventory: '',
-      warning: 'Field is required'
+      sunglassesAtt: {
+        name: '',
+        price: '',
+        imageUrl: '',
+        description: '',
+        inventory: '',
+        warning: 'Field is required'
+      },
+      categories: {}
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -20,12 +24,20 @@ import {Link, withRouter} from 'react-router-dom'
   componentDidMount() {
     const sunglassesId = this.props.match.params.id
     this.props.fetchCurrentSunglasses(sunglassesId)
-    this.setState({
+    const sunglassesCategories = this.props.sunglasses.categories
+    const categories = {}
+    for (let i = 0; i < sunglassesCategories.length; i++) {
+      categories[sunglassesCategories[i].type] = sunglassesCategories[i].name
+    }
+    const sunglassesAtt = {
       name: this.props.sunglasses.name,
       price: this.props.sunglasses.price,
       imageUrl: this.props.sunglasses.imageUrl,
       description: this.props.sunglasses.description,
       inventory: this.props.sunglasses.inventory
+    }
+    this.setState({
+      sunglassesAtt, categories
     })
   }
   handleChange(event) {
@@ -36,14 +48,27 @@ import {Link, withRouter} from 'react-router-dom'
   handleSubmit(event) {
     event.preventDefault()
     try {
-      this.props.updateSunglasses({...this.state} )
+      this.props.updateSunglasses({...this.state})
     } catch (error) {
       console.error('Cannot submit the form')
     }
   }
+  getCategories = () => {
+    let categories = this.props.categories
+    if (categories[0]) {
+      let cats = []
+      for (let i = 0; i < categories.length; i++) {
+        if (!cats.includes(categories[i].type)) {
+          cats.push(categories[i].type)
+        }
+      }
+      return cats
+    }
+    return []
+  }
 
   render() {
-    const {name, price, imageUrl, description, inventory, warning} = this.state
+    const {name, price, imageUrl, description, inventory, warning} = this.state.sunglassesAtt
     return (
       <div>
         <main>
@@ -74,7 +99,7 @@ import {Link, withRouter} from 'react-router-dom'
             </label>
 
             <label>
-              imageUrl:
+              ImageUrl:
               <input
                 onChange={this.handleChange}
                 name="imageUrl"
@@ -84,7 +109,7 @@ import {Link, withRouter} from 'react-router-dom'
             </label>
 
             <label>
-              description:
+              Description:
               <input
                 onChange={this.handleChange}
                 name="description"
@@ -94,7 +119,7 @@ import {Link, withRouter} from 'react-router-dom'
             </label>
 
             <label>
-              inventory:
+              Inventory:
               {!inventory &&
                 warning && <span className="warning">{warning}</span>}
               <input
@@ -104,6 +129,22 @@ import {Link, withRouter} from 'react-router-dom'
                 value={inventory}
               />
             </label>
+
+            <h3>Categories:</h3>
+            {this.getCategories().map(category => {
+              return (
+                <label className="addCategories" key={category}>
+                  {category}:
+                  <input
+                    name="categories"
+                    data-catType={category}
+                    value={this.state.categories[category]}
+                    type="text"
+                    onChange={this.handleCategoryChange}
+                  />
+                </label>
+              )
+            })}
 
             <button type="submit">Submit</button>
           </form>
@@ -119,14 +160,17 @@ import {Link, withRouter} from 'react-router-dom'
 
 const mapState = state => {
   return {
-    sunglasses: state.sunglasses.selectedSunglasses
+    sunglasses: state.sunglasses.selectedSunglasses,
+    categories: state.sunglasses.categories
   }
 }
 
 const mapDispatch = (dispatch, ownProps) => {
   return {
     updateSunglasses: updatedSunglasses => {
-      dispatch(updateSunglasses(updatedSunglasses, ownProps.match.params.id, ownProps))
+      dispatch(
+        updateSunglasses(updatedSunglasses, ownProps.match.params.id, ownProps)
+      )
     },
     fetchCurrentSunglasses: sunglasses => {
       dispatch(fetchOneSunglasses(sunglasses))
@@ -134,4 +178,6 @@ const mapDispatch = (dispatch, ownProps) => {
   }
 }
 
-export const EditSunglasses =  withRouter(connect(mapState, mapDispatch)(DisconnectedEditSunglasses))
+export const EditSunglasses = withRouter(
+  connect(mapState, mapDispatch)(DisconnectedEditSunglasses)
+)
