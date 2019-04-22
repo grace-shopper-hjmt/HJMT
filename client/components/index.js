@@ -5,7 +5,7 @@
  */
 export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
-export {Login, Signup} from './auth-form'
+export {Login, Signup} from './sign-in'
 export {AllSunglasses} from './all-sunglasses'
 export {SingleSunglasses} from './single-sunglasses'
 export {NewSunglasses} from './NewSunglasses'
