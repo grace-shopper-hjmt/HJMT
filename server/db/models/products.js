@@ -32,4 +32,13 @@ const Sunglasses = db.define('sunglasses', {
     },
 })
 
+// Sunglasses.beforeCreate((sunglasses, options) => {
+//     if (sunglasses.price < 50) {
+//         sunglasses.addCategories('1')
+//     } else if (sunglasses.price > 50 && sunglasses.price < 100) {
+//         sunglasses.addCategories('2')
+//     } else {
+//         sunglasses.addCategories('3')
+//     }
+// })
 module.exports = Sunglasses
