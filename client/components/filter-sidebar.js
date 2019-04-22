@@ -17,7 +17,7 @@ class Sidebar extends React.Component {
   }
   getFilters = () => {
     let categories = this.props.categories
-    if (categories[0]) {
+    if (categories) {
       let cats = []
       for (let i = 0; i < categories.length; i++) {
         if (!cats.includes(categories[i].type)) {

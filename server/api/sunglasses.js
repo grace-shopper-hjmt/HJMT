@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 const router = require('express').Router()
 const Sequelize = require('sequelize')
 const {Sunglasses, Reviews, Categories} = require('../db/models')
@@ -20,7 +21,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const sunglasses = await Sunglasses.findByPk(req.params.id, {
-      include: [{model: Reviews}]
+      include: [{model: Reviews}, {model: Categories}]
     })
 
     if (!sunglasses) {
@@ -37,7 +38,17 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', isAdmin, async (req, res, next) => {
   try {
-    const sunglasses = await Sunglasses.create(req.body)
+    const categories = req.body.categories
+    const sunglasses = await Sunglasses.create(req.body.sunglassesAtt)
+    for (let key in categories) {
+      let category = await Categories.findOrCreate({
+        where: {
+          type: key,
+          name: categories[key]
+        }
+      })
+      sunglasses.addCategories(`${category[0].id}`)
+    }
     res.json(sunglasses)
   } catch (error) {
     next(error)
@@ -46,15 +57,26 @@ router.post('/', isAdmin, async (req, res, next) => {
 
 router.put('/:id', isAdmin, async (req, res, next) => {
   try {
-    const sunglasses = await Sunglasses.findByPk(req.params.id)
+    const sunglasses = await Sunglasses.findByPk(req.params.id, {
+      include: [{model: Reviews}, {model: Categories}]
+    })
     if (!sunglasses) {
       const err = new Error('sunglasses not found!')
       err.status = 404
       return next(err)
     }
-    const updatedSunglasses = await Sunglasses.update(req.body, {
-      where: {id: req.params.id}
-    })
+    sunglasses.removeCategory(Categories)
+    const newCategories = req.body.categories
+    const updatedSunglasses = await sunglasses.update(req.body.sunglassesAtt)
+    for (let key in newCategories) {
+      let category = await Categories.findOrCreate({
+        where: {
+          type: key,
+          name: newCategories[key]
+        }
+      })
+      updatedSunglasses.addCategories(`${category[0].id}`)
+    }
     res.json({
       updatedSunglasses
     })

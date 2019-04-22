@@ -1,6 +1,7 @@
+/* eslint-disable guard-for-in */
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {updateSunglasses, fetchOneSunglasses} from '../store/sunglasses'
+import {updateSunglasses, fetchOneSunglasses, fetchCategories} from '../store/sunglasses'
 import {Link, withRouter} from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 
@@ -8,31 +9,43 @@ class DisconnectedEditSunglasses extends Component {
   constructor() {
     super()
     this.state = {
-      name: '',
-      price: '',
-      imageUrl: '',
-      description: '',
-      inventory: '',
-      warning: 'Field is required'
+      sunglassesAtt: {
+        name: '',
+        price: '',
+        imageUrl: '',
+        description: '',
+        inventory: '',
+        warning: 'Field is required'
+      },
+      categories: {}
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   componentDidMount() {
     const sunglassesId = this.props.match.params.id
+    this.props.getCategories()
     this.props.fetchCurrentSunglasses(sunglassesId)
-    this.setState({
+    const sunglassesCategories = this.props.sunglasses.categories
+    const categories = {}
+    for (let i = 0; i < sunglassesCategories.length; i++) {
+      categories[sunglassesCategories[i].type] = sunglassesCategories[i].name
+    }
+    const sunglassesAtt = {
       name: this.props.sunglasses.name,
       price: this.props.sunglasses.price,
       imageUrl: this.props.sunglasses.imageUrl,
       description: this.props.sunglasses.description,
       inventory: this.props.sunglasses.inventory
+    }
+    this.setState({
+      sunglassesAtt, categories
     })
   }
   handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
+    const sunglassesAtt = {...this.state.sunglassesAtt}
+    sunglassesAtt[event.target.name] = event.target.value
+    this.setState({ sunglassesAtt })
   }
   handleSubmit(event) {
     event.preventDefault()
@@ -42,9 +55,27 @@ class DisconnectedEditSunglasses extends Component {
       console.error('Cannot submit the form')
     }
   }
+  getCategories = () => {
+    let categories = this.props.categories
+    if (categories) {
+      let cats = []
+      for (let i = 0; i < categories.length; i++) {
+        if (!cats.includes(categories[i].type)) {
+          cats.push(categories[i].type)
+        }
+      }
+      return cats
+    }
+    return []
+  }
+  handleCategoryChange = event => {
+    const categories = {...this.state.categories}
+    categories[event.target.dataset.cattype] = event.target.value
+    this.setState({categories})
+  }
 
   render() {
-    const {name, price, imageUrl, description, inventory, warning} = this.state
+    const {name, price, imageUrl, description, inventory, warning} = this.state.sunglassesAtt
     return (
       <div>
         <main>
@@ -75,7 +106,7 @@ class DisconnectedEditSunglasses extends Component {
             </label>
 
             <label>
-              imageUrl:
+              ImageUrl:
               <input
                 onChange={this.handleChange}
                 name="imageUrl"
@@ -85,7 +116,7 @@ class DisconnectedEditSunglasses extends Component {
             </label>
 
             <label>
-              description:
+              Description:
               <input
                 onChange={this.handleChange}
                 name="description"
@@ -95,7 +126,7 @@ class DisconnectedEditSunglasses extends Component {
             </label>
 
             <label>
-              inventory:
+              Inventory:
               {!inventory &&
                 warning && <span className="warning">{warning}</span>}
               <input
@@ -105,6 +136,22 @@ class DisconnectedEditSunglasses extends Component {
                 value={inventory}
               />
             </label>
+
+            <h3>Categories:</h3>
+            {this.getCategories().map(category => {
+              return (
+                <label className="addCategories" key={category}>
+                  {category}:
+                  <input
+                    name="categories"
+                    data-catType={category}
+                    value={this.state.categories[category]}
+                    type="text"
+                    onChange={this.handleCategoryChange}
+                  />
+                </label>
+              )
+            })}
 
             <Button variant="contained" color="primary" type="submit">
               Submit
@@ -122,7 +169,8 @@ class DisconnectedEditSunglasses extends Component {
 
 const mapState = state => {
   return {
-    sunglasses: state.sunglasses.selectedSunglasses
+    sunglasses: state.sunglasses.selectedSunglasses,
+    categories: state.sunglasses.categories
   }
 }
 
@@ -135,7 +183,8 @@ const mapDispatch = (dispatch, ownProps) => {
     },
     fetchCurrentSunglasses: sunglasses => {
       dispatch(fetchOneSunglasses(sunglasses))
-    }
+    },
+    getCategories: () => dispatch(fetchCategories())
   }
 }
 
