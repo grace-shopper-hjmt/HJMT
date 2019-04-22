@@ -1,8 +1,11 @@
+
+const { isAdmin, isAdminOrIsUser } =require('./auth-middleware')
 const router = require('express').Router()
-const {User} = require('../db/models')
+const { User, Reviews, OrderItem } = require('../db/models')
+
 module.exports = router
 
-router.get('/', async (req, res, next) => {
+router.get('/', isAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though users' passwords are encrypted, it won't help if we just send everything to anyone who asks!
@@ -14,9 +17,11 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', isAdminOrIsUser,  async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id)
+    const user = await User.findByPk(req.params.id,{
+      include: [{ model:Reviews}, {model:OrderItem}]
+    })
 
     if (!user) {
       const error = new Error('This user does not exist!')
@@ -39,7 +44,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', isAdminOrIsUser, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id)
     if (!user) {
@@ -54,7 +59,7 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', isAdminOrIsUser, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id)
     await user.destroy()
