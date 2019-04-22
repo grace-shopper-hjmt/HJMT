@@ -2,8 +2,9 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {updateSunglasses, fetchOneSunglasses} from '../store/sunglasses'
 import {Link, withRouter} from 'react-router-dom'
+import Button from '@material-ui/core/Button'
 
- class DisconnectedEditSunglasses extends Component {
+class DisconnectedEditSunglasses extends Component {
   constructor() {
     super()
     this.state = {
@@ -36,7 +37,7 @@ import {Link, withRouter} from 'react-router-dom'
   handleSubmit(event) {
     event.preventDefault()
     try {
-      this.props.updateSunglasses({...this.state} )
+      this.props.updateSunglasses({...this.state})
     } catch (error) {
       console.error('Cannot submit the form')
     }
@@ -105,7 +106,9 @@ import {Link, withRouter} from 'react-router-dom'
               />
             </label>
 
-            <button type="submit">Submit</button>
+            <Button variant="contained" color="primary" type="submit">
+              Submit
+            </Button>
           </form>
 
           <h4>
@@ -126,7 +129,9 @@ const mapState = state => {
 const mapDispatch = (dispatch, ownProps) => {
   return {
     updateSunglasses: updatedSunglasses => {
-      dispatch(updateSunglasses(updatedSunglasses, ownProps.match.params.id, ownProps))
+      dispatch(
+        updateSunglasses(updatedSunglasses, ownProps.match.params.id, ownProps)
+      )
     },
     fetchCurrentSunglasses: sunglasses => {
       dispatch(fetchOneSunglasses(sunglasses))
@@ -134,4 +139,6 @@ const mapDispatch = (dispatch, ownProps) => {
   }
 }
 
-export const EditSunglasses =  withRouter(connect(mapState, mapDispatch)(DisconnectedEditSunglasses))
+export const EditSunglasses = withRouter(
+  connect(mapState, mapDispatch)(DisconnectedEditSunglasses)
+)

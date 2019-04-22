@@ -1,7 +1,8 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import axios from 'axios'
-import { CartItem } from './cart-item'
+import {CartItem} from './cart-item'
+import Button from '@material-ui/core/Button'
 
 class DisconnectedCart extends React.Component {
     constructor() {
@@ -62,7 +63,15 @@ class DisconnectedCart extends React.Component {
                                             index={index}/>
                         }) 
                     }
-                     <button type="button" onClick={this.updateCart}>Checkout</button>
+
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        type="button"
+                        onClick={this.updateCart}
+                        >
+                        Check out
+                    </Button>
                 </div>
                 
             : <div>There are no items in your cart!</div>
@@ -73,9 +82,9 @@ class DisconnectedCart extends React.Component {
 }
 
 const mapState = state => {
-    return ({
-        user: state.user
-    })
+  return {
+    user: state.user
+  }
 }
 
 export const Cart = connect(mapState)(DisconnectedCart)
