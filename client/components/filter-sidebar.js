@@ -4,11 +4,17 @@ import {
   fetchCategories,
   filterByPrice,
   removeAllFilters,
-  removePriceFilter
+  removePriceFilter,
+  fetchSunglasses
 } from '../store/sunglasses'
 import Category from './category'
 
 class Sidebar extends React.Component {
+  
+  componentDidMount() {
+    this.props.getCategories()
+    this.props.getSunglasses()
+  }
   getFilters = () => {
     let categories = this.props.categories
     if (categories[0]) {
@@ -101,7 +107,8 @@ const mapDispatch = dispatch => {
     getCategories: () => dispatch(fetchCategories()),
     priceFilter: (min, max) => dispatch(filterByPrice(min, max)),
     removeFilters: () => dispatch(removeAllFilters()),
-    removePriceFilters: (min, max) => dispatch(removePriceFilter(min, max))
+    removePriceFilters: (min, max) => dispatch(removePriceFilter(min, max)),
+    getSunglasses: () => dispatch(fetchSunglasses())
   }
 }
 
