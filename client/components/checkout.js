@@ -37,21 +37,26 @@ class DisconnectedCheckout extends React.Component {
     render() {
         return (
             <div>
-                <h3>Please review your order below:</h3>
                 {
-                    this.state.cartItems.map(item => {
-                        return (
-                            <div key={item.id}>
-                                <h4>{item.sunglass.name}</h4>
-                                <h5>Quantity:{item.quantity}</h5>
-                            </div>
-                        )
-                    })
+                    (this.state.cartItems.length) ? 
+                        <div>
+                             <h3>Please review your order below:</h3>
+                                {
+                                    this.state.cartItems.map(item => {
+                                        return (
+                                            <div key={item.id}>
+                                                <h4>{item.sunglass.name}</h4>
+                                                <h5>Quantity:{item.quantity}</h5>
+                                            </div>
+                                        )
+                                    })
+                                }
+
+                                {/* insert stripe stuff here */}
+
+                                <button type="button" onClick={this.placeOrder}>Place order</button>                
+                        </div> : <div>There are no items in your cart!</div>
                 }
-
-                {/* insert stripe stuff here */}
-
-                <button type="button" onClick={this.placeOrder}>Place order</button>
             </div>
         )
     }
