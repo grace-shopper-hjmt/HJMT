@@ -10,8 +10,15 @@ class DisconnectedCart extends React.Component {
             cartItems: []
         }
 
-        this.placeOrder = this.placeOrder.bind(this)
+        this.handleChange = this.handleChange.bind(this)
         this.removeItem = this.removeItem.bind(this)
+        this.placeOrder = this.placeOrder.bind(this)
+    }
+
+    handleChange(event, index) {
+        const { cartItems } = this.state
+        cartItems[index].quantity = event.target.value
+        this.setState({cartItems: cartItems})
     }
 
     removeItem(sunglassesId) {
@@ -42,6 +49,7 @@ class DisconnectedCart extends React.Component {
     }
 
     async componentDidMount() {
+        console.log('COMPONENT MOUNTED!')
         const { data } = await axios.get('/api/cart')
         this.setState({cartItems: data})
     }
@@ -52,8 +60,13 @@ class DisconnectedCart extends React.Component {
              (this.state.cartItems.length) ? 
                 <div>
                     {
-                        this.state.cartItems.map(item => {
-                            return <CartItem key={item.id} sunglasses={item.sunglass} quantity={item.quantity} removeItem={this.removeItem}/>
+                        this.state.cartItems.map((item, index) => {
+                            return <CartItem key={item.id} 
+                                            sunglasses={item.sunglass} 
+                                            quantity={item.quantity}
+                                            handleChange={this.handleChange} 
+                                            removeItem={this.removeItem} 
+                                            index={index}/>
 
                         }) 
                     }
