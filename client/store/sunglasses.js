@@ -101,8 +101,10 @@ export const fetchOneSunglasses = sunglasses => {
 export const updateSunglasses = (sunglasses, id, ownProps) => {
   return async dispatch => {
     try {
+      console.log(sunglasses)
       const {data} = await axios.put(`/api/sunglasses/${id}`, sunglasses)
-      dispatch(editSunglasses(data))
+      console.log(data)
+      dispatch(editSunglasses(id, data))
       ownProps.history.push(`/sunglasses/${id}`)
     } catch (err) {
       console.log('ERROR updating those sunglasses', err)

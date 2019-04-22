@@ -64,9 +64,7 @@ router.put('/:id', async (req, res, next) => {
       return next(err)
     }
     const categories = req.body.categories
-    const updatedSunglasses = await Sunglasses.update(req.body.sunglassesAtt, {
-      where: {id: req.params.id}
-    })
+    const updatedSunglasses = await sunglasses.update(req.body)
     // for (let key in categories) {
     //   let category = await Categories.findOrCreate({
     //     where: {
