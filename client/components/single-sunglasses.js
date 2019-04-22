@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {fetchOneSunglasses, thunkDeleteSunglasses} from '../store/sunglasses'
 import {Review} from './reviews'
@@ -82,6 +82,6 @@ const mapDispatch = (dispatch, ownProps) => {
   }
 }
 
-export const SingleSunglasses = connect(mapState, mapDispatch)(
+export const SingleSunglasses = withRouter(connect(mapState, mapDispatch)(
   DisconnectedSingleSunglasses
-)
+))
