@@ -41,7 +41,7 @@ class DisconnectedNewSunglasses extends Component {
     if (categories[0]) {
       let cats = []
       for (let i = 0; i < categories.length; i++) {
-        if (!cats.includes(categories[i].type)) {
+        if (!cats.includes(categories[i].type) && categories[i].type !== "Price") {
           cats.push(categories[i].type)
         }
       }

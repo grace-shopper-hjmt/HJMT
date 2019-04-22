@@ -35,16 +35,6 @@ class Sidebar extends React.Component {
     return []
   }
 
-  handlePriceFilter = event => {
-    if (event.target.checked) {
-      this.props.priceFilter(event.target.dataset.min, event.target.dataset.max)
-    } else {
-      this.props.removePriceFilters(
-        event.target.dataset.min,
-        event.target.dataset.max
-      )
-    }
-  }
   handleFilterRemove = event => {
     event.preventDefault()
     this.props.removeFilters()
@@ -61,36 +51,6 @@ class Sidebar extends React.Component {
           Clear Filters
         </button>
         {this.getFilters()}
-        <div className="filter-category">
-          <h3>Price</h3>
-          <label>
-            <input
-              type="checkbox"
-              data-min="0"
-              data-max="50"
-              onChange={this.handlePriceFilter}
-            />
-            $0 - $50
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              data-min="51"
-              data-max="100"
-              onChange={this.handlePriceFilter}
-            />
-            $51 - $100
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              data-min="101"
-              data-max="10000"
-              onChange={this.handlePriceFilter}
-            />
-            $101+
-          </label>
-        </div>
       </div>
     )
   }

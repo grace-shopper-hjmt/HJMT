@@ -201,43 +201,6 @@ const handlers = {
     ...state,
     categories: action.categories
   }),
-  [PRICE_FILTER]: (state, action) => {
-    const priceCheck = sunglass => {
-      if (
-        sunglass.price / 100 >= Number(action.min) &&
-        sunglass.price / 100 <= Number(action.max)
-      ) {
-        return true
-      }
-    }
-    let sunglasses = state.allSunglasses.filter(priceCheck)
-    if (state.activeFilters.length > 1) {    
-      sunglasses = categoryFilter(sunglasses, state.activeFilters)
-    }
-    return {
-      ...state,
-      filteredSunglasses: sunglasses
-        .sort(sortByPrice)
-    }
-  },
-  [REMOVE_PRICE_FILTER]: (state, action) => {
-    const priceCheck = sunglass => {
-      if (
-        sunglass.price / 100 < Number(action.min) ||
-        sunglass.price / 100 > Number(action.max)
-      ) {
-        return true
-      }
-    }
-    let sunglasses = state.filteredSunglasses.filter(priceCheck)
-    if (sunglasses.length === 0) {
-      sunglasses = state.allSunglasses
-    }
-    return {
-      ...state,
-      filteredSunglasses: sunglasses.sort(sortByPrice)
-    }
-  },
   [REMOVE_ALL_FILTERS]: (state, action) => ({
     ...state,
     filteredSunglasses: [...state.allSunglasses],
