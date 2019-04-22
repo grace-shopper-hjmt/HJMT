@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 const router = require('express').Router()
 const Sequelize = require('sequelize')
 const {Sunglasses, Reviews, Categories} = require('../db/models')
@@ -37,7 +38,17 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const sunglasses = await Sunglasses.create(req.body)
+    const categories = req.body.categories
+    const sunglasses = await Sunglasses.create(req.body.sunglassesAtt)
+    for (let key in categories) {
+      let category = await Categories.findOrCreate({
+        where: {
+          type: key,
+          name: categories[key]
+        }
+      })
+      sunglasses.addCategories(`${category[0].id}`)
+    }
     res.json(sunglasses)
   } catch (error) {
     next(error)

@@ -154,7 +154,8 @@ const handlers = {
   }),
   [ADD_SUNGLASSES]: (state, action) => ({
     ...state,
-    allSunglasses: [...state.allSunglasses, action.sunglasses]
+    allSunglasses: [...state.allSunglasses, action.sunglasses].sort(sortByPrice),
+    filteredSunglasses: [...state.allSunglasses, action.sunglasses].sort(sortByPrice)
   }),
   [DELETE_SUNGLASSES]: (state, action) => ({
     ...state,
