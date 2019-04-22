@@ -34,6 +34,7 @@ class Sidebar extends React.Component {
   handleFilterRemove = event => {
       event.preventDefault()
       this.props.removeFilters()
+      document.querySelectorAll('input[type=checkbox]').forEach( el => el.checked = false );
   }
 
   render() {
