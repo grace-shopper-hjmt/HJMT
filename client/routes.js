@@ -12,6 +12,7 @@ import {
   EditSunglasses,
   AllUsers,
   SingleUser,
+  EditUsers,
   Cart
 } from './components'
 import {Paginate} from './components/paginate'
@@ -43,6 +44,7 @@ class Routes extends Component {
         <Route path="/newSunglasses" component={NewSunglasses} />
         <Route exact path="/users" component={AllUsers} />
         <Route exact path="/users/:id" component={SingleUser} />
+        <Route exact path='/home/edit' component={EditUsers}/>
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
