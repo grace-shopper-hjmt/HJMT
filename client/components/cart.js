@@ -15,7 +15,11 @@ class DisconnectedCart extends React.Component {
     }
 
     removeItem(sunglassesId) {
-        console.log('sunglassesId is: ', sunglassesId)
+        const { cartItems } = this.state
+        const updatedCartItems = cartItems.filter(item => {
+            return item.sunglass.id !== sunglassesId
+        })
+        this.setState({cartItems: updatedCartItems})
     }
 
     placeOrder() {
