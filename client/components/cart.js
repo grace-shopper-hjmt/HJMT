@@ -12,7 +12,7 @@ class DisconnectedCart extends React.Component {
 
         this.handleChange = this.handleChange.bind(this)
         this.removeItem = this.removeItem.bind(this)
-        this.placeOrder = this.placeOrder.bind(this)
+        this.updateCart = this.updateCart.bind(this)
     }
 
     handleChange(event, index) {
@@ -30,26 +30,19 @@ class DisconnectedCart extends React.Component {
         this.setState({cartItems: updatedCartItems})
     }
 
-    placeOrder() {
-        const orders = this.state.cartItems.map(item => {
-            return ({
-                name: item.sunglass.name,
-                description: item.sunglass.description,
-                imageUrl: item.sunglass.imageUrl,
-                quantity: item.quantity,
-                price: item.sunglass.price,
-                sunglassId: item.sunglass.id,
+    updateCart() {
+        this.state.cartItems.forEach(item => {
+            axios.put('/api/cart', {
                 userId: this.props.user.id,
+                sunglassId: item.sunglass.id,
+                quantity: item.quantity
             })
         })
 
-        axios.post('/api/order', {orderItems: orders})
-        axios.delete('/api/cart', {data: {userId: this.props.user.id}})
-        this.setState({cartItems: []})
+        this.props.history.push('/checkout')
     }
 
     async componentDidMount() {
-        console.log('COMPONENT MOUNTED!')
         const { data } = await axios.get('/api/cart')
         this.setState({cartItems: data})
     }
@@ -62,15 +55,14 @@ class DisconnectedCart extends React.Component {
                     {
                         this.state.cartItems.map((item, index) => {
                             return <CartItem key={item.id} 
-                                            sunglasses={item.sunglass} 
-                                            quantity={item.quantity}
-                                            handleChange={this.handleChange} 
+                                            sunglasses={item.sunglass}
+                                            quantity={item.quantity} 
                                             removeItem={this.removeItem} 
+                                            handleChange={this.handleChange} 
                                             index={index}/>
-
                         }) 
                     }
-                     <button type="button" onClick={this.placeOrder}>Place Order</button>
+                     <button type="button" onClick={this.updateCart}>Checkout</button>
                 </div>
                 
             : <div>There are no items in your cart!</div>

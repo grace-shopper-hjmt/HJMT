@@ -49,6 +49,22 @@ router.post('/:sunglassesId', async (req, res, next) => {
 
 })
 
+router.put('/', async (req, res, next) => {
+    try {
+        const cartItem = await CartItems.findOne({
+            where: {
+                userId: req.body.userId,
+                sunglassId: req.body.sunglassId
+            }
+        })
+
+        cartItem.update({quantity: req.body.quantity})
+        res.end()
+    } catch (error) {
+        next(error)
+    }
+})
+
 router.delete('/', async (req, res, next) => {
     try { 
         await CartItems.destroy({
