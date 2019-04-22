@@ -11,6 +11,11 @@ class DisconnectedCart extends React.Component {
         }
 
         this.placeOrder = this.placeOrder.bind(this)
+        this.removeItem = this.removeItem.bind(this)
+    }
+
+    removeItem(sunglassesId) {
+        console.log('sunglassesId is: ', sunglassesId)
     }
 
     placeOrder() {
@@ -43,7 +48,7 @@ class DisconnectedCart extends React.Component {
                 <div>
                     {
                         this.state.cartItems.map(item => {
-                            return <CartItem key={item.id} sunglasses={item.sunglass} quantity={item.quantity} />
+                            return <CartItem key={item.id} sunglasses={item.sunglass} quantity={item.quantity} removeItem={this.removeItem}/>
 
                         }) 
                     }
