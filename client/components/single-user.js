@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import { fetchSingleUser } from '../store/admin'
-import {isAdmin } from '../util'
+import {isAdmin } from '../auth-functions'
 
 class SingleUser extends React.Component {
   componentDidMount() {
