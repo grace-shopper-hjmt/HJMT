@@ -55,6 +55,9 @@ async function seed() {
 
   const orderItem = await Promise.all([
     OrderItem.create({
+      name: 'Clubmaster',
+      description: null,
+      imageUrl: 'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
       quantity: 1,
       price: 500,
       timestamp: Date.now(),
@@ -63,6 +66,9 @@ async function seed() {
       sunglassId: 1
     }),
     OrderItem.create({
+      name: 'Stingray',
+      description: null,
+      imageUrl: 'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
       quantity: 3,
       price: 3000,
       timestamp: Date.now(),
@@ -71,6 +77,9 @@ async function seed() {
       sunglassId: 2
     }),
     OrderItem.create({
+      name: 'Aviator',
+      description: null,
+      imageUrl: 'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
       quantity: 2,
       price: 2000,
       timestamp: Date.now(),
@@ -79,6 +88,9 @@ async function seed() {
       sunglassId: 3
     }),
     OrderItem.create({
+      name: 'Wayfarer',
+      description: null,
+      imageUrl: 'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
       quantity: 3,
       price: 1500,
       timestamp: Date.now(),
@@ -87,6 +99,9 @@ async function seed() {
       sunglassId: 4
     }),
     OrderItem.create({
+      name: 'Clubmaster',
+      description: null,
+      imageUrl: 'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
       quantity: 1,
       price: 1000,
       timestamp: Date.now(),
