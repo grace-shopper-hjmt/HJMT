@@ -15,8 +15,6 @@ const EDIT_SUNGLASSES = 'EDIT_SUNGLASSES'
 const DELETE_SUNGLASSES = 'DELETE_SUNGLASSES'
 const ADD_SUNGLASSES = 'ADD_SUNGLASSES'
 const GET_CATEGORIES = 'GET_CATEGORIES'
-const PRICE_FILTER = 'PRICE_FILTER'
-const REMOVE_PRICE_FILTER = 'REMOVE_PRICE_FILTER'
 const REMOVE_ALL_FILTERS = 'REMOVE_ALL_FILTERS'
 const SET_FILTER = 'SET_FILTER'
 const REMOVE_FILTER = 'REMOVE_FILTER'
@@ -54,13 +52,7 @@ export const setFilter = filterType => ({
   type: SET_FILTER,
   filterType
 })
-export const removePriceFilter = (min, max) => ({
-  type: REMOVE_PRICE_FILTER,
-  min,
-  max
-})
 export const removeAllFilters = () => ({type: REMOVE_ALL_FILTERS})
-export const filterByPrice = (min, max) => ({type: PRICE_FILTER, min, max})
 export const getAllSunglasses = sunglasses => ({
   type: GET_ALL_SUNGLASSES,
   sunglasses

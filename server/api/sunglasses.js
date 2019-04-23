@@ -41,12 +41,13 @@ router.post('/', isAdmin, async (req, res, next) => {
     const categories = req.body.categories
     const sunglasses = await Sunglasses.create(req.body.sunglassesAtt)
     if (sunglasses.price / 100 < 50) {
-      categories.price = '$0-$50'
+      categories.Price = '$0-$50'
     } else if (sunglasses.price / 100 < 100) {
-      categories.price = '$51-$100'
+      categories.Price = '$51-$100'
     } else {
-      categories.price = '$101+'
+      categories.Price = '$101+'
     }
+    console.log(categories)
     for (let key in categories) {
       let category = await Categories.findOrCreate({
         where: {
