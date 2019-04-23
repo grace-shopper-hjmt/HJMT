@@ -5,9 +5,24 @@ import {Link} from 'react-router-dom'
 const AllOrders = props => {
   const orders = props.orders
   console.log('ORDERS PROPS', orders)
-  return <div>ALL ORDERS!</div>
+  return (
+    <div>
+      <div>ALL ORDERS</div>
+      <div>
+        {orders.allOrders.map(order => (
+          <div key={order.id}>
+            <h3>Name: {order.name}</h3>
+            <img src={order.imageUrl} />
+            <h3>Price: {order.price}</h3>
+            <h3>Quantity: {order.quantity}</h3>
+            <h3>Order Status: {order.status}</h3>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }
 
-const mpaState = state => ({orders: state.orders})
+const mapState = state => ({orders: state.orders})
 
-export default connect(mpaState)(AllOrders)
+export default connect(mapState)(AllOrders)
