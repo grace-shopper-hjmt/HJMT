@@ -22,6 +22,7 @@ import {Paginate} from './components/paginate'
 import {me} from './store'
 import {fetchSunglasses, fetchCategories} from '../client/store/sunglasses'
 import {fetchUsers} from '../client/store/admin'
+import {fetchOrders} from '../client/store/order'
 
 //COMPONENT
 class Routes extends Component {
@@ -30,6 +31,7 @@ class Routes extends Component {
     this.props.fetchInitialSunglasses()
     this.props.categories()
     this.props.fetchInitialUsers()
+    this.props.fetchInitialOrders()
   }
 
   render() {
@@ -79,7 +81,8 @@ const mapDispatch = dispatch => {
     },
     fetchInitialSunglasses: () => dispatch(fetchSunglasses()),
     categories: () => dispatch(fetchCategories()),
-    fetchInitialUsers: () => dispatch(fetchUsers())
+    fetchInitialUsers: () => dispatch(fetchUsers()),
+    fetchInitialOrders: () => dispatch(fetchOrders())
   }
 }
 

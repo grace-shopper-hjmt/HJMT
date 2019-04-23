@@ -1,17 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {fetchOrders} from '../store/order'
 
 const AllOrders = props => {
   const orders = props.orders
+  console.log('ORDERS PROPS', orders)
   return <div>ALL ORDERS!</div>
 }
 
-const mapDispatch = dispatch => {
-  return {
-    fetchOrders: () => dispatch(fetchOrders())
-  }
-}
+const mpaState = state => ({orders: state.orders})
 
-export default connect(null, mapDispatch)(AllOrders)
+export default connect(mpaState)(AllOrders)
