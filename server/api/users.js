@@ -1,7 +1,7 @@
 
 const { isAdmin, isAdminOrIsUser } =require('./auth-middleware')
 const router = require('express').Router()
-const { User, Reviews, OrderItem, Orders} = require('../db/models')
+const { User, Reviews, OrderItem} = require('../db/models')
 
 module.exports = router
 
