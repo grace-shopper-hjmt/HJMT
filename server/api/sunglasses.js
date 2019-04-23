@@ -40,6 +40,13 @@ router.post('/', isAdmin, async (req, res, next) => {
   try {
     const categories = req.body.categories
     const sunglasses = await Sunglasses.create(req.body.sunglassesAtt)
+    if (sunglasses.price / 100 < 50) {
+      categories.Price = '$0-$50'
+    } else if (sunglasses.price / 100 < 100) {
+      categories.Price = '$51-$100'
+    } else {
+      categories.Price = '$101+'
+    }
     for (let key in categories) {
       let category = await Categories.findOrCreate({
         where: {
@@ -65,9 +72,18 @@ router.put('/:id', isAdmin, async (req, res, next) => {
       err.status = 404
       return next(err)
     }
-    sunglasses.removeCategory(Categories)
-    const newCategories = req.body.categories
     const updatedSunglasses = await sunglasses.update(req.body.sunglassesAtt)
+    for (let i = 0; i < updatedSunglasses.categories.length; i++) {
+      await updatedSunglasses.removeCategory(updatedSunglasses.categories[i].id)
+    }
+    const newCategories = req.body.categories
+    if (updatedSunglasses.price / 100 < 50) {
+      newCategories.Price = '$0-$50'
+    } else if (updatedSunglasses.price / 100 < 100) {
+      newCategories.Price = '$51-$100'
+    } else {
+      newCategories.Price = '$101+'
+    }
     for (let key in newCategories) {
       let category = await Categories.findOrCreate({
         where: {

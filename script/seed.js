@@ -126,6 +126,9 @@ async function seed() {
     Categories.create({ name: 'Red', type: 'Color'}),
     Categories.create({ name: 'Square', type: 'Shape' }),
     Categories.create({ name: 'Round', type: 'Shape' }),
+    Categories.create({ name: '$0-$50', type: 'Price' }),
+    Categories.create({ name: '$51-$100', type: 'Price' }),
+    Categories.create({ name: '$101+', type: 'Price' }),
    ])
   await cartItems[0].setSunglass('1')
   await cartItems[1].setSunglass('2')
@@ -135,18 +138,22 @@ async function seed() {
   await sunglasses[0].addCategories('1')
   await sunglasses[0].addCategories('3')
   await sunglasses[0].addCategories('6')
+  await sunglasses[0].addCategories('9')
 
   await sunglasses[1].addCategories('2')
   await sunglasses[1].addCategories('4')
   await sunglasses[1].addCategories('6')
+  await sunglasses[1].addCategories('9')
   
   await sunglasses[2].addCategories('2')
   await sunglasses[2].addCategories('5')
   await sunglasses[2].addCategories('7')
+  await sunglasses[2].addCategories('10')
 
   await sunglasses[3].addCategories('1')
   await sunglasses[3].addCategories('4')
   await sunglasses[3].addCategories('7')
+  await sunglasses[3].addCategories('8')
 
   await reviews[0].setSunglass('1')
   await reviews[1].setSunglass('2')

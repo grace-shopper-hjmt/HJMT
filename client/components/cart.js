@@ -5,21 +5,29 @@ import {CartItem} from './cart-item'
 import Button from '@material-ui/core/Button'
 
 class DisconnectedCart extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             cartItems: []
         }
 
         this.handleChange = this.handleChange.bind(this)
         this.removeItem = this.removeItem.bind(this)
-        this.updateCart = this.updateCart.bind(this)
+        this.goToCheckOut = this.goToCheckOut.bind(this)
     }
 
-    handleChange(event, index) {
+    async handleChange(event, index) {
         const { cartItems } = this.state
         cartItems[index].quantity = event.target.value
         this.setState({cartItems: cartItems})
+
+        event.target.disabled = true
+        await axios.put('/api/cart', {
+            userId: this.props.user.id,
+            sunglassId: this.state.cartItems[index].sunglass.id,
+            quantity: this.state.cartItems[index].quantity
+        })
+        event.target.disabled = false
     }
 
     removeItem(sunglassesId) {
@@ -31,21 +39,12 @@ class DisconnectedCart extends React.Component {
         this.setState({cartItems: updatedCartItems})
     }
 
-    updateCart() {
-        this.state.cartItems.forEach(item => {
-            axios.put('/api/cart', {
-                userId: this.props.user.id,
-                sunglassId: item.sunglass.id,
-                quantity: item.quantity
-            })
-        })
-
-        this.props.history.push('/checkout')
-    }
-
     async componentDidMount() {
         const { data } = await axios.get('/api/cart')
         this.setState({cartItems: data})
+    }
+    goToCheckOut() {
+        this.props.history.push('/checkout')
     }
     render() {
         return (
@@ -68,7 +67,7 @@ class DisconnectedCart extends React.Component {
                         variant="contained"
                         color="primary"
                         type="button"
-                        onClick={this.updateCart}
+                        onClick={this.goToCheckOut}
                         >
                         Check out
                     </Button>
