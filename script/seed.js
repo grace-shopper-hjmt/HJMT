@@ -10,6 +10,33 @@ const {
   CartItems,
   Categories
 } = require('../server/db/models')
+const faker = require('faker')
+
+const generateSunglasses = () => {
+  let sunglasses = []
+  for (let i = 0; i <= 1000; i++) {
+    sunglasses.push({
+      name: faker.lorem.word(),
+      price: faker.commerce.price() * 100,
+      inventory: Math.floor(Math.random() * 100)
+    })
+  }
+  return sunglasses
+}
+
+const getBrand = async () => {
+  let brands = await Categories.findAll(
+    {
+      where: {
+        type: 'Brand'
+      }, raw: true
+    }
+  )
+  console.log('INSIDE GET BRANDS')
+  return brands
+}
+
+
 
 async function seed() {
   await db.sync({force: true})
@@ -46,18 +73,18 @@ async function seed() {
       userId: 1
     })
   ])
-  const sunglasses = await Promise.all([
-    Sunglasses.create({ name:'Stingray',price:5500,inventory:5}),
-    Sunglasses.create({ name:'Aviator',price:10000,inventory:15}),
-    Sunglasses.create({ name:'Wayfarer',price:15000,inventory:7}),
-    Sunglasses.create({ name:'Clubmaster',price:2500,inventory:3}),
-  ])
+  const sunglasses = await Sunglasses.bulkCreate(generateSunglasses())
+  // Sunglasses.create({ name:'Stingray',price:5500,inventory:5}),
+  // Sunglasses.create({ name:'Aviator',price:10000,inventory:15}),
+  // Sunglasses.create({ name:'Wayfarer',price:15000,inventory:7}),
+  // Sunglasses.create({ name:'Clubmaster',price:2500,inventory:3}),
 
   const orderItem = await Promise.all([
     OrderItem.create({
       name: 'Clubmaster',
       description: null,
-      imageUrl: 'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
+      imageUrl:
+        'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
       quantity: 1,
       price: 500,
       timestamp: Date.now(),
@@ -68,7 +95,8 @@ async function seed() {
     OrderItem.create({
       name: 'Stingray',
       description: null,
-      imageUrl: 'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
+      imageUrl:
+        'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
       quantity: 3,
       price: 3000,
       timestamp: Date.now(),
@@ -79,7 +107,8 @@ async function seed() {
     OrderItem.create({
       name: 'Aviator',
       description: null,
-      imageUrl: 'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
+      imageUrl:
+        'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
       quantity: 2,
       price: 2000,
       timestamp: Date.now(),
@@ -90,7 +119,8 @@ async function seed() {
     OrderItem.create({
       name: 'Wayfarer',
       description: null,
-      imageUrl: 'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
+      imageUrl:
+        'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
       quantity: 3,
       price: 1500,
       timestamp: Date.now(),
@@ -101,7 +131,8 @@ async function seed() {
     OrderItem.create({
       name: 'Clubmaster',
       description: null,
-      imageUrl: 'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
+      imageUrl:
+        'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
       quantity: 1,
       price: 1000,
       timestamp: Date.now(),
@@ -115,50 +146,69 @@ async function seed() {
     CartItems.create({quantity: 10, userId: 1}),
     CartItems.create({quantity: 9, userId: 1}),
     CartItems.create({quantity: 8, userId: 2}),
-    CartItems.create({quantity: 7, userId: 2}),
+    CartItems.create({quantity: 7, userId: 2})
   ])
 
   const categories = await Promise.all([
-    Categories.create({ name: 'Ray-Ban', type: 'Brand' }),
-    Categories.create({ name: 'Persol', type: 'Brand' }),
-    Categories.create({ name: 'Brown', type: 'Color' }),
-    Categories.create({ name: 'Black', type: 'Color'}),
-    Categories.create({ name: 'Red', type: 'Color'}),
-    Categories.create({ name: 'Square', type: 'Shape' }),
-    Categories.create({ name: 'Round', type: 'Shape' }),
-    Categories.create({ name: '$0-$50', type: 'Price' }),
-    Categories.create({ name: '$51-$100', type: 'Price' }),
-    Categories.create({ name: '$101+', type: 'Price' }),
-   ])
-  await cartItems[0].setSunglass('1')
-  await cartItems[1].setSunglass('2')
-  await cartItems[2].setSunglass('3')
-  await cartItems[3].setSunglass('4')
+    Categories.create({name: 'Ray-Ban', type: 'Brand'}),
+    Categories.create({name: 'Persol', type: 'Brand'}),
+    Categories.create({name: 'Brown', type: 'Color'}),
+    Categories.create({name: 'Black', type: 'Color'}),
+    Categories.create({name: 'Red', type: 'Color'}),
+    Categories.create({name: 'Square', type: 'Shape'}),
+    Categories.create({name: 'Round', type: 'Shape'})
+  ])
+  // await cartItems[0].setSunglass('1')
+  // await cartItems[1].setSunglass('2')
+  // await cartItems[2].setSunglass('3')
+  // await cartItems[3].setSunglass('4')
 
-  await sunglasses[0].addCategories('1')
-  await sunglasses[0].addCategories('3')
-  await sunglasses[0].addCategories('6')
-  await sunglasses[0].addCategories('9')
+  const helper = async () => {
+    let brands = await getBrand()
+    console.log(brands)
+    return brands
+  }
 
-  await sunglasses[1].addCategories('2')
-  await sunglasses[1].addCategories('4')
-  await sunglasses[1].addCategories('6')
-  await sunglasses[1].addCategories('9')
+  const setBrands = async (brands) => {
+  for (let i = 0; i < sunglasses.length; i++) {
+    console.log('BEFORE GETBRAND')
+    console.log(brands)
+    let randomIdx = Math.floor(Math.random() * brands.length)
+    if (randomIdx <= 0) {
+      randomIdx = 1
+    }
+    console.log(randomIdx)
+    await sunglasses[i].addCategories(brands[randomIdx].id)
+  }}
+  setBrands(helper())
   
-  await sunglasses[2].addCategories('2')
-  await sunglasses[2].addCategories('5')
-  await sunglasses[2].addCategories('7')
-  await sunglasses[2].addCategories('10')
 
-  await sunglasses[3].addCategories('1')
-  await sunglasses[3].addCategories('4')
-  await sunglasses[3].addCategories('7')
-  await sunglasses[3].addCategories('8')
 
-  await reviews[0].setSunglass('1')
-  await reviews[1].setSunglass('2')
-  await reviews[2].setSunglass('3')
-  await reviews[3].setSunglass('4')
+
+  // await sunglasses[0].addCategories('1')
+  // await sunglasses[0].addCategories('3')
+  // await sunglasses[0].addCategories('6')
+  // await sunglasses[0].addCategories('9')
+
+  // await sunglasses[1].addCategories('2')
+  // await sunglasses[1].addCategories('4')
+  // await sunglasses[1].addCategories('6')
+  // await sunglasses[1].addCategories('9')
+
+  // await sunglasses[2].addCategories('2')
+  // await sunglasses[2].addCategories('5')
+  // await sunglasses[2].addCategories('7')
+  // await sunglasses[2].addCategories('10')
+
+  // await sunglasses[3].addCategories('1')
+  // await sunglasses[3].addCategories('4')
+  // await sunglasses[3].addCategories('7')
+  // await sunglasses[3].addCategories('8')
+
+  // await reviews[0].setSunglass('1')
+  // await reviews[1].setSunglass('2')
+  // await reviews[2].setSunglass('3')
+  // await reviews[3].setSunglass('4')
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${orderItem.length} orderItem`)
