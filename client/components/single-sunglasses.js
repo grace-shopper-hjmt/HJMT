@@ -25,7 +25,8 @@ class DisconnectedSingleSunglasses extends React.Component {
   render() {
     const reviews = this.props.sunglasses.reviews
     return (
-      <div className='singleSunglasses'>
+      <div className='singleSunglassesContainer'>
+        <div className='singleSunglasses'>
         <h1>{this.props.sunglasses.name}</h1>
         <h3>{this.props.sunglasses.description}</h3>
         <img src={this.props.sunglasses.imageUrl} />
@@ -60,7 +61,8 @@ class DisconnectedSingleSunglasses extends React.Component {
         </h4>
         <h4>
           <Link to={`/sunglasses/${this.props.sunglasses.id}/edit`}>Edit</Link>
-        </h4>
+          </h4>
+          </div>
       </div>
     )
   }
