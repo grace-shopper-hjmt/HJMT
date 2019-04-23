@@ -2,7 +2,9 @@ import React from 'react'
 import axios from 'axios'
 import StripeCheckout from 'react-stripe-checkout';
  
+
 export default class PaymentForm extends React.Component {
+
   onToken = async (token) => {
     await axios.post('/api/stripe/charge', {token: token})
     
