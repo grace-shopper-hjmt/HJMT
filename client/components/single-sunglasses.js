@@ -25,8 +25,8 @@ class DisconnectedSingleSunglasses extends React.Component {
   render() {
     const reviews = this.props.sunglasses.reviews
     return (
-      <div className='singleSunglassesContainer'>
-        <div className='singleSunglasses'>
+      <div className='singleFormContainer'>
+        <div className='singleForm'>
         <h1>{this.props.sunglasses.name}</h1>
         <h3>{this.props.sunglasses.description}</h3>
         <img src={this.props.sunglasses.imageUrl} />
