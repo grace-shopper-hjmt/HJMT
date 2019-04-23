@@ -21,15 +21,12 @@ class DisconnectedCart extends React.Component {
         this.setState({cartItems: cartItems})
 
         event.target.disabled = true
-        console.log(event.target.disabled)
         await axios.put('/api/cart', {
             userId: this.props.user.id,
             sunglassId: this.state.cartItems[index].sunglass.id,
             quantity: this.state.cartItems[index].quantity
         })
-        console.log('PUT REQUEST COMPLETE - QUANTITY UPDATED IN DB')
         event.target.disabled = false
-        console.log(event.target.disabled)
     }
 
     removeItem(sunglassesId) {
