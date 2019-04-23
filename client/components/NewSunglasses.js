@@ -77,8 +77,8 @@ class DisconnectedNewSunglasses extends Component {
       warning
     } = this.state.sunglassesAtt
     return (
-      <div className="allSunglasses">
-        <main className="flexAllSunglasses">
+      <div className="formForAll">
+        <main className="flexForForm">
           <h1>Add new sunglasses here!</h1>
           <form onSubmit={this.handleSubmit}>
             <label>

@@ -87,8 +87,8 @@ class DisconnectedEditSunglasses extends Component {
   render() {
     const {name, price, imageUrl, description, inventory, warning} = this.state.sunglassesAtt
     return (
-      <div>
-        <main>
+      <div className="formForAll">
+        <main className="flexForForm">
           <h1>Edit sunglasses here!</h1>
 
           <form onSubmit={this.handleSubmit}>
@@ -165,18 +165,19 @@ class DisconnectedEditSunglasses extends Component {
 
             <h3>Add a New category</h3>
             <label>
-              Category Type: 
+              Category Type:
               <input name="type" type='text' onChange={this.handleCategoryAddition} />
             </label>
             <label>
-              Sub-Category Name: 
+              Sub-Category Name:
               <input name="name" type='text' onChange={this.handleCategoryAddition} />
             </label>
-            <button onClick={this.addNewCategory} type='button' />
+          <h4> <Button variant="contained" color="primary" onClick={this.addNewCategory} type='button'>Add Categories</Button></h4>
 
-            <Button variant="contained" color="primary" type="submit">
+          <h4>  <Button variant="contained" color="primary" type="submit">
               Submit
             </Button>
+              </h4>
           </form>
 
           <h4>
