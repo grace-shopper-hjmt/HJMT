@@ -37,6 +37,18 @@ class DisconnectedCart extends React.Component {
   goToCheckOut() {
     this.props.history.push('/checkout')
   }
+
+  removeItem(sunglassesId) {
+    const {cartItems} = this.state
+    const updatedCartItems = cartItems.filter(item => {
+      return item.sunglass.id !== sunglassesId
+    })
+    axios.delete(`/api/cart/${sunglassesId}`, {
+      data: {userId: this.props.user.id}
+    })
+    this.setState({cartItems: updatedCartItems})
+  }
+
   render() {
     return (
       <div>
