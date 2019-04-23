@@ -15,7 +15,7 @@ class DisconnectedPaginate extends React.Component {
   }
 
   componentWillReceiveProps = (props) => {
-    const {offset} = this.state 
+    const {offset} = this.state
     this.setState({
       sunglasses: props.sunglasses,
       activeSunglasses: props.sunglasses.slice(offset, offset + 2)
@@ -27,7 +27,6 @@ class DisconnectedPaginate extends React.Component {
   }
 
   handlePageClick = data => {
-    console.log(this.state)
     let selected = data.selected
     const {sunglasses} = this.state
     const offset = selected * 2

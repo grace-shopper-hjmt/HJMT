@@ -45,7 +45,6 @@ export const fetchSingleUser = userId => {
 export const updateUser = ( user,userId, ownProps) => {
   return async dispatch => {
     try {
-      console.log('data')
       const { data } = await axios.put(`/api/users/${userId}`, user)
       dispatch(editUser(data))
       ownProps.history.push(`/users/${userId}`)
@@ -57,7 +56,6 @@ export const updateUser = ( user,userId, ownProps) => {
 export const thunkDeleteUser = (id) => {
   return async dispatch => {
     try {
-      console.log('id', id)
     await axios.delete(`/api/users/${id}`)
       dispatch(deleteUser(id))
     } catch (error) {
@@ -71,7 +69,6 @@ const handlers = {
   [GET_USERS]: (state, action) => ({...state, allUsers: action.users}),
   [SELECT_USER]: (state, action) => ({ ...state, selectedUser: action.userId }),
   [DELETE_USER]: (state, action) => ({
-    ...state,
     selectedUser: {},
     allUsers: state.allUsers.filter(
       user => user.id !== Number(action.id)

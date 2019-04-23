@@ -46,15 +46,13 @@ router.post('/', async (req, res, next) => {
 
 router.put('/:id', isAdminOrIsUser, async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id,{
-      include: [{model: Reviews}, {model: Orders}]
-    })
+    const user = await User.findByPk(req.params.id)
     if (!user) {
       const err = new Error('That user does not exist!')
       err.status = 404
       return next(err)
     }
-    const newUser = await User.update({...req.body})
+    const newUser = await user.update({...req.body})
     res.json(newUser)
   } catch (err) {
     next(err)

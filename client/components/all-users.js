@@ -1,11 +1,9 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import Button from '@material-ui/core/Button'
-import {thunkDeleteUser} from '../store/user'
+
 
 const AllUsers = props => {
-  console.log('props', props.admin.allUsers)
   return (
     <div>
       All users:
@@ -16,14 +14,6 @@ const AllUsers = props => {
               <Link to={`/users/${user.id}`}>
                 <span>{user.email}</span>
               </Link>
-              <Button
-                variant="contained"
-                color="primary"
-                type="button"
-                onClick={() => props.thunkDeleteUser(user.id)}
-              >
-                Delete
-              </Button>
             </div>
           )
         })}
@@ -34,11 +24,5 @@ const AllUsers = props => {
 
 const mapState = state => ({admin: state.admin})
 
-const mapDispatch = (dispatch) => {
-  return {
-    thunkDeleteUser: newProps => {
-      dispatch(thunkDeleteUser(newProps))
-    }
-  }
-}
-export default connect(mapState, mapDispatch)(AllUsers)
+
+export default connect(mapState,null)(AllUsers)

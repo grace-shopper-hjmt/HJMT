@@ -1,8 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import { fetchSingleUser } from '../store/admin'
-import {isAdmin } from '../auth-functions'
+import {fetchSingleUser, thunkDeleteUser} from '../store/admin'
+import Button from '@material-ui/core/Button'
+
 
 class SingleUser extends React.Component {
   componentDidMount() {
@@ -11,12 +12,8 @@ class SingleUser extends React.Component {
 
   render() {
     const selectedUser = this.props.selectedUser
-    console.log('props', this.props.user)
     return (
       <div>
-        <div>
-          {isAdmin(this.props)? 'hello' : 'goodbye'}
-          </div>
         Account info and history:
         {selectedUser.id ? (
           <div>
@@ -44,8 +41,18 @@ class SingleUser extends React.Component {
         ) : (
           <div>No selectedUser info</div>
         )}
+        <Button
+          variant="contained"
+          color="primary"
+          type="button"
+          onClick={() => this.props.thunkDeleteUser(this.props.match.params.id)}
+        >
+          Delete
+        </Button>
         <Link to="/users">Back</Link>
-        <h4><Link to={`/users/${this.props.user.id}/edit`}>Edit</Link></h4>
+        <h4>
+          <Link to={`/users/${this.props.user.id}/edit`}>Edit</Link>
+        </h4>
       </div>
     )
   }
@@ -58,7 +65,10 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => {
   return {
-    fetchInitialUser: userId => dispatch(fetchSingleUser(userId))
+    fetchInitialUser: userId => dispatch(fetchSingleUser(userId)),
+    thunkDeleteUser: newProps => {
+      dispatch(thunkDeleteUser(newProps))
+    }
   }
 }
 
