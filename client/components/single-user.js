@@ -45,6 +45,7 @@ class SingleUser extends React.Component {
           <div>No selectedUser info</div>
         )}
         <Link to="/users">Back</Link>
+        <h4><Link to={`/users/${this.props.user.id}/edit`}>Edit</Link></h4>
       </div>
     )
   }

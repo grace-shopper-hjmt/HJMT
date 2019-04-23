@@ -1,7 +1,7 @@
 
 const { isAdmin, isAdminOrIsUser } =require('./auth-middleware')
 const router = require('express').Router()
-const { User, Reviews, OrderItem } = require('../db/models')
+const { User, Reviews, OrderItem, Orders} = require('../db/models')
 
 module.exports = router
 
@@ -46,7 +46,9 @@ router.post('/', async (req, res, next) => {
 
 router.put('/:id', isAdminOrIsUser, async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id)
+    const user = await User.findByPk(req.params.id,{
+      include: [{model: Reviews}, {model: Orders}]
+    })
     if (!user) {
       const err = new Error('That user does not exist!')
       err.status = 404

@@ -8,7 +8,7 @@ import {connect} from 'react-redux'
  */
 export const UserHome = props => {
   console.log('props', props)
-  const {id,name, email, billingAddress, shippingAddress} = props
+  const {name, email, billingAddress, shippingAddress} = props
   return (
     <div>
       <h3>Welcome, {email}!</h3>
@@ -18,7 +18,6 @@ export const UserHome = props => {
       <h5>Billing Address:{billingAddress}</h5>
       <h5>Shipping Address:{shippingAddress}</h5>
       <Link to='/sunglasses'>Let's go shopping!</Link>
-     <h4> <Link to='/home/edit'>Edit</Link></h4>
     </div>
   )
 }
