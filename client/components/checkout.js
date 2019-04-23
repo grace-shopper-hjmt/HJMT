@@ -1,5 +1,5 @@
 import React from 'react'
-import CheckoutForm from './stripe'
+import StripePaymentForm from './stripe'
 import { connect } from 'react-redux'
 import axios from 'axios'
 
@@ -53,7 +53,7 @@ class DisconnectedCheckout extends React.Component {
                                     })
                                 }
 
-                                <CheckoutForm />
+                                <StripePaymentForm />
 
                                 <button type="button" onClick={this.placeOrder}>Place order</button>                
                         </div> : <div>There are no items in your cart!</div>
