@@ -12,7 +12,6 @@ export const UserHome = props => {
   return (
     <div>
       <h3>Welcome, {email}!</h3>
-      <h4>Account Info:</h4>
       <h4>Name:{name}</h4>
       <h5>Email: {email}</h5>
       <h5>Billing Address:{billingAddress}</h5>

@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button'
 import {thunkDeleteUser} from '../store/user'
 
 const AllUsers = props => {
+  console.log('props', props.admin.allUsers)
   return (
     <div>
       All users:
@@ -33,10 +34,10 @@ const AllUsers = props => {
 
 const mapState = state => ({admin: state.admin})
 
-const mapDispatch = (dispatch, ownProps) => {
+const mapDispatch = (dispatch) => {
   return {
     thunkDeleteUser: newProps => {
-      dispatch(thunkDeleteUser(newProps, ownProps))
+      dispatch(thunkDeleteUser(newProps))
     }
   }
 }

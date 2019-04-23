@@ -57,6 +57,7 @@ export const updateUser = ( user,userId, ownProps) => {
 export const thunkDeleteUser = (id) => {
   return async dispatch => {
     try {
+      console.log('id', id)
     await axios.delete(`/api/users/${id}`)
       dispatch(deleteUser(id))
     } catch (error) {
