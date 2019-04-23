@@ -2,9 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {
   fetchCategories,
-  filterByPrice,
   removeAllFilters,
-  removePriceFilter,
   fetchSunglasses
 } from '../store/sunglasses'
 import Category from './category'
@@ -65,9 +63,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getCategories: () => dispatch(fetchCategories()),
-    priceFilter: (min, max) => dispatch(filterByPrice(min, max)),
     removeFilters: () => dispatch(removeAllFilters()),
-    removePriceFilters: (min, max) => dispatch(removePriceFilter(min, max)),
     getSunglasses: () => dispatch(fetchSunglasses())
   }
 }
