@@ -5,14 +5,15 @@ import {CartItem} from './cart-item'
 import Button from '@material-ui/core/Button'
 
 class DisconnectedCart extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       cartItems: []
     }
 
     this.handleChange = this.handleChange.bind(this)
     this.removeItem = this.removeItem.bind(this)
+    this.goToCheckOut = this.goToCheckOut.bind(this)
   }
 
   async handleChange(event, index) {
@@ -29,20 +30,12 @@ class DisconnectedCart extends React.Component {
     event.target.disabled = false
   }
 
-  removeItem(sunglassesId) {
-    const {cartItems} = this.state
-    const updatedCartItems = cartItems.filter(item => {
-      return item.sunglass.id !== sunglassesId
-    })
-    axios.delete(`/api/cart/${sunglassesId}`, {
-      data: {userId: this.props.user.id}
-    })
-    this.setState({cartItems: updatedCartItems})
-  }
-
   async componentDidMount() {
     const {data} = await axios.get('/api/cart')
     this.setState({cartItems: data})
+  }
+  goToCheckOut() {
+    this.props.history.push('/checkout')
   }
   render() {
     return (
@@ -62,7 +55,12 @@ class DisconnectedCart extends React.Component {
               )
             })}
 
-            <Button variant="contained" color="primary" type="button">
+            <Button
+              variant="contained"
+              color="primary"
+              type="button"
+              onClick={this.goToCheckOut}
+            >
               Check out
             </Button>
           </div>

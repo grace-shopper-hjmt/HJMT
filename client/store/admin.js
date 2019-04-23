@@ -41,7 +41,7 @@ export const fetchSingleUser = userId => {
   }
 }
 
-export const updateUser = (userId, user, ownProps) => {
+export const updateUser = (user, userId, ownProps) => {
   return async dispatch => {
     try {
       const {data} = await axios.put(`/api/users/${userId}`, user)
@@ -49,6 +49,16 @@ export const updateUser = (userId, user, ownProps) => {
       ownProps.history.push(`/users/${userId}`)
     } catch (err) {
       console.log('ERROR updating that user', err)
+    }
+  }
+}
+export const thunkDeleteUser = id => {
+  return async dispatch => {
+    try {
+      await axios.delete(`/api/users/${id}`)
+      dispatch(deleteUser(id))
+    } catch (error) {
+      console.log('Cannot remove users', error)
     }
   }
 }
@@ -69,6 +79,10 @@ export const destroyUser = (userId, ownProps) => {
 const handlers = {
   [GET_USERS]: (state, action) => ({...state, allUsers: action.users}),
   [SELECT_USER]: (state, action) => ({...state, selectedUser: action.userId}),
+  [DELETE_USER]: (state, action) => ({
+    selectedUser: {},
+    allUsers: state.allUsers.filter(user => user.id !== Number(action.id))
+  }),
   [EDIT_USER]: (state, action) => {
     if (state.selectedUser.id === Number(action.userId)) {
       return {
