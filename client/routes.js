@@ -15,11 +15,14 @@ import {
   Cart,
   Checkout,
   EditUsers,
+  AllOrders,
+  SingleOrder
 } from './components'
 import {Paginate} from './components/paginate'
 import {me} from './store'
-import { fetchSunglasses, fetchCategories } from '../client/store/sunglasses'
+import {fetchSunglasses, fetchCategories} from '../client/store/sunglasses'
 import {fetchUsers} from '../client/store/admin'
+import {fetchOrders} from '../client/store/order'
 
 //COMPONENT
 class Routes extends Component {
@@ -28,6 +31,7 @@ class Routes extends Component {
     this.props.fetchInitialSunglasses()
     this.props.categories()
     this.props.fetchInitialUsers()
+    this.props.fetchInitialOrders()
   }
 
   render() {
@@ -46,7 +50,9 @@ class Routes extends Component {
         <Route path="/newSunglasses" component={NewSunglasses} />
         <Route exact path="/users" component={AllUsers} />
         <Route exact path="/users/:id" component={SingleUser} />
-        <Route exact path='/users/:id/edit' component={EditUsers}/>
+        <Route exact path="/orders" component={AllOrders} />
+        <Route path="/orders/:id" component={SingleOrder} />
+        <Route exact path="/users/:id/edit" component={EditUsers} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -75,7 +81,8 @@ const mapDispatch = dispatch => {
     },
     fetchInitialSunglasses: () => dispatch(fetchSunglasses()),
     categories: () => dispatch(fetchCategories()),
-    fetchInitialUsers: () => dispatch(fetchUsers())
+    fetchInitialUsers: () => dispatch(fetchUsers()),
+    fetchInitialOrders: () => dispatch(fetchOrders())
   }
 }
 
