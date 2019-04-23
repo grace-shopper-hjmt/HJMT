@@ -7,7 +7,7 @@ export default class PaymentForm extends React.Component {
 
   onToken = async (token) => {
     await axios.post('/api/stripe/charge', {token: token})
-    
+    this.props.placeOrder()
   }
  
   render() {

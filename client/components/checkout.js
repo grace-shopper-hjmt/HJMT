@@ -53,12 +53,7 @@ class DisconnectedCheckout extends React.Component {
                                         )
                                     })
                                 }
-
-
-                                <StripePaymentForm />
-
-
-                                <button type="button" onClick={this.placeOrder}>Place order</button>                
+                                <StripePaymentForm placeOrder={this.placeOrder}/>
                         </div> : <div>There are no items in your cart!</div>
                 }
             </div>
