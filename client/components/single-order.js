@@ -1,7 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {fetchSingleOrder} from '../store/order'
+import {fetchSingleOrder, destroyOrder} from '../store/order'
+import Button from '@material-ui/core/Button'
+
 // import {AUTHFUNC} from '../auth-functions'
 
 class SingleOrder extends React.Component {
@@ -23,6 +25,16 @@ class SingleOrder extends React.Component {
         ) : (
           <div>No selectedOrder info</div>
         )}
+        <h3>
+          <Button
+            variant="contained"
+            color="primary"
+            type="button"
+            onClick={() => this.props.deleteOrder(this.props.selectedOrder.id)}
+          >
+            Delete
+          </Button>
+        </h3>
       </div>
     )
   }
@@ -33,9 +45,14 @@ const mapState = state => ({
   orders: state.order
 })
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch, ownProps) => {
   return {
-    fetchInitialOrder: orderId => dispatch(fetchSingleOrder(orderId))
+    fetchInitialOrder: orderId => {
+      dispatch(fetchSingleOrder(orderId))
+    },
+    deleteOrder: newProps => {
+      dispatch(destroyOrder(newProps, ownProps))
+    }
   }
 }
 

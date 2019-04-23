@@ -42,4 +42,14 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+router.delete('/:id', isAdmin, async (req, res, next) => {
+  try {
+    const order = await OrderItem.findByPk(req.params.id)
+    await order.destroy()
+    res.sendStatus(204)
+  } catch (error) {
+    next(error)
+  }
+})
+
 module.exports = router
