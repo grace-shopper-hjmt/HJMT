@@ -18,19 +18,19 @@ class DisconnectedPaginate extends React.Component {
     const {offset} = this.state
     this.setState({
       sunglasses: props.sunglasses,
-      activeSunglasses: props.sunglasses.slice(offset, offset + 2)
+      activeSunglasses: props.sunglasses.slice(offset, offset + 15)
     })
   }
 
   getPageCount = () => {
-    return Math.ceil(this.state.sunglasses.length / 2)
+    return Math.ceil(this.state.sunglasses.length / 15)
   }
 
   handlePageClick = data => {
     let selected = data.selected
     const {sunglasses} = this.state
-    const offset = selected * 2
-    const currentSunglasses = sunglasses.slice(offset, offset + 2)
+    const offset = selected * 15
+    const currentSunglasses = sunglasses.slice(offset, offset + 15)
     this.setState({activeSunglasses: currentSunglasses, page: selected})
   }
 
