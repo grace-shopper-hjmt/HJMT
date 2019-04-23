@@ -3,7 +3,10 @@ import axios from 'axios'
 //INITIAL STATE
 const initialState = {
   allOrders: [],
-  selectedOrder: {}
+  selectedOrder: {},
+  statuses: [],
+  filteredOrders: [],
+  activeStatuses: []
 }
 
 //ACTION TYPES
