@@ -1,7 +1,8 @@
 const router = require('express').Router()
 const {OrderItem, Sunglasses} = require('../db/models')
+const {isAdmin} = require('./auth-middleware')
 
-router.get('/', async (req, res, next) => {
+router.get('/', isAdmin, async (req, res, next) => {
   try {
     const allOrders = await OrderItem.findAll()
     res.json(allOrders)
@@ -10,7 +11,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', isAdmin, async (req, res, next) => {
   try {
     const order = await OrderItem.findByPk(req.params.id)
     if (!order) {
