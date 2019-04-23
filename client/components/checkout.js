@@ -1,5 +1,6 @@
 import React from 'react'
-import CheckoutForm from './stripe'
+import StripePaymentForm from './stripe'
+
 import { connect } from 'react-redux'
 import axios from 'axios'
 // const nodemailer = require("nodemailer")
@@ -9,7 +10,6 @@ class DisconnectedCheckout extends React.Component {
         super()
         this.state = {
             cartItems: [],
-            totalCost: 0
         }
 
         this.placeOrder = this.placeOrder.bind(this)
@@ -31,13 +31,9 @@ class DisconnectedCheckout extends React.Component {
             userId: this.props.user.id,
         })
     })
-    const totalCost = this.state.cartItems.map(item => {
-        return item.price * item.quantity
-    }).reduce((accum, currentVal) => accum + currentVal)
-    console.log(totalCost)
     axios.post('/api/order', {orderItems: orders})
     axios.delete('/api/cart', {data: {userId: this.props.user.id}})
-    this.setState({cartItems: [], totalCost })
+    this.setState({cartItems: []})
 }
 
     render() {
@@ -57,10 +53,7 @@ class DisconnectedCheckout extends React.Component {
                                         )
                                     })
                                 }
-
-                                <CheckoutForm totalCost={this.state.totalCost} />
-
-                                <button type="button" onClick={this.placeOrder}>Place order</button>                
+                                <StripePaymentForm placeOrder={this.placeOrder} items={this.state.cartItems} />
                         </div> : <div>There are no items in your cart!</div>
                 }
             </div>
