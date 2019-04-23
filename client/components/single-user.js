@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom'
 import {fetchSingleUser, thunkDeleteUser} from '../store/admin'
 import Button from '@material-ui/core/Button'
 
-
 class SingleUser extends React.Component {
   componentDidMount() {
     this.props.fetchInitialUser(this.props.match.params.id)
