@@ -8,7 +8,8 @@ class DisconnectedCheckout extends React.Component {
     constructor() {
         super()
         this.state = {
-            cartItems: []
+            cartItems: [],
+            totalCost: 0
         }
 
         this.placeOrder = this.placeOrder.bind(this)
@@ -30,10 +31,13 @@ class DisconnectedCheckout extends React.Component {
             userId: this.props.user.id,
         })
     })
+    const totalCost = this.state.cartItems.map(item => {
+        return item.price * item.quantity
+    }).reduce((accum, currentVal) => accum + currentVal)
 
     axios.post('/api/order', {orderItems: orders})
     axios.delete('/api/cart', {data: {userId: this.props.user.id}})
-    this.setState({cartItems: []})
+    this.setState({cartItems: [], totalCost })
 }
 
     render() {
@@ -54,7 +58,7 @@ class DisconnectedCheckout extends React.Component {
                                     })
                                 }
 
-                                <CheckoutForm />
+                                <CheckoutForm totalCost={this.state.totalCost} />
 
                                 <button type="button" onClick={this.placeOrder}>Place order</button>                
                         </div> : <div>There are no items in your cart!</div>
