@@ -1,5 +1,4 @@
 import axios from 'axios'
-// import history from '../history'
 
 //INITIAL STATE
 const initialState = {
@@ -11,13 +10,13 @@ const initialState = {
 const GET_USERS = 'GET_USERS'
 const SELECT_USER = 'SELECT_USER'
 const EDIT_USER = 'EDIT_USER'
-// const DELETE_USER = 'DELETE_USER'
-// const PROMOTE_USER = 'PROMOTE_USER'
+const DELETE_USER = 'DELETE_USER'
 
 //ACTION CREATORS
 const getUsers = users => ({type: GET_USERS, users})
 const selectUser = userId => ({type: SELECT_USER, userId})
 const editUser = (userId, user) => ({type: EDIT_USER, userId, user})
+const deleteUser = userId => ({type: DELETE_USER, userId})
 
 //THUNK CREATORS
 export const fetchUsers = () => {
@@ -54,6 +53,18 @@ export const updateUser = (userId, user, ownProps) => {
   }
 }
 
+export const destroyUser = (userId, ownProps) => {
+  return async dispatch => {
+    try {
+      await axios.delete(`/api/users/${userId}`)
+      dispatch(deleteUser(userId))
+      ownProps.history.push(`/users`)
+    } catch (error) {
+      console.log('Cannot delete that user', error)
+    }
+  }
+}
+
 //HANDLERS FOR REDUCER
 const handlers = {
   [GET_USERS]: (state, action) => ({...state, allUsers: action.users}),
@@ -74,7 +85,12 @@ const handlers = {
           .push(action.user)
       }
     }
-  }
+  },
+  [DELETE_USER]: (state, action) => ({
+    ...state,
+    selectedUser: {},
+    allUsers: state.allUsers.filter(user => user.id !== Number(action.userId))
+  })
 }
 
 //ADMIN REDUCER
