@@ -6,7 +6,10 @@ import StripeCheckout from 'react-stripe-checkout';
 export default class PaymentForm extends React.Component {
 
   onToken = async (token) => {
-    await axios.post('/api/stripe/charge', {token: token})
+    const totalCost = this.props.items.map(item => {
+      return item.sunglass.price * item.quantity
+    }).reduce((accum, currentVal) => accum + currentVal)
+    await axios.post('/api/stripe/charge', {token: token, cost: totalCost})
     this.props.placeOrder()
   }
  

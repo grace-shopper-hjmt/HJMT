@@ -4,8 +4,9 @@ const stripe = require('stripe')('sk_test_PjwrVgSEhIaKOaWarN1TeybR00TJkMnxzZ')
 
 router.post('/charge', async (req, res, next) => {
     try {
+      console.log(req.body)
         let charge = await stripe.charges.create({
-          amount: 2000,
+          amount: req.body.cost,
           currency: "usd",
           description: "lorem ipsum oubflgwbueG",
           source: req.body.token.id
