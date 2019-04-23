@@ -28,8 +28,8 @@ const Sunglasses = db.define('sunglasses', {
       allowNull: false,
       validate: {
         notEmpty: true
-    }
-    },
+        }
+    }, 
 })
 
 module.exports = Sunglasses

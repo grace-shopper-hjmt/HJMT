@@ -11,7 +11,7 @@ class SingleUser extends React.Component {
 
   render() {
     const selectedUser = this.props.selectedUser
-    console.log('props', this.props.user)
+    ('props', this.props.user)
     return (
       <div>
         <div>
