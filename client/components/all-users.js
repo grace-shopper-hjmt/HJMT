@@ -25,4 +25,4 @@ const AllUsers = props => {
 const mapState = state => ({admin: state.admin})
 
 
-export default connect(mapState,null)(AllUsers)
+export default connect(mapState)(AllUsers)

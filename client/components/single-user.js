@@ -51,7 +51,7 @@ class SingleUser extends React.Component {
         </Button>
         <Link to="/users">Back</Link>
         <h4>
-          <Link to={`/users/${this.props.user.id}/edit`}>Edit</Link>
+          <Link to={`/users/${this.props.match.params.id}/edit`}>Edit</Link>
         </h4>
       </div>
     )
