@@ -3,6 +3,7 @@ import CheckoutForm from './stripe'
 import {Elements, StripeProvider} from 'react-stripe-elements';
 import { connect } from 'react-redux'
 import axios from 'axios'
+const nodemailer = require("nodemailer")
 
 class DisconnectedCheckout extends React.Component {
     constructor() {
