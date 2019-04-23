@@ -13,13 +13,23 @@ class DisconnectedCart extends React.Component {
 
         this.handleChange = this.handleChange.bind(this)
         this.removeItem = this.removeItem.bind(this)
-        this.updateCart = this.updateCart.bind(this)
     }
 
-    handleChange(event, index) {
+    async handleChange(event, index) {
         const { cartItems } = this.state
         cartItems[index].quantity = event.target.value
         this.setState({cartItems: cartItems})
+
+        event.target.disabled = true
+        console.log(event.target.disabled)
+        await axios.put('/api/cart', {
+            userId: this.props.user.id,
+            sunglassId: this.state.cartItems[index].sunglass.id,
+            quantity: this.state.cartItems[index].quantity
+        })
+        console.log('PUT REQUEST COMPLETE - QUANTITY UPDATED IN DB')
+        event.target.disabled = false
+        console.log(event.target.disabled)
     }
 
     removeItem(sunglassesId) {
@@ -29,18 +39,6 @@ class DisconnectedCart extends React.Component {
         })
         axios.delete(`/api/cart/${sunglassesId}`, {data: {userId: this.props.user.id}})
         this.setState({cartItems: updatedCartItems})
-    }
-
-    updateCart() {
-        this.state.cartItems.forEach(item => {
-            axios.put('/api/cart', {
-                userId: this.props.user.id,
-                sunglassId: item.sunglass.id,
-                quantity: item.quantity
-            })
-        })
-
-        this.props.history.push('/checkout')
     }
 
     async componentDidMount() {
@@ -68,7 +66,6 @@ class DisconnectedCart extends React.Component {
                         variant="contained"
                         color="primary"
                         type="button"
-                        onClick={this.updateCart}
                         >
                         Check out
                     </Button>

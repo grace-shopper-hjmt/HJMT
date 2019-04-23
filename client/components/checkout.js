@@ -1,4 +1,6 @@
 import React from 'react'
+import CheckoutForm from './stripe'
+import {Elements, StripeProvider} from 'react-stripe-elements';
 import { connect } from 'react-redux'
 import axios from 'axios'
 
@@ -52,7 +54,14 @@ class DisconnectedCheckout extends React.Component {
                                     })
                                 }
 
-                                {/* insert stripe stuff here */}
+                        <StripeProvider apiKey="pk_test_7azFEBsWo30IOrlhmtvsQrhP00EuKwSlDb">
+                                <div className="example">
+                                                    <h1>React Stripe Elements Example</h1>
+                                <Elements>
+                                    
+                                </Elements>
+                                </div>
+                        </StripeProvider>
 
                                 <button type="button" onClick={this.placeOrder}>Place order</button>                
                         </div> : <div>There are no items in your cart!</div>
