@@ -74,3 +74,6 @@ margin: 1px;
   box-shadow:5px 5px 60px rgba(0,0,0,0.4);
   transform: translate(-5px, -5px);
 }
+.singleSunglasses img {
+  width: 30%
+}
