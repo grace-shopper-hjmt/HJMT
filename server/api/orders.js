@@ -52,4 +52,19 @@ router.delete('/:id', isAdmin, async (req, res, next) => {
   }
 })
 
+router.put('/:id', isAdmin, async (req, res, next) => {
+  try {
+    const order = await OrderItem.findByPk(req.params.id)
+    if (!order) {
+      const err = new Error('That order does not exist!')
+      err.status = 404
+      return next(err)
+    }
+    const newOrder = await order.update({...req.body})
+    res.json(newOrder)
+  } catch (err) {
+    next(err)
+  }
+})
+
 module.exports = router
