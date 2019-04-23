@@ -35,7 +35,10 @@ const categoryFilter = (sunglasses, filters) => {
         if (currentSunglassesCategories.name === filters[k]) {
           filterCount++
         }
-        if (currentSunglassesCategories.name === filters[k] && filterCount === filters.length) {
+        if (
+          currentSunglassesCategories.name === filters[k] &&
+          filterCount === filters.length
+        ) {
           filteredSunglasses.push(currentSunglasses)
           break
         }
@@ -46,7 +49,7 @@ const categoryFilter = (sunglasses, filters) => {
 }
 
 //ACTION CREATORS
-export const addCategory = category => ({ type: ADD_CATEGORY, category })
+export const addCategory = category => ({type: ADD_CATEGORY, category})
 export const removeFilter = filterType => ({type: REMOVE_FILTER, filterType})
 export const setFilter = filterType => ({
   type: SET_FILTER,
@@ -70,13 +73,13 @@ export const deleteSunglasses = id => ({type: DELETE_SUNGLASSES, id})
 export const addSunglasses = sunglasses => ({type: ADD_SUNGLASSES, sunglasses})
 export const getCategories = categories => ({type: GET_CATEGORIES, categories})
 //THUNKS
-export const dbAddCategory = (category) => {
+export const dbAddCategory = category => {
   return async dispatch => {
     try {
       const {data} = await axios.post('/api/categories', category)
       dispatch(addCategory(data))
     } catch (error) {
-      console.log("ERROR CREATING CATEGORY", error)
+      console.log('ERROR CREATING CATEGORY', error)
     }
   }
 }
@@ -158,8 +161,12 @@ const handlers = {
   }),
   [ADD_SUNGLASSES]: (state, action) => ({
     ...state,
-    allSunglasses: [...state.allSunglasses, action.sunglasses].sort(sortByPrice),
-    filteredSunglasses: [...state.allSunglasses, action.sunglasses].sort(sortByPrice)
+    allSunglasses: [...state.allSunglasses, action.sunglasses].sort(
+      sortByPrice
+    ),
+    filteredSunglasses: [...state.allSunglasses, action.sunglasses].sort(
+      sortByPrice
+    )
   }),
   [DELETE_SUNGLASSES]: (state, action) => ({
     ...state,
@@ -171,7 +178,9 @@ const handlers = {
   [EDIT_SUNGLASSES]: (state, action) => {
     let id = Number(action.id)
     if (state.selectedSunglasses.id === id) {
-      const newSunglasses = [...state.allSunglasses].filter(sunglasses => sunglasses.id !== id)
+      const newSunglasses = [...state.allSunglasses].filter(
+        sunglasses => sunglasses.id !== id
+      )
       newSunglasses.push(action.sunglasses)
       return {
         ...state,
@@ -202,16 +211,23 @@ const handlers = {
   }),
   [SET_FILTER]: (state, action) => {
     let sunglasses = []
-      sunglasses = categoryFilter(state.filteredSunglasses, [...state.activeFilters, action.filterType])
-      return {
-        ...state,
-        filteredSunglasses: sunglasses.sort(sortByPrice),
-        activeFilters: [...state.activeFilters, action.filterType]
-      }
+    sunglasses = categoryFilter(state.filteredSunglasses, [
+      ...state.activeFilters,
+      action.filterType
+    ])
+    return {
+      ...state,
+      filteredSunglasses: sunglasses.sort(sortByPrice),
+      activeFilters: [...state.activeFilters, action.filterType]
+    }
   },
   [REMOVE_FILTER]: (state, action) => {
     if (state.activeFilters.length === 1) {
-      return ({ ...state, activeFilters: [], filteredSunglasses: state.allSunglasses })
+      return {
+        ...state,
+        activeFilters: [],
+        filteredSunglasses: state.allSunglasses
+      }
     }
     let activeFilters = state.activeFilters.filter(
       filter => filter !== action.filterType
@@ -220,9 +236,12 @@ const handlers = {
     if (sunglasses.length === 0) {
       sunglasses = state.allSunglasses
     }
-    return ({ ...state, filteredSunglasses: sunglasses, activeFilters})
+    return {...state, filteredSunglasses: sunglasses, activeFilters}
   },
-  [ADD_CATEGORY]: (state, action) => ({ ...state, categories: [...state.categories, action.category] })
+  [ADD_CATEGORY]: (state, action) => ({
+    ...state,
+    categories: [...state.categories, action.category]
+  })
 }
 
 export const sunglassesReducer = (state = initialState, action) => {
