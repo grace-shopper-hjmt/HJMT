@@ -21,10 +21,10 @@ class DisconnectedEditUsers extends Component {
     const userId = this.props.match.params.id
     this.props.updateUser(userId)
     this.setState({
-      name: this.props.name,
-      email: this.props.email,
-      billingAddress: this.props.billingAddress,
-      shippingAddress: this.props.shippingAddress,
+      name: this.props.users.name,
+      email: this.props.users.email,
+      billingAddress: this.props.users.billingAddress,
+      shippingAddress: this.props.users.shippingAddress,
     })
   }
   handleChange(event) {
@@ -105,11 +105,7 @@ class DisconnectedEditUsers extends Component {
 
 const mapState = state => {
   return {
-    name: state.user.name,
-    id: state.user.id,
-    email: state.user.email,
-    billingAddress: state.user.billingAddress,
-    shippingAddress: state.user.shippingAddress
+    users:state.users.selectedUser
   }
 }
 
