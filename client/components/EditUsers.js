@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import { updateUser } from '../store/admin'
+import { updateUser, fetchSingleUser } from '../store/admin'
 
 
 class DisconnectedEditUsers extends Component {
@@ -19,7 +19,8 @@ class DisconnectedEditUsers extends Component {
   }
   componentDidMount() {
     const userId = this.props.match.params.id
-    this.props.updateUser(userId)
+    this.props.fetchSingleUser(userId)
+
     this.setState({
       name: this.props.users.name,
       email: this.props.users.email,
@@ -105,7 +106,7 @@ class DisconnectedEditUsers extends Component {
 
 const mapState = state => {
   return {
-    users:state.users.selectedUser
+    users:state.user
   }
 }
 
@@ -114,9 +115,9 @@ const mapDispatch = (dispatch, ownProps) => {
     updateUser: updatedUsers => {
       dispatch(updateUser(updatedUsers, ownProps.match.params.id, ownProps))
     },
-    // fetchCurrentSunglasses: sunglasses => {
-    //   dispatch(fetchOneSunglasses(sunglasses))
-    // }
+    fetchSingleUser: userId => {
+      dispatch(fetchSingleUser(userId))
+    }
   }
 }
 
