@@ -1,7 +1,6 @@
-
-const { isAdmin, isAdminOrIsUser } =require('./auth-middleware')
+const {isAdmin, isAdminOrIsUser} = require('./auth-middleware')
 const router = require('express').Router()
-const { User, Reviews, OrderItem } = require('../db/models')
+const {User, Reviews, OrderItem} = require('../db/models')
 
 module.exports = router
 
@@ -17,10 +16,10 @@ router.get('/', isAdmin, async (req, res, next) => {
   }
 })
 
-router.get('/:id', isAdminOrIsUser,  async (req, res, next) => {
+router.get('/:id', isAdminOrIsUser, async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id,{
-      include: [{ model:Reviews}, {model:OrderItem}]
+    const user = await User.findByPk(req.params.id, {
+      include: [{model: Reviews}, {model: OrderItem}]
     })
 
     if (!user) {
@@ -52,7 +51,7 @@ router.put('/:id', isAdminOrIsUser, async (req, res, next) => {
       err.status = 404
       return next(err)
     }
-    const newUser = await User.update({...req.body})
+    const newUser = await user.update({...req.body})
     res.json(newUser)
   } catch (err) {
     next(err)
