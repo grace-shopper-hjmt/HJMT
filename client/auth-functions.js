@@ -1,5 +1,5 @@
-export const isAdmin = state => {
-  if (state.user.isAdmin) return true
+export const isAdmin = user => {
+  if (user.isAdmin) return true
   else return false
 }
 

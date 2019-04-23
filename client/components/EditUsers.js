@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
-import { updateUser, fetchSingleUser } from '../store/admin'
-
+import {connect} from 'react-redux'
+import {Link, withRouter} from 'react-router-dom'
+import {updateUser, fetchSingleUser} from '../store/admin'
+import {isAdmin} from '../auth-functions'
 
 class DisconnectedEditUsers extends Component {
   constructor() {
@@ -19,14 +19,22 @@ class DisconnectedEditUsers extends Component {
   }
   componentDidMount() {
     const userId = this.props.match.params.id
-    this.props.fetchSingleUser(userId)
-
-    this.setState({
-      name: this.props.users.name,
-      email: this.props.users.email,
-      billingAddress: this.props.users.billingAddress,
-      shippingAddress: this.props.users.shippingAddress,
-    })
+    if (isAdmin(this.props.users)) {
+      this.props.fetchSingleUser(userId)
+      this.setState({
+        name: this.props.selectedUser.name,
+        email: this.props.selectedUser.email,
+        billingAddress: this.props.selectedUser.billingAddress,
+        shippingAddress: this.props.selectedUser.shippingAddress
+      })
+    } else {
+      this.setState({
+        name: this.props.users.name,
+        email: this.props.users.email,
+        billingAddress: this.props.users.billingAddress,
+        shippingAddress: this.props.users.shippingAddress
+      })
+    }
   }
   handleChange(event) {
     this.setState({
@@ -36,14 +44,14 @@ class DisconnectedEditUsers extends Component {
   handleSubmit(event) {
     event.preventDefault()
     try {
-      this.props.updateUser({...this.state} )
+      this.props.updateUser({...this.state})
     } catch (error) {
       console.error('Cannot submit the form')
     }
   }
 
   render() {
-    const {name,email,billingAddress, shippingAddress, warning} = this.state
+    const {name, email, billingAddress, shippingAddress, warning} = this.state
     return (
       <div>
         <main>
@@ -82,7 +90,6 @@ class DisconnectedEditUsers extends Component {
               />
             </label>
 
-
             <label>
               ShippingAddress:
               <input
@@ -106,7 +113,8 @@ class DisconnectedEditUsers extends Component {
 
 const mapState = state => {
   return {
-    users:state.user
+    users: state.user,
+    selectedUser: state.admin.selectedUser
   }
 }
 
@@ -121,4 +129,6 @@ const mapDispatch = (dispatch, ownProps) => {
   }
 }
 
-export const EditUsers =  withRouter(connect(mapState, mapDispatch)(DisconnectedEditUsers))
+export const EditUsers = withRouter(
+  connect(mapState, mapDispatch)(DisconnectedEditUsers)
+)

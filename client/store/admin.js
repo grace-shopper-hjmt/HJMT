@@ -44,7 +44,7 @@ export const fetchSingleUser = userId => {
 export const updateUser = (user, userId, ownProps) => {
   return async dispatch => {
     try {
-      const {data} = await axios.put(`/api/users/${userId}`, user)
+      const { data } = await axios.put(`/api/users/${userId}`, user)
       dispatch(editUser(data))
       ownProps.history.push(`/users/${userId}`)
     } catch (err) {
