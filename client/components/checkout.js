@@ -2,7 +2,7 @@ import React from 'react'
 import CheckoutForm from './stripe'
 import { connect } from 'react-redux'
 import axios from 'axios'
-const nodemailer = require("nodemailer")
+// const nodemailer = require("nodemailer")
 
 class DisconnectedCheckout extends React.Component {
     constructor() {
@@ -34,7 +34,7 @@ class DisconnectedCheckout extends React.Component {
     const totalCost = this.state.cartItems.map(item => {
         return item.price * item.quantity
     }).reduce((accum, currentVal) => accum + currentVal)
-
+    console.log(totalCost)
     axios.post('/api/order', {orderItems: orders})
     axios.delete('/api/cart', {data: {userId: this.props.user.id}})
     this.setState({cartItems: [], totalCost })
