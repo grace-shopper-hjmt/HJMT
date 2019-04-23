@@ -16,8 +16,12 @@ class DisconnectedNewSunglasses extends Component {
         inventory: '',
         warning: 'Field is required'
       },
+<<<<<<< HEAD
       categories: {},
       newCategories: {}
+=======
+      categories: {}
+>>>>>>> master
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -26,7 +30,11 @@ class DisconnectedNewSunglasses extends Component {
   handleChange(event) {
     const sunglassesAtt = {...this.state.sunglassesAtt}
     sunglassesAtt[event.target.name] = event.target.value
+<<<<<<< HEAD
     this.setState({sunglassesAtt})
+=======
+    this.setState({ sunglassesAtt })
+>>>>>>> master
   }
   handleSubmit(event) {
     event.preventDefault()
@@ -41,7 +49,11 @@ class DisconnectedNewSunglasses extends Component {
     if (categories[0]) {
       let cats = []
       for (let i = 0; i < categories.length; i++) {
+<<<<<<< HEAD
         if (!cats.includes(categories[i].type) && categories[i].type !== "Price") {
+=======
+        if (!cats.includes(categories[i].type)) {
+>>>>>>> master
           cats.push(categories[i].type)
         }
       }
@@ -54,6 +66,7 @@ class DisconnectedNewSunglasses extends Component {
     categories[event.target.dataset.cattype] = event.target.value
     this.setState({categories})
   }
+<<<<<<< HEAD
   handleCategoryAddition = event => {
     let newCategory = {...this.state.newCategory}
     newCategory[event.target.name] = event.target.value
@@ -64,6 +77,8 @@ class DisconnectedNewSunglasses extends Component {
     event.preventDefault()
     this.props.addCategory(this.state.newCategory)
   }
+=======
+>>>>>>> master
 
   render() {
     const {
@@ -150,6 +165,7 @@ class DisconnectedNewSunglasses extends Component {
               )
             })}
 
+<<<<<<< HEAD
             <h3>Add a New category</h3>
             <label>
               Category Type:
@@ -169,6 +185,8 @@ class DisconnectedNewSunglasses extends Component {
             </label>
             <button onClick={this.addNewCategory} type="button" />
 
+=======
+>>>>>>> master
             <Button variant="contained" color="primary" type="submit">
               Submit
             </Button>
