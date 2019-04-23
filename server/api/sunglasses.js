@@ -47,7 +47,6 @@ router.post('/', isAdmin, async (req, res, next) => {
     } else {
       categories.Price = '$101+'
     }
-    console.log(categories)
     for (let key in categories) {
       let category = await Categories.findOrCreate({
         where: {

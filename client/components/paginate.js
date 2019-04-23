@@ -27,7 +27,6 @@ class DisconnectedPaginate extends React.Component {
   }
 
   handlePageClick = data => {
-    console.log(this.state)
     let selected = data.selected
     const {sunglasses} = this.state
     const offset = selected * 2
