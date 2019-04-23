@@ -15,11 +15,10 @@ const EDIT_SUNGLASSES = 'EDIT_SUNGLASSES'
 const DELETE_SUNGLASSES = 'DELETE_SUNGLASSES'
 const ADD_SUNGLASSES = 'ADD_SUNGLASSES'
 const GET_CATEGORIES = 'GET_CATEGORIES'
-const PRICE_FILTER = 'PRICE_FILTER'
-const REMOVE_PRICE_FILTER = 'REMOVE_PRICE_FILTER'
 const REMOVE_ALL_FILTERS = 'REMOVE_ALL_FILTERS'
 const SET_FILTER = 'SET_FILTER'
 const REMOVE_FILTER = 'REMOVE_FILTER'
+const ADD_CATEGORY = 'ADD_CATEGORY'
 
 //HELPER FUNCTIONS
 const sortByPrice = (a, b) => {
@@ -47,18 +46,13 @@ const categoryFilter = (sunglasses, filters) => {
 }
 
 //ACTION CREATORS
+export const addCategory = category => ({ type: ADD_CATEGORY, category })
 export const removeFilter = filterType => ({type: REMOVE_FILTER, filterType})
 export const setFilter = filterType => ({
   type: SET_FILTER,
   filterType
 })
-export const removePriceFilter = (min, max) => ({
-  type: REMOVE_PRICE_FILTER,
-  min,
-  max
-})
 export const removeAllFilters = () => ({type: REMOVE_ALL_FILTERS})
-export const filterByPrice = (min, max) => ({type: PRICE_FILTER, min, max})
 export const getAllSunglasses = sunglasses => ({
   type: GET_ALL_SUNGLASSES,
   sunglasses
@@ -76,6 +70,16 @@ export const deleteSunglasses = id => ({type: DELETE_SUNGLASSES, id})
 export const addSunglasses = sunglasses => ({type: ADD_SUNGLASSES, sunglasses})
 export const getCategories = categories => ({type: GET_CATEGORIES, categories})
 //THUNKS
+export const dbAddCategory = (category) => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.post('/api/categories', category)
+      dispatch(addCategory(data))
+    } catch (error) {
+      console.log("ERROR CREATING CATEGORY", error)
+    }
+  }
+}
 export const fetchSunglasses = () => {
   return async dispatch => {
     try {
@@ -165,18 +169,20 @@ const handlers = {
     )
   }),
   [EDIT_SUNGLASSES]: (state, action) => {
-    if (state.selectedSunglasses.id === Number(action.id)) {
+    let id = Number(action.id)
+    if (state.selectedSunglasses.id === id) {
+      const newSunglasses = [...state.allSunglasses].filter(sunglasses => sunglasses.id !== id)
+      newSunglasses.push(action.sunglasses)
       return {
+        ...state,
         selectedSunglasses: action.sunglasses,
-        allSunglasses: state.allSunglasses
-          .filter(sunglasses => sunglasses.id !== Number(action.id))
-          .push(action.sunglasses)
+        allSunglasses: newSunglasses
       }
     } else {
       return {
         ...state,
-        allSunglasses: state.allSunglasses
-          .filter(sunglasses => sunglasses.id !== Number(action.id))
+        allSunglasses: [...state.allSunglasses]
+          .filter(sunglasses => sunglasses.id !== id)
           .push(action.sunglasses)
       }
     }
@@ -189,43 +195,6 @@ const handlers = {
     ...state,
     categories: action.categories
   }),
-  [PRICE_FILTER]: (state, action) => {
-    const priceCheck = sunglass => {
-      if (
-        sunglass.price / 100 >= Number(action.min) &&
-        sunglass.price / 100 <= Number(action.max)
-      ) {
-        return true
-      }
-    }
-    let sunglasses = state.allSunglasses.filter(priceCheck)
-    if (state.activeFilters.length > 1) {    
-      sunglasses = categoryFilter(sunglasses, state.activeFilters)
-    }
-    return {
-      ...state,
-      filteredSunglasses: sunglasses
-        .sort(sortByPrice)
-    }
-  },
-  [REMOVE_PRICE_FILTER]: (state, action) => {
-    const priceCheck = sunglass => {
-      if (
-        sunglass.price / 100 < Number(action.min) ||
-        sunglass.price / 100 > Number(action.max)
-      ) {
-        return true
-      }
-    }
-    let sunglasses = state.filteredSunglasses.filter(priceCheck)
-    if (sunglasses.length === 0) {
-      sunglasses = state.allSunglasses
-    }
-    return {
-      ...state,
-      filteredSunglasses: sunglasses.sort(sortByPrice)
-    }
-  },
   [REMOVE_ALL_FILTERS]: (state, action) => ({
     ...state,
     filteredSunglasses: [...state.allSunglasses],
@@ -233,21 +202,12 @@ const handlers = {
   }),
   [SET_FILTER]: (state, action) => {
     let sunglasses = []
-    if (state.filteredSunglasses.length < 1) {
-      sunglasses = categoryFilter(state.allSunglasses, [action.filterType])
-      return {
-        ...state,
-        filteredSunglasses: sunglasses.sort(sortByPrice),
-        activeFilters: [action.filterType]
-      }
-    } else {
       sunglasses = categoryFilter(state.filteredSunglasses, [...state.activeFilters, action.filterType])
       return {
         ...state,
         filteredSunglasses: sunglasses.sort(sortByPrice),
         activeFilters: [...state.activeFilters, action.filterType]
       }
-    }
   },
   [REMOVE_FILTER]: (state, action) => {
     if (state.activeFilters.length === 1) {
@@ -261,7 +221,8 @@ const handlers = {
       sunglasses = state.allSunglasses
     }
     return ({ ...state, filteredSunglasses: sunglasses, activeFilters})
-  }
+  },
+  [ADD_CATEGORY]: (state, action) => ({ ...state, categories: [...state.categories, action.category] })
 }
 
 export const sunglassesReducer = (state = initialState, action) => {

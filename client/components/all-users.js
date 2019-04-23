@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 const AllUsers = props => {
-  console.log('state', props)
   return (
     <div>All users:
       <h3>{props.admin.allUsers.map(user => (

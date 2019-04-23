@@ -1,7 +1,7 @@
 /* eslint-disable guard-for-in */
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {updateSunglasses, fetchOneSunglasses, fetchCategories} from '../store/sunglasses'
+import {updateSunglasses, fetchOneSunglasses, fetchCategories, dbAddCategory} from '../store/sunglasses'
 import {Link, withRouter} from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 
@@ -17,7 +17,8 @@ class DisconnectedEditSunglasses extends Component {
         inventory: '',
         warning: 'Field is required'
       },
-      categories: {}
+      categories: {},
+      newCategory: {}
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -60,7 +61,7 @@ class DisconnectedEditSunglasses extends Component {
     if (categories) {
       let cats = []
       for (let i = 0; i < categories.length; i++) {
-        if (!cats.includes(categories[i].type)) {
+        if (!cats.includes(categories[i].type) && categories[i].type !== "Price") {
           cats.push(categories[i].type)
         }
       }
@@ -72,6 +73,15 @@ class DisconnectedEditSunglasses extends Component {
     const categories = {...this.state.categories}
     categories[event.target.dataset.cattype] = event.target.value
     this.setState({categories})
+  }
+  handleCategoryAddition = event => {
+    let newCategory = {...this.state.newCategory}
+    newCategory[event.target.name] = event.target.value
+    this.setState({newCategory})
+  }
+  addNewCategory = event => {
+    event.preventDefault()
+    this.props.addCategory(this.state.newCategory)
   }
 
   render() {
@@ -153,6 +163,17 @@ class DisconnectedEditSunglasses extends Component {
               )
             })}
 
+            <h3>Add a New category</h3>
+            <label>
+              Category Type: 
+              <input name="type" type='text' onChange={this.handleCategoryAddition} />
+            </label>
+            <label>
+              Sub-Category Name: 
+              <input name="name" type='text' onChange={this.handleCategoryAddition} />
+            </label>
+            <button onClick={this.addNewCategory} type='button' />
+
             <Button variant="contained" color="primary" type="submit">
               Submit
             </Button>
@@ -184,7 +205,8 @@ const mapDispatch = (dispatch, ownProps) => {
     fetchCurrentSunglasses: sunglasses => {
       dispatch(fetchOneSunglasses(sunglasses))
     },
-    getCategories: () => dispatch(fetchCategories())
+    getCategories: () => dispatch(fetchCategories()),
+    addCategory: (category) => dispatch(dbAddCategory(category))
   }
 }
 
