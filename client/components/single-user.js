@@ -1,8 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import { fetchSingleUser } from '../store/admin'
-import {isAdmin } from '../auth-functions'
+import {fetchSingleUser} from '../store/admin'
+import {isAdmin} from '../auth-functions'
 
 class SingleUser extends React.Component {
   componentDidMount() {
@@ -11,12 +11,9 @@ class SingleUser extends React.Component {
 
   render() {
     const selectedUser = this.props.selectedUser
-    ('props', this.props.user)
     return (
       <div>
-        <div>
-          {isAdmin(this.props)? 'hello' : 'goodbye'}
-          </div>
+        <div>{isAdmin(this.props) ? 'hello' : 'goodbye'}</div>
         Account info and history:
         {selectedUser.id ? (
           <div>

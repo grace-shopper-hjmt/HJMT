@@ -10,6 +10,21 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/:id', async (req, res, next) => {
+  try {
+    const order = await OrderItem.findByPk(req.params.id)
+    if (!order) {
+      const error = new Error('This order does not exist!')
+      error.status = 404
+      next(error)
+    } else {
+      res.json(order)
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.post('/', async (req, res, next) => {
   try {
     const newOrders = await OrderItem.bulkCreate(req.body.orderItems, {

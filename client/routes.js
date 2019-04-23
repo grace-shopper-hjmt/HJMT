@@ -15,7 +15,8 @@ import {
   Cart,
   Checkout,
   EditUsers,
-  AllOrders
+  AllOrders,
+  SingleOrder
 } from './components'
 import {Paginate} from './components/paginate'
 import {me} from './store'
@@ -49,6 +50,7 @@ class Routes extends Component {
         <Route exact path="/users/:id" component={SingleUser} />
         <Route exact path="/home/edit" component={EditUsers} />
         <Route exact path="/orders" component={AllOrders} />
+        <Route path="/orders/:id" component={SingleOrder} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
