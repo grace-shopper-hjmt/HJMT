@@ -26,7 +26,7 @@ class DisconnectedNewSunglasses extends Component {
   handleChange(event) {
     const sunglassesAtt = {...this.state.sunglassesAtt}
     sunglassesAtt[event.target.name] = event.target.value
-    this.setState({ sunglassesAtt })
+    this.setState({sunglassesAtt})
   }
   handleSubmit(event) {
     event.preventDefault()
@@ -41,7 +41,10 @@ class DisconnectedNewSunglasses extends Component {
     if (categories[0]) {
       let cats = []
       for (let i = 0; i < categories.length; i++) {
-        if (!cats.includes(categories[i].type) && categories[i].type !== "Price") {
+        if (
+          !cats.includes(categories[i].type) &&
+          categories[i].type !== 'Price'
+        ) {
           cats.push(categories[i].type)
         }
       }
@@ -74,8 +77,8 @@ class DisconnectedNewSunglasses extends Component {
       warning
     } = this.state.sunglassesAtt
     return (
-      <div>
-        <main>
+      <div className="allSunglasses">
+        <main className="flexAllSunglasses">
           <h1>Add new sunglasses here!</h1>
           <form onSubmit={this.handleSubmit}>
             <label>
@@ -166,11 +169,23 @@ class DisconnectedNewSunglasses extends Component {
                 onChange={this.handleCategoryAddition}
               />
             </label>
-            <button onClick={this.addNewCategory} type="button" />
-
-            <Button variant="contained" color="primary" type="submit">
-              Submit
-            </Button>
+            <h4>
+              {' '}
+              <Button
+                onClick={this.addNewCategory}
+                variant="contained"
+                color="primary"
+                type="button"
+              >
+                add Category
+              </Button>
+            </h4>
+            <h4>
+              {' '}
+              <Button variant="contained" color="primary" type="submit">
+                Submit
+              </Button>
+            </h4>
           </form>
           <h4>
             <Link to="/sunglasses">Back</Link>
@@ -192,7 +207,7 @@ const mapDispatch = (dispatch, ownProps) => {
     thunkAddSunglasses: newProps => {
       dispatch(thunkAddSunglasses(newProps, ownProps))
     },
-    addCategory: (category) => dispatch(dbAddCategory(category))
+    addCategory: category => dispatch(dbAddCategory(category))
   }
 }
 
