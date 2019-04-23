@@ -77,7 +77,6 @@ class DisconnectedEditSunglasses extends Component {
   handleCategoryAddition = event => {
     let newCategory = {...this.state.newCategory}
     newCategory[event.target.name] = event.target.value
-    console.log(newCategory)
     this.setState({newCategory})
   }
   addNewCategory = event => {

@@ -169,18 +169,20 @@ const handlers = {
     )
   }),
   [EDIT_SUNGLASSES]: (state, action) => {
-    if (state.selectedSunglasses.id === Number(action.id)) {
+    let id = Number(action.id)
+    if (state.selectedSunglasses.id === id) {
+      const newSunglasses = [...state.allSunglasses].filter(sunglasses => sunglasses.id !== id)
+      newSunglasses.push(action.sunglasses)
       return {
+        ...state,
         selectedSunglasses: action.sunglasses,
-        allSunglasses: state.allSunglasses
-          .filter(sunglasses => sunglasses.id !== Number(action.id))
-          .push(action.sunglasses)
+        allSunglasses: newSunglasses
       }
     } else {
       return {
         ...state,
-        allSunglasses: state.allSunglasses
-          .filter(sunglasses => sunglasses.id !== Number(action.id))
+        allSunglasses: [...state.allSunglasses]
+          .filter(sunglasses => sunglasses.id !== id)
           .push(action.sunglasses)
       }
     }
@@ -200,21 +202,12 @@ const handlers = {
   }),
   [SET_FILTER]: (state, action) => {
     let sunglasses = []
-    if (state.filteredSunglasses.length < 1) {
-      sunglasses = categoryFilter(state.allSunglasses, [action.filterType])
-      return {
-        ...state,
-        filteredSunglasses: sunglasses.sort(sortByPrice),
-        activeFilters: [action.filterType]
-      }
-    } else {
       sunglasses = categoryFilter(state.filteredSunglasses, [...state.activeFilters, action.filterType])
       return {
         ...state,
         filteredSunglasses: sunglasses.sort(sortByPrice),
         activeFilters: [...state.activeFilters, action.filterType]
       }
-    }
   },
   [REMOVE_FILTER]: (state, action) => {
     if (state.activeFilters.length === 1) {
