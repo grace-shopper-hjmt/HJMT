@@ -271,3 +271,25 @@ color: black
   display: flex;
 }
 
+
+.order-view {
+  grid-column-start: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+}
+
+.order-card {
+  border: 2px solid black;
+  margin: 5px;
+  width: 90%;
+  height: 90%;
+  border-radius: 10%;
+  padding: 10px;
+  text-align: center;
+  background: linear-gradient(
+    to right,
+    rgba(214, 249, 255, 1) 0%,
+    rgba(158, 232, 250, 1) 100%
+  );
+}
