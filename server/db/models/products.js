@@ -18,7 +18,7 @@ const Sunglasses = db.define('sunglasses', {
     },
     imageUrl: {
         type: Sequelize.STRING,
-        defaultValue: 'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182'
+        defaultValue: 'https://www.freepngimg.com/thumb/sunglasses/8-2-sunglasses-png-image.png'
     },
     description: {
         type: Sequelize.TEXT,
@@ -29,7 +29,7 @@ const Sunglasses = db.define('sunglasses', {
       validate: {
         notEmpty: true
         }
-    }, 
+    },
 })
 
 module.exports = Sunglasses

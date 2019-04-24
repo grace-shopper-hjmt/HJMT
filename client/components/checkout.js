@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import StripePaymentForm from './stripe'
 import axios from 'axios'
+// const nodemailer = require("nodemailer")
 
 class DisconnectedCheckout extends React.Component {
   constructor() {
@@ -41,7 +42,8 @@ class DisconnectedCheckout extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className='singleFormContainer'>
+        <div className='singleForm'>
         {this.state.cartItems.length ? (
           <div>
             <h3>Please review your order below:</h3>
@@ -53,11 +55,15 @@ class DisconnectedCheckout extends React.Component {
                 </div>
               )
             })}
-            <StripePaymentForm placeOrder={this.placeOrder} />
+            <StripePaymentForm
+              placeOrder={this.placeOrder}
+              items={this.state.cartItems}
+            />
           </div>
         ) : (
           <div>There are no items in your cart!</div>
-        )}
+            )}
+          </div>
       </div>
     )
   }

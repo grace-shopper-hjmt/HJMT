@@ -7,16 +7,14 @@ import {connect} from 'react-redux'
  * COMPONENT
  */
 export const UserHome = props => {
-  const {name, email, billingAddress, shippingAddress} = props
+  const {name} = props
   return (
-    <div>
-      <h3>Welcome, {email}!</h3>
-      <h4>Name:{name}</h4>
-      <h5>Email: {email}</h5>
-      <h5>Billing Address:{billingAddress}</h5>
-      <h5>Shipping Address:{shippingAddress}</h5>
-      <Link to='/sunglasses'>Let's go shopping!</Link>
+      <div>This is a business conducted in a shady area......
+    <div className='home'>
+      <h1>Welcome To Shady Business, {name}!</h1>
+      <Link to='/sunglasses'>Let's go shopping!🛍️</Link>
     </div>
+      </div>
   )
 }
 

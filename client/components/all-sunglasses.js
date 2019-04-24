@@ -7,18 +7,17 @@ import Sidebar from './filter-sidebar'
 const DisconnectedAllSunglasses = props => {
   let sunglasses = props.sunglasses
   return (
-    <div>
-      <Link to='/newSunglasses'>create Sunglasses!</Link>
+    <div className='all-sunglasses'>
       <Sidebar resultsTotal={props.total} />
       {!!sunglasses && sunglasses.length > 0 ? (
-        <div>
+        <div className='sunglasses-view'>
           {sunglasses.map(sunglass => (
-            <div key={sunglass.id}>
+            <div key={sunglass.id} className='sunglasses-card'>
               <Link to={`/sunglasses/${sunglass.id}`} className="navlink">
               <img src={sunglass.imageUrl} />
-                <span>{sunglass.name}</span>
+                <h3>Brand: {sunglass.name}</h3>
+              <h2>${sunglass.price / 100}</h2>
               </Link>
-              <h2>Price: ${sunglass.price / 100}</h2>
             </div>
           ))}
         </div>
