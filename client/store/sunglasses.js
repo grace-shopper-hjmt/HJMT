@@ -27,17 +27,16 @@ const sortByPrice = (a, b) => {
 const categoryFilter = (sunglasses, filters) => {
   let filteredSunglasses = []
   for (let i = 0; i < sunglasses.length; i++) {
-    let filterCount = 0
+    //let filterCount = 0
     let currentSunglasses = sunglasses[i]
     for (let j = 0; j < currentSunglasses.categories.length; j++) {
       const currentSunglassesCategories = currentSunglasses.categories[j]
       for (let k = 0; k < filters.length; k++) {
-        if (currentSunglassesCategories.name === filters[k]) {
-          filterCount++
-        }
+        // if (currentSunglassesCategories.name === filters[k]) {
+        //   filterCount++
+        // }
         if (
-          currentSunglassesCategories.name === filters[k] &&
-          filterCount === filters.length
+          currentSunglassesCategories.name === filters[k] && !filteredSunglasses.includes(currentSunglasses)
         ) {
           filteredSunglasses.push(currentSunglasses)
           break
@@ -211,7 +210,7 @@ const handlers = {
   }),
   [SET_FILTER]: (state, action) => {
     let sunglasses = []
-    sunglasses = categoryFilter(state.filteredSunglasses, [
+    sunglasses = categoryFilter(state.allSunglasses, [
       ...state.activeFilters,
       action.filterType
     ])

@@ -33,3 +33,4 @@ const Sunglasses = db.define('sunglasses', {
 })
 
 module.exports = Sunglasses
+
