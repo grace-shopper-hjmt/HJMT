@@ -51,7 +51,8 @@ class DisconnectedCart extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className='singleFormContainer'>
+      <div className='singleForm'>
         {this.state.cartItems.length ? (
           <div>
             {this.state.cartItems.map((item, index) => {
@@ -78,7 +79,8 @@ class DisconnectedCart extends React.Component {
           </div>
         ) : (
           <div>There are no items in your cart!</div>
-        )}
+            )}
+          </div>
       </div>
     )
   }
