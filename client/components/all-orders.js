@@ -6,10 +6,9 @@ const AllOrders = props => {
   const orders = props.orders
   return (
     <div className='allorders'>
-      <div>ALL ORDERS</div>
-      <div>
+      <div className='order-view'>
         {orders.allOrders.map(order => (
-          <div key={order.id}>
+          <div key={order.id} className='order-card'>
             <Link to={`/orders/${order.id}`}>
             <h3>Name: {order.name}</h3>
             <img  src={order.imageUrl} />
