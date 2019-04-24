@@ -36,7 +36,7 @@ class DisconnectedPaginate extends React.Component {
 
   render() {
     return (
-      <div className="all-sunglasses">
+      <div>
         <AllSunglasses sunglasses={this.state.activeSunglasses} total={this.state.sunglasses.length}/>
         <ReactPaginate
           previousLabel="Previous"
