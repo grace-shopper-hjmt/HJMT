@@ -19,6 +19,7 @@ class SingleOrder extends React.Component {
         {selectedOrder.id ? (
           <div>
             <h3>Name{selectedOrder.name}</h3>
+            <img src={selectedOrder.imageUrl}/>
             <h3>quantity: {selectedOrder.quantity}</h3>
             <h3>price: {selectedOrder.price}</h3>
             <h3>status:{selectedOrder.status}</h3>

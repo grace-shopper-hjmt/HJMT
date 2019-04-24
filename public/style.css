@@ -254,3 +254,6 @@ text-align: center
     rgba(158, 232, 250, 1) 100%
   );
 }
+.allorders img {
+  width:30%
+}
