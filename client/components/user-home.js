@@ -1,16 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 /**
  * COMPONENT
  */
 export const UserHome = props => {
-  const {email} = props
+  const {name} = props
   return (
-    <div>
-      <h3>Welcome, {email}</h3>
+      <div>This is a business conducted in a shady area......
+    <div className='home'>
+      <h1>Welcome To Shady Business, {name}!</h1>
+      <Link to='/sunglasses'>Let's go shopping!🛍️</Link>
     </div>
+      </div>
   )
 }
 
@@ -19,7 +23,11 @@ export const UserHome = props => {
  */
 const mapState = state => {
   return {
-    email: state.user.email
+    name: state.user.name,
+    id: state.user.id,
+    email: state.user.email,
+    billingAddress: state.user.billingAddress,
+    shippingAddress: state.user.shippingAddress,
   }
 }
 

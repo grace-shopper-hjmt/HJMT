@@ -1,27 +1,32 @@
 /* eslint-disable complexity */
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {thunkAddSunglasses} from '../store/sunglasses'
+import {thunkAddSunglasses, dbAddCategory} from '../store/sunglasses'
 import {Link} from 'react-router-dom'
+import Button from '@material-ui/core/Button'
 
 class DisconnectedNewSunglasses extends Component {
   constructor() {
     super()
     this.state = {
-      name: '',
-      price: '',
-      description: '',
-      inventory: '',
-      warning: 'Field is required'
+      sunglassesAtt: {
+        name: '',
+        price: '',
+        description: '',
+        inventory: '',
+        warning: 'Field is required'
+      },
+      categories: {},
+      newCategories: {}
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
+    const sunglassesAtt = {...this.state.sunglassesAtt}
+    sunglassesAtt[event.target.name] = event.target.value
+    this.setState({sunglassesAtt})
   }
   handleSubmit(event) {
     event.preventDefault()
@@ -31,12 +36,49 @@ class DisconnectedNewSunglasses extends Component {
       console.error('Cannot submit the form')
     }
   }
+  getCategories = () => {
+    let categories = this.props.categories
+    if (categories[0]) {
+      let cats = []
+      for (let i = 0; i < categories.length; i++) {
+        if (
+          !cats.includes(categories[i].type) &&
+          categories[i].type !== 'Price'
+        ) {
+          cats.push(categories[i].type)
+        }
+      }
+      return cats
+    }
+    return []
+  }
+  handleCategoryChange = event => {
+    const categories = {...this.state.categories}
+    categories[event.target.dataset.cattype] = event.target.value
+    this.setState({categories})
+  }
+  handleCategoryAddition = event => {
+    let newCategory = {...this.state.newCategory}
+    newCategory[event.target.name] = event.target.value
+    this.setState({newCategory})
+  }
+  addNewCategory = event => {
+    event.preventDefault()
+    this.props.addCategory(this.state.newCategory)
+  }
 
   render() {
-    const {name, price, imageUrl, description, inventory, warning} = this.state
+    const {
+      name,
+      price,
+      imageUrl,
+      description,
+      inventory,
+      warning
+    } = this.state.sunglassesAtt
     return (
-      <div>
-        <main>
+      <div className="formForAll">
+        <main className="flexForForm">
           <h1>Add new sunglasses here!</h1>
           <form onSubmit={this.handleSubmit}>
             <label>
@@ -63,7 +105,7 @@ class DisconnectedNewSunglasses extends Component {
             </label>
 
             <label>
-              imageUrl:
+              ImageUrl:
               <input
                 onChange={this.handleChange}
                 name="imageUrl"
@@ -73,7 +115,7 @@ class DisconnectedNewSunglasses extends Component {
             </label>
 
             <label>
-              description:
+              Description:
               <input
                 onChange={this.handleChange}
                 name="description"
@@ -83,7 +125,7 @@ class DisconnectedNewSunglasses extends Component {
             </label>
 
             <label>
-              inventory:
+              Inventory:
               {!inventory &&
                 warning && <span className="warning">{warning}</span>}
               <input
@@ -94,7 +136,56 @@ class DisconnectedNewSunglasses extends Component {
               />
             </label>
 
-            <button type="submit">Submit</button>
+            <h3>Categories:</h3>
+            {this.getCategories().map(category => {
+              return (
+                <label className="addCategories" key={category}>
+                  {category}:
+                  <input
+                    name="categories"
+                    data-catType={category}
+                    value={this.state.categories[category]}
+                    type="text"
+                    onChange={this.handleCategoryChange}
+                  />
+                </label>
+              )
+            })}
+
+            <h3>Add a New category</h3>
+            <label>
+              Category Type:
+              <input
+                name="type"
+                type="text"
+                onChange={this.handleCategoryAddition}
+              />
+            </label>
+            <label>
+              Sub-Category Name:
+              <input
+                name="name"
+                type="text"
+                onChange={this.handleCategoryAddition}
+              />
+            </label>
+            <h4>
+              {' '}
+              <Button
+                onClick={this.addNewCategory}
+                variant="contained"
+                color="primary"
+                type="button"
+              >
+                add Category
+              </Button>
+            </h4>
+            <h4>
+              {' '}
+              <Button variant="contained" color="primary" type="submit">
+                Submit
+              </Button>
+            </h4>
           </form>
           <h4>
             <Link to="/sunglasses">Back</Link>
@@ -105,14 +196,21 @@ class DisconnectedNewSunglasses extends Component {
   }
 }
 
+const mapState = state => {
+  return {
+    categories: state.sunglasses.categories
+  }
+}
+
 const mapDispatch = (dispatch, ownProps) => {
   return {
     thunkAddSunglasses: newProps => {
       dispatch(thunkAddSunglasses(newProps, ownProps))
-    }
+    },
+    addCategory: category => dispatch(dbAddCategory(category))
   }
 }
 
-export const NewSunglasses = connect(null, mapDispatch)(
+export const NewSunglasses = connect(mapState, mapDispatch)(
   DisconnectedNewSunglasses
 )

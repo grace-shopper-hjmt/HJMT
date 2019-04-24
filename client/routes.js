@@ -11,11 +11,18 @@ import {
   NewSunglasses,
   EditSunglasses,
   AllUsers,
-  SingleUser
+  SingleUser,
+  Cart,
+  Checkout,
+  EditUsers,
+  AllOrders,
+  SingleOrder
 } from './components'
+import {Paginate} from './components/paginate'
 import {me} from './store'
 import { fetchSunglasses, fetchCategories, fetchCategoryProducts } from '../client/store/sunglasses'
 import {fetchUsers} from '../client/store/admin'
+import {fetchOrders} from '../client/store/order'
 
 //COMPONENT
 class Routes extends Component {
@@ -24,6 +31,7 @@ class Routes extends Component {
     this.props.fetchInitialSunglasses()
     this.props.categories()
     this.props.fetchInitialUsers()
+    this.props.fetchInitialOrders()
   }
 
   render() {
@@ -32,14 +40,19 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route exact path="/cart" component={Cart} />
+        <Route path="/checkout" component={Checkout} />
         <Route exact path="/sunglasses/:id/edit" component={EditSunglasses} />
         <Route path="/sunglasses/:id" component={SingleSunglasses} />
-        <Route exact path="/sunglasses" component={AllSunglasses} />
+        <Route exact path="/sunglasses" component={Paginate} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/newSunglasses" component={NewSunglasses} />
         <Route exact path="/users" component={AllUsers} />
         <Route exact path="/users/:id" component={SingleUser} />
+        <Route exact path="/orders" component={AllOrders} />
+        <Route path="/orders/:id" component={SingleOrder} />
+        <Route exact path="/users/:id/edit" component={EditUsers} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -68,7 +81,8 @@ const mapDispatch = dispatch => {
     },
     fetchInitialSunglasses: () => dispatch(fetchSunglasses()),
     categories: () => dispatch(fetchCategories()),
-    fetchInitialUsers: () => dispatch(fetchUsers())
+    fetchInitialUsers: () => dispatch(fetchUsers()),
+    fetchInitialOrders: () => dispatch(fetchOrders())
   }
 }
 

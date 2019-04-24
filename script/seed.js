@@ -10,127 +10,209 @@ const {
   CartItems,
   Categories
 } = require('../server/db/models')
+const faker = require('faker')
 
+const generateSunglasses = () => {
+  let sunglasses = []
+  for (let i = 0; i < 1000; i++) {
+    sunglasses.push({
+      name: faker.lorem.word(),
+      price: faker.commerce.price() * 100,
+      inventory: Math.floor(Math.random() * 100)
+    })
+  }
+  return sunglasses
+}
+const generateReviews = () => {
+  let reviews = []
+  for (let i = 0; i < 500; i++) {
+    reviews.push({
+      content: faker.lorem.sentences(),
+      timestamp: faker.date.recent(100),
+      rating: Math.floor(Math.random() * 6)
+    })
+  }
+  return reviews
+}
+
+const generateUsers = () => {
+  let users = [
+    {name: 'cody', email: 'cody@email.com', password: '123', isAdmin: true}
+  ]
+  for (let i = 0; i < 250; i++) {
+    users.push({
+      name: faker.name.findName(),
+      email: faker.internet.email(),
+      password: '123',
+      billingAddress: faker.address.streetAddress()
+    })
+  }
+  return users
+}
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({name: 'cody', email: 'cody@email.com', password: '123'}),
-    User.create({name: 'murphy', email: 'murphy@email.com', password: '123'})
-  ])
+  const users = await User.bulkCreate(generateUsers(), {
+    returning: true
+  })
+
+  const reviews = await Reviews.bulkCreate(generateReviews(), {
+    returning: true
+  })
+  const sunglasses = await Sunglasses.bulkCreate(generateSunglasses(), {
+    returning: true
+  })
 
   const orderItem = await Promise.all([
     OrderItem.create({
+      name: 'Clubmaster',
+      description: null,
+      imageUrl:
+        'https://www.freepngimg.com/thumb/sunglasses/8-2-sunglasses-png-image.png',
       quantity: 1,
       price: 500,
       timestamp: Date.now(),
       status: 'Created',
-      userId: 1
+      userId: 1,
+      sunglassId: 1
     }),
     OrderItem.create({
+      name: 'Stingray',
+      description: null,
+      imageUrl:
+        'https://www.freepngimg.com/thumb/sunglasses/8-2-sunglasses-png-image.png',
       quantity: 3,
       price: 3000,
       timestamp: Date.now(),
       status: 'Processing',
-      userId: 2
+      userId: 2,
+      sunglassId: 2
     }),
     OrderItem.create({
+      name: 'Aviator',
+      description: null,
+      imageUrl:
+        'https://www.freepngimg.com/thumb/sunglasses/8-2-sunglasses-png-image.png',
       quantity: 2,
       price: 2000,
       timestamp: Date.now(),
       status: 'Completed',
-      userId: 2
+      userId: 2,
+      sunglassId: 3
     }),
     OrderItem.create({
+      name: 'Wayfarer',
+      description: null,
+      imageUrl:
+        'https://www.freepngimg.com/thumb/sunglasses/8-2-sunglasses-png-image.png',
       quantity: 3,
       price: 1500,
       timestamp: Date.now(),
       status: 'Cancelled',
-      userId: 1
+      userId: 1,
+      sunglassId: 4
     }),
     OrderItem.create({
+      name: 'Clubmaster',
+      description: null,
+      imageUrl:
+        'https://www.freepngimg.com/thumb/sunglasses/8-2-sunglasses-png-image.png',
       quantity: 1,
       price: 1000,
       timestamp: Date.now(),
       status: 'Created',
-      userId: 2
+      userId: 2,
+      sunglassId: 1
     })
-  ])
-  const reviews = await Promise.all([
-    Reviews.create({
-      content: 'this is meh!',
-      rating: 2,
-      timestamp: Date.now(),
-      userId: 1
-    }),
-    Reviews.create({
-      content: 'this is ok!',
-      rating: 3,
-      timestamp: Date.now(),
-      userId: 2
-    }),
-    Reviews.create({
-      content: 'this is great!',
-      rating: 4,
-      timestamp: Date.now(),
-      userId: 2
-    }),
-    Reviews.create({
-      content: 'this is amazing!!',
-      rating: 5,
-      timestamp: Date.now(),
-      userId: 1
-    })
-  ])
-  const sunglasses = await Promise.all([
-    Sunglasses.create({ name:'Stingray',price:5500,inventory:5}),
-    Sunglasses.create({ name:'Aviator',price:10000,inventory:15}),
-    Sunglasses.create({ name:'Wayfarer',price:15000,inventory:7}),
-    Sunglasses.create({ name:'Clubmaster',price:2500,inventory:3}),
   ])
 
   const cartItems = await Promise.all([
     CartItems.create({quantity: 10, userId: 1}),
     CartItems.create({quantity: 9, userId: 1}),
     CartItems.create({quantity: 8, userId: 2}),
-    CartItems.create({quantity: 7, userId: 2}),
+    CartItems.create({quantity: 7, userId: 2})
   ])
 
   const categories = await Promise.all([
-    Categories.create({ name: 'Ray-Ban', type: 'Brand' }),
-    Categories.create({ name: 'Persol', type: 'Brand' }),
-    Categories.create({ name: 'Brown', type: 'Color' }),
-    Categories.create({ name: 'Black', type: 'Color'}),
-    Categories.create({ name: 'Red', type: 'Color'}),
-    Categories.create({ name: 'Square', type: 'Shape' }),
-    Categories.create({ name: 'Round', type: 'Shape' }),
-   ])
+    Categories.create({name: 'Ray-Ban', type: 'Brand'}),
+    Categories.create({name: 'Persol', type: 'Brand'}),
+    Categories.create({name: 'Maui Jim', type: 'Brand'}),
+    Categories.create({name: 'Moscot', type: 'Brand'}),
+    Categories.create({name: 'Brown', type: 'Color'}),
+    Categories.create({name: 'Black', type: 'Color'}),
+    Categories.create({name: 'Purple', type: 'Color'}),
+    Categories.create({name: 'Blue', type: 'Color'}),
+    Categories.create({name: 'Red', type: 'Color'}),
+    Categories.create({name: 'Square', type: 'Shape'}),
+    Categories.create({name: 'Round', type: 'Shape'}),
+    Categories.create({name: '$0-$50', type: 'Price'}),
+    Categories.create({name: '$51-$100', type: 'Price'}),
+    Categories.create({name: '$101+', type: 'Price'})
+  ])
   await cartItems[0].setSunglass('1')
   await cartItems[1].setSunglass('2')
   await cartItems[2].setSunglass('3')
   await cartItems[3].setSunglass('4')
 
-  await sunglasses[0].addCategories('1')
-  await sunglasses[0].addCategories('3')
-  await sunglasses[0].addCategories('6')
+  let brands = await Categories.findAll({
+    where: {
+      type: 'Brand'
+    },
+    raw: true
+  })
 
-  await sunglasses[1].addCategories('2')
-  await sunglasses[1].addCategories('4')
-  await sunglasses[1].addCategories('6')
-  
-  await sunglasses[2].addCategories('2')
-  await sunglasses[2].addCategories('5')
-  await sunglasses[2].addCategories('7')
+  let colors = await Categories.findAll({
+    where: {
+      type: 'Color'
+    },
+    raw: true
+  })
 
-  await sunglasses[3].addCategories('1')
-  await sunglasses[3].addCategories('4')
-  await sunglasses[3].addCategories('7')
+  let shape = await Categories.findAll({
+    where: {
+      type: 'Shape'
+    },
+    raw: true
+  })
 
-  await reviews[0].setSunglass('1')
-  await reviews[1].setSunglass('2')
-  await reviews[2].setSunglass('3')
-  await reviews[3].setSunglass('4')
+  let price = await Categories.findAll({
+    where: {
+      type: 'Price'
+    },
+    raw: true
+  })
+
+  for (let i = 0; i < sunglasses.length; i++) {
+    let randomIdx = Math.floor(Math.random() * brands.length)
+    await sunglasses[i].addCategories(brands[randomIdx].id)
+    let fifty = price.filter(price => price.name === "$0-$50")
+    let hundred = price.filter(price => price.name === "$51-$100")
+    let hundredPlus = price.filter(price => price.name === "$101+")
+    if (sunglasses[i].price / 100 < 50) {
+      await sunglasses[i].addCategories(fifty[0].id)
+    } else if (sunglasses[i].price / 100 < 100) {
+      await sunglasses[i].addCategories(hundred[0].id)
+    } else
+      await sunglasses[i].addCategories(hundredPlus[0].id)
+  }
+
+  for (let i = 0; i < sunglasses.length; i++) {
+    let randomIdx = Math.floor(Math.random() * colors.length)
+    await sunglasses[i].addCategories(colors[randomIdx].id)
+  }
+
+  for (let i = 0; i < sunglasses.length; i++) {
+    let randomIdx = Math.floor(Math.random() * shape.length)
+    await sunglasses[i].addCategories(shape[randomIdx].id)
+  }
+
+  for (let i = 0; i < reviews.length; i++) {
+    let randomIdx = Math.floor(Math.random() * reviews.length)
+    let randomIdx1 = Math.floor(Math.random() * users.length)
+    await reviews[i].setSunglass(sunglasses[randomIdx].id)
+    await reviews[i].setUser(users[randomIdx1].id)
+  }
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${orderItem.length} orderItem`)
