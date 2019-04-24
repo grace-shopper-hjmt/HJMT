@@ -187,8 +187,11 @@ text-align: center
 .sunglasses-card {
   border: 2px solid black;
   margin: 5px;
+  width: 90%;
+  height: 90%;
   border-radius: 10%;
   padding: 10px;
+  text-align: center;
   background: linear-gradient(
     to right,
     rgba(214, 249, 255, 1) 0%,
@@ -197,7 +200,7 @@ text-align: center
 }
 .sunglasses-card img {
   object-fit: contain;
-  max-width: 100%;
+  max-width: 60%;
   padding: 10px;
 }
 

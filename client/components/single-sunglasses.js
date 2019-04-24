@@ -55,10 +55,10 @@ class DisconnectedSingleSunglasses extends React.Component {
             Delete
           </Button>
         </h3>
-        <Link to="/home">BACK TO SEARCH RESULTS</Link>
         <h4>
-          <Link to="/sunglasses">BACK TO All SUNGLASSES PAGE!</Link>
+          <Link to="/sunglasses">BACK TO SUNGLASSES PAGE!</Link>
         </h4>
+        <Link to="/home">BACK TO HOME</Link>
         <h4>
           <Link to={`/sunglasses/${this.props.sunglasses.id}/edit`}>Edit</Link>
           </h4>
