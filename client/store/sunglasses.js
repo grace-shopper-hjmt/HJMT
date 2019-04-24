@@ -240,7 +240,7 @@ const handlers = {
   },
   [REMOVE_ALL_FILTERS]: (state, action) => ({
     ...state,
-    filteredSunglasses: [],
+    filteredSunglasses: [...state.allSunglasses],
     activeFilters: []
   }),
   [SET_FILTER]: (state, action) => {
@@ -263,12 +263,15 @@ const handlers = {
   },
   [REMOVE_FILTER]: (state, action) => {
     if (state.activeFilters.length === 1) {
-      return ({ ...state, activeFilters: [], filteredSunglasses: [] })
+      return ({ ...state, activeFilters: [], filteredSunglasses: state.allSunglasses })
     }
     let activeFilters = state.activeFilters.filter(
       filter => filter !== action.filterType
     )
     let sunglasses = categoryFilter(state.allSunglasses, activeFilters)
+    if (sunglasses.length === 0) {
+      sunglasses = state.allSunglasses
+    }
     return ({ ...state, filteredSunglasses: sunglasses, activeFilters})
   },
   [ADD_CATEGORY]: (state, action) => ({

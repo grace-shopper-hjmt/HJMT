@@ -20,7 +20,7 @@ import {
 } from './components'
 import {Paginate} from './components/paginate'
 import {me} from './store'
-import { fetchSunglasses, fetchCategories, fetchCategoryProducts } from '../client/store/sunglasses'
+import { fetchSunglasses, fetchCategories } from '../client/store/sunglasses'
 import {fetchUsers} from '../client/store/admin'
 import {fetchOrders} from '../client/store/order'
 
