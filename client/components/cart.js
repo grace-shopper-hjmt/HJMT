@@ -73,7 +73,7 @@ class DisconnectedCart extends React.Component {
               type="button"
               onClick={this.goToCheckOut}
             >
-              Check out
+              Check out💳
             </Button>
           </div>
         ) : (

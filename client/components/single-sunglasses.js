@@ -33,7 +33,7 @@ class DisconnectedSingleSunglasses extends React.Component {
         <h3>Price: ${this.props.sunglasses.price / 100}</h3>
         <h4>Inventory: {this.props.sunglasses.inventory}</h4>
         <Button variant="contained" color="primary"type="button" onClick={this.addToCart}>
-          ADD TO CART
+          ADD TO CART🛒
         </Button>
         <h2>REVIEWS:</h2>
         {this.props.sunglasses.id ? (
