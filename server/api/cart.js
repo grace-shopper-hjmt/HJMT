@@ -8,9 +8,8 @@ router.get('/', async (req, res, next) => {
         let cartItems;
         if (!req.user) {
             if (!req.session.cart) {
-                res.send('you have no items in your cart!')
+                return res.send([])
             } else {
-                //sends back an array of IDs corresponding to products added
                 cartItems = req.session.cart
             }
         } else {
@@ -31,14 +30,14 @@ router.get('/', async (req, res, next) => {
 router.post('/:sunglassesId', async (req, res, next) => {
     try {
         if (!req.user) {
-            const sunglasses = await Sunglasses.findByPk(req.params.sunglassesId)
+            const sunglass = await Sunglasses.findByPk(req.params.sunglassesId)
             if (!req.session.cart) {
-                req.session.cart = [{quantity: 1, sunglasses}]
+                req.session.cart = [{id: sunglass.id, quantity: 1, sunglass}]
                 res.send(req.session)
             } else {
                 let inCart = false
                 for (let i = 0; i < req.session.cart.length; i++) {
-                    if (req.session.cart[i].sunglasses.id === Number(req.params.sunglassesId)) {
+                    if (req.session.cart[i].sunglass.id === Number(req.params.sunglassesId)) {
                         inCart = true
                         req.session.cart[i].quantity += 1
                         return res.send(req.session)
@@ -46,7 +45,7 @@ router.post('/:sunglassesId', async (req, res, next) => {
                 }
 
                 if (!inCart) {
-                    req.session.cart.push({quantity: 1, sunglasses})
+                    req.session.cart.push({id: sunglass.id, quantity: 1, sunglass})
                 }
                 return res.send(req.session)
             }
@@ -85,28 +84,38 @@ router.post('/:sunglassesId', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
     try {
-        const cartItem = await CartItems.findOne({
-            where: {
-                userId: req.body.userId,
-                sunglassId: req.body.sunglassId
-            }
-        })
-
-        cartItem.update({quantity: req.body.quantity})
-        res.end()
+        if(!req.user) {
+            req.session.cart[req.body.index].quantity = req.body.quantity
+            res.end()
+        } else {
+            const cartItem = await CartItems.findOne({
+                where: {
+                    userId: req.body.userId,
+                    sunglassId: req.body.sunglassId
+                }
+            })
+    
+            cartItem.update({quantity: req.body.quantity})
+            res.end()
+        }
     } catch (error) {
         next(error)
     }
 })
 
 router.delete('/', async (req, res, next) => {
-    try { 
-        await CartItems.destroy({
-            where: {
-                userId: req.body.userId
-            }
-        })
-        res.end()
+    try {
+        if (!req.user) {
+            req.session.cart = null
+            res.end()
+        } else {
+            await CartItems.destroy({
+                where: {
+                    userId: req.body.userId
+                }
+            })
+            res.end()
+        }
     }
     catch (error) {
         next(error)
@@ -115,13 +124,21 @@ router.delete('/', async (req, res, next) => {
 
 router.delete('/:sunglassId', async (req, res, next) => {
     try {
-        await CartItems.destroy({
-            where: {
-                userId: req.body.userId,
-                sunglassId: req.params.sunglassId
-            }
-        })
-        res.end()
+        if(!req.user) {
+            req.session.cart = req.session.cart.filter(item => {
+                return item.sunglass.id !== req.params.sunglassId
+            })
+            res.end()
+        } else {
+            await CartItems.destroy({
+                where: {
+                    userId: req.body.userId,
+                    sunglassId: req.params.sunglassId
+                }
+            })
+            res.end()
+        }
+       
     } catch (error) {
         next(error)
     }

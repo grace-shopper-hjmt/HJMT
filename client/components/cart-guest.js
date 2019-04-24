@@ -4,7 +4,7 @@ import axios from 'axios'
 import {CartItem} from './cart-item'
 import Button from '@material-ui/core/Button'
 
-class DisconnectedCart extends React.Component {
+class DisconnectedGuestCart extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -20,12 +20,10 @@ class DisconnectedCart extends React.Component {
     const {cartItems} = this.state
     cartItems[index].quantity = event.target.value
     this.setState({cartItems: cartItems})
-
     event.target.disabled = true
     await axios.put('/api/cart', {
-      userId: this.props.user.id,
-      sunglassId: this.state.cartItems[index].sunglass.id,
-      quantity: this.state.cartItems[index].quantity
+        index: index,
+        quantity: this.state.cartItems[index].quantity
     })
     event.target.disabled = false
     
@@ -44,9 +42,7 @@ class DisconnectedCart extends React.Component {
     const updatedCartItems = cartItems.filter(item => {
       return item.sunglass.id !== sunglassesId
     })
-    axios.delete(`/api/cart/${sunglassesId}`, {
-      data: {userId: this.props.user.id}
-    })
+    axios.delete(`/api/cart/${sunglassesId}`)
     this.setState({cartItems: updatedCartItems})
   }
 
@@ -55,10 +51,11 @@ class DisconnectedCart extends React.Component {
       <div>
         {this.state.cartItems.length ? (
           <div>
+            <h1>GUEST CART</h1>
             {this.state.cartItems.map((item, index) => {
               return (
                 <CartItem
-                  key={item.id}
+                  key={item.sunglass.id}
                   sunglasses={item.sunglass}
                   quantity={item.quantity}
                   removeItem={this.removeItem}
@@ -91,4 +88,4 @@ const mapState = state => {
   }
 }
 
-export const Cart = connect(mapState)(DisconnectedCart)
+export const GuestCart = connect(mapState)(DisconnectedGuestCart)
