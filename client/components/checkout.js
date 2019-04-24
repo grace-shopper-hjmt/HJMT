@@ -32,7 +32,7 @@ class DisconnectedCheckout extends React.Component {
     })
 
     axios.post('/api/orders', {orderItems: orders})
-    axios.delete('/api/cart', {data: {userId: this.props.user.id}})
+    if(this.props.user) axios.delete('/api/cart', {data: {userId: this.props.user.id}})
     this.setState({cartItems: []})
   }
 
