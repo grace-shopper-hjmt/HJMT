@@ -11,7 +11,7 @@ export const UserHome = props => {
   return (
     <div className='home'>
       <h1>Welcome, {name}!</h1>
-      <Link to='/sunglasses'>Let's go shopping!</Link>
+      <Link to='/sunglasses'>Let's go shopping!🛍️</Link>
     </div>
   )
 }
