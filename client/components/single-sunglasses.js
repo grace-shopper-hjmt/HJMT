@@ -25,15 +25,16 @@ class DisconnectedSingleSunglasses extends React.Component {
   render() {
     const reviews = this.props.sunglasses.reviews
     return (
-      <div>
+      <div className='singleFormContainer'>
+        <div className='singleForm'>
         <h1>{this.props.sunglasses.name}</h1>
         <h3>{this.props.sunglasses.description}</h3>
         <img src={this.props.sunglasses.imageUrl} />
         <h3>Price: ${this.props.sunglasses.price / 100}</h3>
         <h4>Inventory: {this.props.sunglasses.inventory}</h4>
-        <button type="button" onClick={this.addToCart}>
-          ADD TO CART
-        </button>
+        <Button variant="contained" color="primary"type="button" onClick={this.addToCart}>
+          ADD TO CART🛒
+        </Button>
         <h2>REVIEWS:</h2>
         {this.props.sunglasses.id ? (
           reviews.map(review => {
@@ -54,13 +55,14 @@ class DisconnectedSingleSunglasses extends React.Component {
             Delete
           </Button>
         </h3>
-        <Link to="/home">BACK TO SEARCH RESULTS</Link>
         <h4>
-          <Link to="/sunglasses">BACK TO All SUNGLASSES PAGE!</Link>
+          <Link to="/sunglasses">BACK TO SUNGLASSES PAGE!</Link>
         </h4>
+        <Link to="/home">BACK TO HOME</Link>
         <h4>
           <Link to={`/sunglasses/${this.props.sunglasses.id}/edit`}>Edit</Link>
-        </h4>
+          </h4>
+          </div>
       </div>
     )
   }

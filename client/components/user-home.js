@@ -9,10 +9,12 @@ import {connect} from 'react-redux'
 export const UserHome = props => {
   const {name} = props
   return (
-    <div>
-      <h1>Welcome, {name}!</h1>
-      <Link to='/sunglasses'>Let's go shopping!</Link>
+      <div>This is a business conducted in a shady area......
+    <div className='home'>
+      <h1>Welcome To Shady Business, {name}!</h1>
+      <Link to='/sunglasses'>Let's go shopping!🛍️</Link>
     </div>
+      </div>
   )
 }
 

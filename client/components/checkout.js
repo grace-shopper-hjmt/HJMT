@@ -36,29 +36,33 @@ class DisconnectedCheckout extends React.Component {
     this.setState({cartItems: []})
   }
 
-    render() {
-        return (
-            <div>
-                {
-                    (this.state.cartItems.length) ? 
-                        <div>
-                             <h3>Please review your order below:</h3>
-                                {
-                                    this.state.cartItems.map(item => {
-                                        return (
-                                            <div key={item.id}>
-                                                <h4>{item.sunglass.name}</h4>
-                                                <h5>Quantity:{item.quantity}</h5>
-                                            </div>
-                                        )
-                                    })
-                                }
-                                <StripePaymentForm placeOrder={this.placeOrder} items={this.state.cartItems} />
-                        </div> : <div>There are no items in your cart!</div>
-                }
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div className='singleFormContainer'>
+        <div className='singleForm'>
+        {this.state.cartItems.length ? (
+          <div>
+            <h3>Please review your order below:</h3>
+            {this.state.cartItems.map(item => {
+              return (
+                <div key={item.id}>
+                  <h4>{item.sunglass.name}</h4>
+                  <h5>Quantity:{item.quantity}</h5>
+                </div>
+              )
+            })}
+            <StripePaymentForm
+              placeOrder={this.placeOrder}
+              items={this.state.cartItems}
+            />
+          </div>
+        ) : (
+          <div>There are no items in your cart!</div>
+            )}
+          </div>
+      </div>
+    )
+  }
 }
 
 const mapState = state => {
