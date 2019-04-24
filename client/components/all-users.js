@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 const AllUsers = props => {
   return (
     <div className='all-users'>
-    <div className='users-view'>
+
       <h3>
         {props.admin.allUsers.map(user => {
           return (
@@ -18,7 +18,7 @@ const AllUsers = props => {
           )
         })}
         </h3>
-    </div>
+
     </div>
   )
 }

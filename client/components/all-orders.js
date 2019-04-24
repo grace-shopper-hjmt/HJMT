@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom'
 
 const AllOrders = props => {
   const orders = props.orders
-  console.log('ORDERS PROPS', orders)
   return (
     <div className='allorders'>
       <div>ALL ORDERS</div>

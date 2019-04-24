@@ -74,9 +74,10 @@ form div {
 .formForAll {
 display: flex;
 flex-flow: column;
-align-items: center
+align-items: center;
 }
 .flexForForm{
+  padding: 30px;
 align-items: center;
 border-radius: 20px;
 box-shadow: 10px 15px 10px 0 rgba(0, 0, 0, 0.2);
@@ -101,6 +102,7 @@ align-items: center;
   width: 30%
 }
 .singleForm{
+  padding: 30px;
 align-items: center;
 border-radius: 20px;
 box-shadow: 10px 15px 10px 0 rgba(0, 0, 0, 0.2);
@@ -253,7 +255,7 @@ color: black
 
 .user-card {
   border: 2px solid black;
-  margin: 5px;
+  margin: 10px;
   border-radius: 10%;
   padding: 10px;
   background: linear-gradient(
@@ -265,3 +267,7 @@ color: black
 .allorders img {
   width:30%
 }
+.all-users {
+  display: flex;
+}
+
