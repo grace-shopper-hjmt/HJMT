@@ -11,8 +11,10 @@ const AllOrders = props => {
       <div>
         {orders.allOrders.map(order => (
           <div key={order.id}>
+            <Link to={`/orders/${order.id}`}>
             <h3>Name: {order.name}</h3>
             <img src={order.imageUrl} />
+            </Link>
             <h3>Price: {order.price}</h3>
             <h3>Quantity: {order.quantity}</h3>
             <h3>Order Status: {order.status}</h3>

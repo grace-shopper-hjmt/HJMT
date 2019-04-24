@@ -14,7 +14,8 @@ class SingleOrder extends React.Component {
   render() {
     const selectedOrder = this.props.selectedOrder
     return (
-      <div>
+      <div className='singleFormContainer'>
+      <div className='singleForm'>
         {selectedOrder.id ? (
           <div>
             <h3>Name{selectedOrder.name}</h3>
@@ -34,7 +35,9 @@ class SingleOrder extends React.Component {
           >
             Delete
           </Button>
-        </h3>
+          </h3>
+          <Link to="/orders">Back</Link>
+          </div>
       </div>
     )
   }
