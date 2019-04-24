@@ -9,7 +9,7 @@ import Category from './category'
 import { Link } from 'react-router-dom'
 
 class Sidebar extends React.Component {
-  
+
   componentDidMount() {
     this.props.getCategories()
     this.props.getSunglasses()
@@ -45,7 +45,7 @@ class Sidebar extends React.Component {
   render() {
     return (
       <div className='sidebar'>
-            <Link to='/newSunglasses'>Create Sunglasses!</Link>
+            <Link to='/newSunglasses'>Create Sunglasses🕶️</Link>
         <h3>{this.props.resultsTotal} results found.</h3>
         <button type="button" onClick={this.handleFilterRemove}>
           Clear Filters
