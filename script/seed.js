@@ -69,7 +69,7 @@ async function seed() {
       name: 'Clubmaster',
       description: null,
       imageUrl:
-        'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
+        'https://www.freepngimg.com/thumb/sunglasses/8-2-sunglasses-png-image.png',
       quantity: 1,
       price: 500,
       timestamp: Date.now(),
@@ -81,7 +81,7 @@ async function seed() {
       name: 'Stingray',
       description: null,
       imageUrl:
-        'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
+        'https://www.freepngimg.com/thumb/sunglasses/8-2-sunglasses-png-image.png',
       quantity: 3,
       price: 3000,
       timestamp: Date.now(),
@@ -93,7 +93,7 @@ async function seed() {
       name: 'Aviator',
       description: null,
       imageUrl:
-        'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
+        'https://www.freepngimg.com/thumb/sunglasses/8-2-sunglasses-png-image.png',
       quantity: 2,
       price: 2000,
       timestamp: Date.now(),
@@ -105,7 +105,7 @@ async function seed() {
       name: 'Wayfarer',
       description: null,
       imageUrl:
-        'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
+        'https://www.freepngimg.com/thumb/sunglasses/8-2-sunglasses-png-image.png',
       quantity: 3,
       price: 1500,
       timestamp: Date.now(),
@@ -117,7 +117,7 @@ async function seed() {
       name: 'Clubmaster',
       description: null,
       imageUrl:
-        'https://cdn.shopify.com/s/files/1/0148/9585/products/sunglasses-rose-theater-1_800x.jpg?v=1540248182',
+        'https://www.freepngimg.com/thumb/sunglasses/8-2-sunglasses-png-image.png',
       quantity: 1,
       price: 1000,
       timestamp: Date.now(),
@@ -175,7 +175,7 @@ async function seed() {
     },
     raw: true
   })
-  
+
   let price = await Categories.findAll({
     where: {
       type: 'Price'

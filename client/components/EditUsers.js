@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 import {updateUser, fetchSingleUser} from '../store/admin'
 import {isAdmin} from '../auth-functions'
+import Button from '@material-ui/core/Button'
+
 
 class DisconnectedEditUsers extends Component {
   constructor() {
@@ -53,8 +55,8 @@ class DisconnectedEditUsers extends Component {
   render() {
     const {name, email, billingAddress, shippingAddress, warning} = this.state
     return (
-      <div>
-        <main>
+      <div className="formForAll">
+        <main className="flexForForm">
           <h1>Edit yourself here!</h1>
 
           <form onSubmit={this.handleSubmit}>
@@ -99,9 +101,8 @@ class DisconnectedEditUsers extends Component {
                 value={shippingAddress}
               />
             </label>
-            <button type="submit">Submit</button>
+            <Button variant="contained" color="primary"type="submit">Submit</Button>
           </form>
-
           <h4>
             <Link to="/users">Back</Link>
           </h4>

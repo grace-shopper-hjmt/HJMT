@@ -12,7 +12,8 @@ class SingleUser extends React.Component {
   render() {
     const selectedUser = this.props.selectedUser
     return (
-      <div>
+      <div className='singleFormContainer'>
+        <div className='singleForm'>
         Account info and history:
         {selectedUser.id ? (
           <div>
@@ -48,10 +49,11 @@ class SingleUser extends React.Component {
         >
           Delete
         </Button>
-        <Link to="/users">Back</Link>
         <h4>
           <Link to={`/users/${this.props.match.params.id}/edit`}>Edit</Link>
-        </h4>
+          </h4>
+        <Link to="/users">Back</Link>
+          </div>
       </div>
     )
   }
