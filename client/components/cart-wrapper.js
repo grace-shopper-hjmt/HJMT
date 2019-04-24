@@ -5,7 +5,6 @@ import {GuestCart} from './cart-guest'
 
 class DisconnectedCartWrapper extends React.Component {
     render() {
-        console.log('INSIDE CART WRAPPER, USER IS NOW: ', this.props.user)
         return (
             <div>
                 {

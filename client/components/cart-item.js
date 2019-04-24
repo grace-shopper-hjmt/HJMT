@@ -1,7 +1,6 @@
 import React from 'react'
 
 export const CartItem = (props) => {
-    console.log('CART ITEM PROPS:', props)
     const {id, name, price, inventory} = props.sunglasses
     return (
         <div>
