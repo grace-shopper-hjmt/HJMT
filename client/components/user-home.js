@@ -9,7 +9,7 @@ import {connect} from 'react-redux'
 export const UserHome = props => {
   const {name} = props
   return (
-    <div>
+    <div className='home'>
       <h1>Welcome, {name}!</h1>
       <Link to='/sunglasses'>Let's go shopping!</Link>
     </div>

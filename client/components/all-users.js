@@ -5,19 +5,20 @@ import {connect} from 'react-redux'
 
 const AllUsers = props => {
   return (
-    <div>
-      All users:
+    <div className='all-users'>
+    <div className='users-view'>
       <h3>
         {props.admin.allUsers.map(user => {
           return (
-            <div key={user.id}>
+            <div key={user.id} className='user-card'>
               <Link to={`/users/${user.id}`}>
-                <span>{user.email}</span>
+                <span>{user.id}.{user.email}</span>
               </Link>
             </div>
           )
         })}
-      </h3>
+        </h3>
+    </div>
     </div>
   )
 }
