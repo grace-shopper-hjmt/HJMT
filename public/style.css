@@ -126,7 +126,12 @@ text-align: center
     rgba(35, 83, 138, 1) 100%
   );
 }
-
+.title{
+  transition: color 0.5s ease;
+}
+.title:hover{
+color: black
+}
 .pagination a {
   border: 1px solid;
   padding: 5px;

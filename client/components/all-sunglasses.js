@@ -15,8 +15,8 @@ const DisconnectedAllSunglasses = props => {
             <div key={sunglass.id} className='sunglasses-card'>
               <Link to={`/sunglasses/${sunglass.id}`} className="navlink">
               <img src={sunglass.imageUrl} />
-              <h2>Price: ${sunglass.price / 100}</h2>
-                <h3>{sunglass.name}</h3>
+                <h3>Brand: {sunglass.name}</h3>
+              <h2>Price:${sunglass.price / 100}</h2>
               </Link>
             </div>
           ))}
